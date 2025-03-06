@@ -436,3 +436,17 @@
     preloader();
   });
 })(jQuery);
+
+
+
+// ======language code=======
+{/* <script> */ }
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: 'true',
+    includedLanguages: 'hi,en,bn,ar,ja,iw',
+    layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+  }, 'google_translate_element');
+}
+{/* </script> */ }

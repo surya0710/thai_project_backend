@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -22,6 +23,12 @@ class AdminController extends Controller
         if ($validator->fails()) {
             redirect('admin.index')->with(['errors' => $validator->errors()]);
         }
+
+        $User = User::where('email', $request->email)->whereIn('user_type', ['Boss', 'Manager', 'Worker'])->first();
+
+        if($User == null){
+            return redirect('admin/')->with(['error' => 'Invalid credentials']);
+        };
 
         if(auth()->attempt(['email' => $request->email, 'password' => $request->password])){
             return redirect()->route('dashboard');

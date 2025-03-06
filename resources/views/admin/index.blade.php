@@ -9,12 +9,10 @@
   <link rel="shortcut icon" href="{{  asset('assets/admin/images/favicon.png') }}" type="image/x-icon">
   <title>Zono </title>
   <!-- Google font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com/">
-  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap"
-    rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{{  asset('assets/admin/css/font-awesome.css') }}">
   <!-- ico-font-->
   <link rel="stylesheet" type="text/css" href="{{  asset('assets/admin/css/vendors/icofont.css') }}">
@@ -55,7 +53,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-form-label">Email Address</label>
-                  <input class="form-control" type="email" name="email" required placeholder="Email Address ">
+                  <input class="form-control" type="email" name="email" required placeholder="Email Address " value="{{ old('email') }}">
                   <span class="text-danger text-center">
                     @error('email')
                         {{ $message }}
@@ -65,7 +63,7 @@
                 <div class="form-group">
                   <label class="col-form-label">Password</label>
                   <div class="form-input position-relative">
-                    <input class="form-control" type="password" name="password" required="" placeholder="*********">
+                    <input class="form-control" type="password" name="password" required="" placeholder="*********" value="{{ old('password') }}">
                     <div class="show-hide"><span class="show"></span></div>
                     <span class="text-danger text-center">
                     @error('password')
@@ -96,11 +94,11 @@
     <!-- Bootstrap js-->
     <script src="{{ asset('assets/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <!-- feather icon js-->
-    <script src="assets/js/icons/feather-icon/feather.min.js"></script>
-    <script src="assets/js/icons/feather-icon/feather-icon.js"></script>
-    <!-- scrollbar js-->
-    <script src="assets/js/scrollbar/simplebar.js"></script>
-    <script src="assets/js/scrollbar/custom.js"></script>
+    <script src="{{ asset('assets/admin/js/icons/feather-icon/feather.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/icons/feather-icon/feather-icon.js') }}"></script>
     <!-- Sidebar jquery-->
-    <script src="assets/js/config.js"></script>
+    <script src="{{ asset('assets/admin/js/config.js') }}"></script>
+    <!-- Theme js-->
+    <script src="{{ asset('assets/admin/js/script.js') }}"></script>
+      <!-- Plugin used-->
 </html>
