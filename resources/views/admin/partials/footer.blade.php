@@ -72,3 +72,8 @@
     integrity="sha512-pcEE/+4FGKmBV9n5aZletM/txLYSKNu5+jUM7+R0oaTyrcXzlYbYDSP20k/kjfcEWVkqhm3qu4XsQwrhRbxpZw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- <script src="assets/js/theme-customizer/customizer.js"></script> -->
+
+<!-- Plugin used-->
+</body>
+
+</html>
