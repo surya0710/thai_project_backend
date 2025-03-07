@@ -20,10 +20,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'guest'], function () {
         Route::get('/', 'App\Http\Controllers\AdminController@index')->name('loginView'); 
+        Route::post('/', 'App\Http\Controllers\AdminController@login')->name('login');
     });
    
     Route::group(['middleware' => 'auth'], function () {
-        Route::post('/', 'App\Http\Controllers\AdminController@login')->name('login');
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
     });
 });
