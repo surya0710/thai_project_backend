@@ -28685,7 +28685,7 @@ footer {
 .show-hide {
     position: absolute;
     right: 20px;
-    top: 52px;
+    bottom: 30%;
     transform: translateY(-50%)
 }
 
@@ -39355,10 +39355,6 @@ body[class*=dark-] .for-light {
 
 .login-card .login-main .theme-form label {
     font-size: 14px
-}
-
-.login-card .login-main .theme-form .show-hide {
-    top: 50%
 }
 
 .faq-accordion .card .btn-link svg {

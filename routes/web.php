@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('index');
+Route::post('/', 'App\Http\Controllers\UserController@login')->name('userLogin');
+Route::get('/register', function () { return view('register'); })->name('register');
+Route::post('/register', 'App\Http\Controllers\UserController@register')->name('userRegister');
+Route::get('/forgetPassword', function () { return view('forgetPassword'); })->name('forgetPassword');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'guest'], function () {
