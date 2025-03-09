@@ -15,6 +15,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
+
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
@@ -31,7 +32,12 @@ class UserController extends Controller
         };
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->route('customer.dashboard');
+            if (Auth::user()->role === 'customer') {
+                return redirect()->route('customer.dashboard');
+            }
+            else{
+                return redirect('/')->with('error', 'Invalid username or password');
+            }
         } else {
             return redirect('/')->with('error', 'Invalid username or password');
         }
