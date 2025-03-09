@@ -42,8 +42,14 @@ class AdminController extends Controller
     }
 
     public function logout(){
+        $userType = auth()->user()->user_type;
         auth()->logout();
-        return redirect('admin/');
+        if($userType == 'Boss' || $userType == 'Manager' || $userType == 'Worker'){
+            return redirect('admin/');
+        }
+        else{
+            return redirect('/');
+        }
     }
 
 }

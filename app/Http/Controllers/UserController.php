@@ -36,4 +36,14 @@ class UserController extends Controller
             return redirect('/')->with('error', 'Invalid username or password');
         }
     }
+
+    public function adminList(){
+        $users = User::where('user_type', '!=','Customer')->get();
+        return view('admin.adminList')->with(['users' => $users, 'active' => 'adminList']);
+    }
+
+    public function userList(){
+        $users = User::where('user_type', 'Customer')->get();
+        return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
+    }
 }
