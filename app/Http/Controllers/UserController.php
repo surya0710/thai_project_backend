@@ -31,7 +31,7 @@ class UserController extends Controller
         };
 
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            return redirect()->route('dashboard');
+            return redirect()->route('customer.dashboard');
         } else {
             return redirect('/')->with('error', 'Invalid username or password');
         }

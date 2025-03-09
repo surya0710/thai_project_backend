@@ -25,7 +25,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0)->comment('0 = Inactive, 1 = Active');
             $table->string('country')->nullable();
             $table->string('invitation_code')->nullable();
-            $table->string('badge')->nullable();
+            $table->string('badge')->nullable()->default('VIP0');
             $table->decimal('revenue_generated', 10, 2)->default(0.00);
             $table->decimal('frozen_amount', 10, 2)->default(0.00);
             $table->decimal('total_amount', 10, 2)->default(0.00);
