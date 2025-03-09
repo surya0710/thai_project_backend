@@ -73,4 +73,14 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.Profile')->with(['users' => $users, 'active' => 'Profile']);
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }

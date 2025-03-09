@@ -31,7 +31,7 @@ class AdminController extends Controller
             return redirect('admin/')->with(['error' => 'Invalid credentials']);
         };
 
-        if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])){
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             return redirect()->route('dashboard');
         }else{
             return redirect('admin/')->with(['error' => 'Invalid credentials']);
@@ -43,13 +43,12 @@ class AdminController extends Controller
     }
 
     public function logout(){
-        $userType = auth()->user()->user_type;
-        if($userType == 'Boss' || $userType == 'Manager' || $userType == 'Worker'){
-            Auth::guard('admin')->logout();
+        if(auth::user()->role == 'admin'){
+            Auth::logout();
             return redirect('admin/');
         }
         else{
-            Auth::guard('web')->logout();
+            Auth::logout();
             return redirect('/');
         }
     }

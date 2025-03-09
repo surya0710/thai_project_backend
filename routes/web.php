@@ -50,3 +50,5 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/recharge', 'App\Http\Controllers\CustomerController@recharge')->name('customer.recharge');
     Route::post('/recharge', 'App\Http\Controllers\CustomerController@rechargeSubmit')->name('customer.rechargeSubmit');
 });
+
+Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('logout')->middleware('auth');

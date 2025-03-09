@@ -101,7 +101,7 @@
                   <p class="meta-item">Available Balance</p>
                </div>
                <div class="d-flex mt-3">
-                  <a href=""> <button class="tf-btn primary btn-sm inline m-1">Recharge</button></a>
+                  <a href="{{ route('customer.recharge') }}"> <button class="tf-btn primary btn-sm inline m-1">Recharge</button></a>
                   <a href=""> <button class="tf-btn primary btn-sm inline m-1">Withdraw</button></a>       
                </div>
             </div>

@@ -273,7 +273,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-notiCenter">
                 <h5 class="title text-black-2 line-bt2">Are you sure, you want to log out?</h5>
-                <a href="{{ route('logout', ['user_type' => 'customer']) }}" class="text-danger font-title-btn d-block text-center line-bt2">Log Out</a>
+                <a href="{{ route('logout') }}" class="text-danger font-title-btn d-block text-center line-bt2">Log Out</a>
                 <a href="javascript:void(0);" class="text-black-5 font-title-btn d-block text-center"
                     data-bs-dismiss="modal">Cancel</a>
             </div>
