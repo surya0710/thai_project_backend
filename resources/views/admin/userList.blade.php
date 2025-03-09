@@ -27,7 +27,7 @@
                       <input class="form-control" id="validationTooltip03" type="text" name="invitation_code" placeholder="Invitation Code"
                         required="">
                     </div>
-                    <div class="col-md-3 position-relative">
+                    <!-- <div class="col-md-3 position-relative">
                       <label class="form-label" for="validationTooltip04">User ID</label>
                       <input class="form-control" id="validationTooltip04" type="text" name="user_id" placeholder="User ID"
                         required="">
@@ -51,7 +51,7 @@
                       <label class="form-label" for="validationTooltip08">Phone</label>
                       <input class="form-control" id="validationTooltip08" type="text" name="phone" placeholder="Phone"
                         required="">
-                    </div>
+                    </div> -->
                     <div class="col-md-3 position-relative">
                       <label class="form-label" for="validationTooltip09">Country</label>
                       <select class="form-select" id="validationTooltip09" name="country" required="">

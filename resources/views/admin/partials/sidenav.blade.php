@@ -64,7 +64,7 @@
                   Management</a></li><li><a href="tik-tok-task-management.php"><i class="fa-regular fa-circle"></i> Tik Tok Task
                   Management</a></li> -->
                       <li>
-                        <a href="lazada-product-library.php">
+                        <a href="{{ route('lazada.list') }}">
                           <i class="fa-regular fa-circle"></i> lazada Product Library </a>
                       </li>
                     </ul>
@@ -76,11 +76,11 @@
                     </a>
                     <ul class="sidebar-submenu">
                       <li>
-                        <a href="withdrawal-management.php">
+                        <a href="{{ route('withdrawal.list') }}">
                           <i class="fa-solid fa-money-bill-1"></i> Withdrawal Management </a>
                       </li>
                       <li>
-                        <a href="recharge-management.php">
+                        <a href="{{ route('recharge.list') }}">
                           <i class="fa-brands fa-cc-discover"></i> Recharge Management </a>
                       </li>
                     </ul>
@@ -92,7 +92,7 @@
                     </a>
                     <ul class="sidebar-submenu">
                       <li>
-                        <a href="profile.php">
+                        <a href="{{ route('profile') }}">
                           <i class="fa-solid fa-user"></i> Profile </a>
                       </li>
                   </li>
