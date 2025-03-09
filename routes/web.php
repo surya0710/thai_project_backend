@@ -31,6 +31,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
         Route::get('admin-list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
         Route::get('/user-list', 'App\Http\Controllers\UserController@userList')->name('user.list');
+        Route::get('/lazada-list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
+        Route::get('/lazada-add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
+        Route::get('/recharg-list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
+        Route::get('/withdrawal-list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
+        Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
         Route::get('/logout/{user_type?}', 'App\Http\Controllers\AdminController@logout')->name('logout');
     });
 });
