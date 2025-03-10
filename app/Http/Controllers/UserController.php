@@ -47,10 +47,18 @@ class UserController extends Controller
         $users = User::where('user_type', '!=','Customer')->get();
         return view('admin.adminList')->with(['users' => $users, 'active' => 'adminList']);
     }
+    public function adminAdd(){
+        $users = User::where('user_type', '!=','Customer')->get();
+        return view('admin.adminAdd')->with(['users' => $users, 'active' => 'adminAdd']);
+    }
 
     public function userList(){
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
+    }
+    public function userAdd(){
+        $users = User::where('user_type', 'Customer')->get();
+        return view('admin.userAdd')->with(['users' => $users, 'active' => 'userAdd']);
     }
     public function lazadaList(){
         $users = User::where('user_type', 'Customer')->get();
