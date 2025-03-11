@@ -5,16 +5,16 @@
           <div>
             <div class="logo-wrapper">
               <a href="{{ route('dashboard') }}">
-                <img class="img-fluid for-light" src="{{ asset('assets/admin/images/logo/logo.png') }}" alt="">
-                <img class="img-fluid for-dark" src="{{ asset('assets/admin/images/logo/logo.png') }}" alt="">
+                <img class="img-fluid for-light" src="{{ asset('assets/images/logo/paytmicon-png.png') }}" alt="" style="width: 160px;">
+                <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/paytmicon-png.png') }}" alt="" style="width: 160px;">
               </a>
               <div class="toggle-sidebar">
                 <i class="fa-solid fa-bars"></i>
               </div>
             </div>
-            <div class="logo-icon-wrapper">
+            <div class="logo-icon-wrapper" style="padding: 10px;">
               <a href="{{ route('dashboard') }}">
-                <img class="img-fluid" src="{{ asset('assets/admin/images/logo/logo-icon.png') }}" alt="">
+                <img class="img-fluid" src="{{  asset('assets/images/logo/paytm-favicon.png')}}" alt="" style="    width: 40px;">
               </a>
             </div>
             <nav class="sidebar-main">

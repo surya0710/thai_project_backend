@@ -7,8 +7,8 @@
     <meta name="description" content="Zono admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Zono admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{  asset('assets/images/logo/paytm-favicon.png')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{  asset('assets/images/logo/paytm-favicon.png')}}" type="image/x-icon">
     <title>Zono </title>
     <!-- Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -91,20 +91,40 @@
                 </div>
               </li>
               <li>
-                <button class="badge badge-success mb-1">
+                <a class="badge badge-success mb-1" href="{{ route('recharge.list') }}">
                   <span class="lable">Top up 1</span>
-                </button>
+                </a>
               </li>
               <li>
-                <button class="badge badge-danger mb-1">
+                <a class="badge badge-danger mb-1" href="{{ route('withdrawal.list') }}">
                   <span class="lable">Withdraw 1</span>
-                </button>
+                </a>
               </li>
-              <li>
+              <!-- <li>
+                
                 <button class="badge badge-danger mb-1">
                   <span class="lable">Turn on voice</span>
                   <i class="fa-solid fa-volume-high"></i>
+                </button> -->
+              <li>
+                <button class="badge badge-danger mb-1" id="voice-button">
+                  <span class="lable" id="voice-button-text">Turn off voice</span>
+                  <i class="fa-solid fa-volume-high"></i>
                 </button>
+                <audio id="myAudio" src="{{ asset('assets/admin/music/relaxing.mp3') }}" autoplay loop></audio>
+                <script>
+                  const audio = document.getElementById('myAudio');
+                  const button = document.getElementById('voice-button');
+                  button.addEventListener('click', () => {
+                    if (audio.paused) {
+                      audio.play();
+                      button.children[0].textContent = 'Turn off voice';
+                    } else {
+                      audio.pause();
+                      button.children[0].textContent = 'Turn on voice';
+                    }
+                  });
+                </script>
               </li>
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="d-flex align-items-center profile-media">
@@ -119,7 +139,7 @@
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
                   <li>
-                    <a href="profile.php">
+                    <a href="{{ route('profile') }}">
                       <i data-feather="user"></i>
                       <span>Account </span>
                     </a>

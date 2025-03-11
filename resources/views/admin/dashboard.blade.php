@@ -666,10 +666,8 @@
                 <div class="col-xl-3 col-sm-5 box-col-4">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                      <a href="index.html">
-                        <svg class="stroke-icon">
-                          <use href="assets/svg/icon-sprite.svg#stroke-home"></use>
-                        </svg>
+                      <a href="{{ route('dashboard') }}">
+                      <i class="fa-solid fa-home"></i>
                       </a>
                     </li>
                     <li class="breadcrumb-item">Dashboard</li>

@@ -31,7 +31,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
         Route::get('admin-list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
+        Route::get('admin-add', 'App\Http\Controllers\UserController@adminAdd')->name('admin.add');
         Route::get('/user-list', 'App\Http\Controllers\UserController@userList')->name('user.list');
+        Route::get('/user-add', 'App\Http\Controllers\UserController@userAdd')->name('user.add');
         Route::get('/lazada-list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
         Route::get('/lazada-add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
         Route::get('/recharg-list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
