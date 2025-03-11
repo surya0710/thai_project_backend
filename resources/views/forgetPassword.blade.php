@@ -49,47 +49,31 @@
 
 
     <div class="app-content style-3 pb-32 signUp-area">
-        <div class="tf-container-login">
-            <form class="mt-24" action="" method="post">
-              
-                <fieldset class="mt-32 input-icon">
-                    <div class="box-view-hide">
-                        <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Login password" class="form-control password-field">
-                        <!-- <div class="show-pass">
-                            <span class="icon-pass icon-view"></span>
-                            <span class="icon-pass icon-hide"></span>
-                        </div> -->
-                    </div>
-                </fieldset>
-                <fieldset class="mt-32 input-icon">
-                    <div class="box-view-hide">
-                        <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Enter New password" class="form-control password-field">
-                        <div class="show-pass">
-                            <span class="icon-pass icon-view"></span>
-                            <span class="icon-pass icon-hide"></span>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="mt-16 input-icon">
-                    <div class="box-view-hide">
-                        <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Confirm New password" class="form-control password-field2">
-                        <div class="show-pass2">
-                            <span class="icon-pass icon-view"></span>
-                            <span class="icon-pass icon-hide"></span>
-                        </div>
-                    </div>
-                </fieldset>
-                <p class="body-6 text-black-5 mt-3">Please remember the password, if you forget the password, Please contact service</p>
-                <div class="footer-fixed button">
-                    <button class="mt-24 tf-btn primary">Confirm Modification</button>
+        <div class="tf-container">
+            <img src="{{ asset('assets/images/logo/customer-service.jpg') }}" alt="">
+            <div class="pt-28 pb-24 line-bt">
+                <h6>Customer service center</h6>
+                <p class="mt-8 body-2 text-black-5">If you need any assistance, have any questions, or are facing any issues, please contact our online customer support.</p>
 
-                </div>
-            </form>
-            
-            
+            </div>
+            <ul class="pt-28 pb-24 line-bt">
+                <li>
+                    <a href="javascript:void(0);" class="d-flex align-items-center gap-16">
+                        <div class="font-title-btn flex-grow-1">Online customer online service</div>
+                        <div class="font-title-btn ">Working time 24x7</div>
+                        </a><a href="" class="tf-btn outline-btn-primary mt-16">Contact us</a>
+                    
+                </li>
+                <li style="margin-top: 40px;">
+                    <a href="javascript:void(0);" class="d-flex align-items-center gap-16">
+                        <div class="font-title-btn flex-grow-1">Online customer tg service</div>
+                        <div class="font-title-btn ">Working time 24x7</div>
+                        </a><a href="" class="tf-btn outline-btn-primary mt-16">Contact us</a>
+                    
+                </li>
+
+            </ul>
+
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js') }}"></script>

@@ -34,7 +34,7 @@
                   </li>
                   <li class="sidebar-main-title">
                     <div class="d-flex align-items-center profile-media">
-                      <img class="b-r-25" src="assets/images/dashboard/profile.png" alt="">
+                      <img class="b-r-25" src="{{ asset('assets/admin/images/dashboard/profile.png') }}" alt="">
                       <span style="color: black;" class="ms-2">Online</span>
                     </div>
                   </li>

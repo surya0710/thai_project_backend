@@ -101,11 +101,11 @@
             <div class="content">
                 <div class="home-main-btn mt-10 align-items-center gap-16">
                     <button class="btnd content d-block">
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">434.434 USD</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{  Auth::user()->revenue_generated}} USD</div>
                         <p class="body-2 text-gery-5 desc-val-drop">Total Revenue</p>
                     </button>
                     <button class="btnd content d-block">
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">545.234 USD</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::user()->total_amount }} USD</div>
                         <p class="body-2 text-white-5 desc-val-drop">Account Amount</p>
                     </button>
                 </div>
@@ -421,8 +421,6 @@
                             </div>
                         </a>
                     </li>
-
-
                 </ul>
             </div>
         </div>

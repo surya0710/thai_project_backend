@@ -57,11 +57,19 @@
                 <p class="body-6 text-black-5">Give creadential to sign in your account</p>
                 <fieldset class="input-icon mt-20">
                     <span class="icon icon-user"></span>
-                    <input type="text" placeholder="Enter one user name" class="form-control">
+                    <input type="text" placeholder="Enter user name" class="form-control">
                 </fieldset>
                 <fieldset class="input-icon mt-16">
                     <span class="icon icon-mail"></span>
                     <input type="text" placeholder="Enter your name" class="form-control">
+                </fieldset>
+                <fieldset class="input-icon mt-16">
+                    <span class="icon icon-mail"></span>
+                    <input type="email" placeholder="Enter your email id" class="form-control">
+                </fieldset>
+                <fieldset class="input-icon mt-16">
+                    <span class="icon icon-phone"></span>
+                    <input type="text" placeholder="Enter your phone number" class="form-control">
                 </fieldset>
                 <fieldset class="mt-16 input-icon">
                     <div class="box-view-hide">
@@ -76,17 +84,7 @@
                 <fieldset class="mt-16 input-icon">
                     <div class="box-view-hide">
                         <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Please enter the password again" class="form-control password-field">
-                        <div class="show-pass">
-                            <span class="icon-pass icon-view"></span>
-                            <span class="icon-pass icon-hide"></span>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="mt-16 input-icon">
-                    <div class="box-view-hide">
-                        <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Please enter the transaction password" class="form-control password-field">
+                        <input type="password" placeholder="Please enter the password" class="form-control password-field">
                         <div class="show-pass">
                             <span class="icon-pass icon-view"></span>
                             <span class="icon-pass icon-hide"></span>
