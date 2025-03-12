@@ -52,6 +52,10 @@
                         <a class="" href="{{ route('user.list') }}">
                           <i class="fa-solid fa-user"></i> User List </a>
                       </li>
+                      <li>
+                        <a class="" href="{{ route('invitation.list') }}">
+                          <i class="fa-solid fa-clipboard"></i> Invitation Code List </a>
+                      </li>
                     </ul>
                   </li>
                   <li class="sidebar-list">

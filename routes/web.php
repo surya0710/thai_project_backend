@@ -38,6 +38,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
         Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
         Route::get('/user/edit', 'App\Http\Controllers\UserController@userEdit')->name('user.edit');
+        Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
         Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
