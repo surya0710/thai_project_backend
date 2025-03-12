@@ -126,8 +126,8 @@
                       <th><span class="f-light f-w-600"></span>Number of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Money</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
-                      <th><span class="f-light f-w-600"></span>Ratio of goods snatched</span></th>
-                      <th><span class="f-light f-w-600"></span>Order Grabbing sussess rate</span></th>
+                      <!-- <th><span class="f-light f-w-600"></span>Ratio of goods snatched</span></th>
+                      <th><span class="f-light f-w-600"></span>Order Grabbing sussess rate</span></th> -->
                       <th><span class="f-light f-w-600"></span>Country</span></th>
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
                       <th><span class="f-light f-w-600"></span>Action</span></th>
@@ -153,12 +153,12 @@
                           <label for="checkboxInput" class="toggleSwitch">
                           </label>
                       </td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
+                      <!-- <td>61</td>
+                      <td>2011/04/25</td> -->
                       <td>{{ $user->country }}</td>
 
                       <td>
-                        <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
+                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">check</span>
                         </a>
@@ -169,33 +169,36 @@
                         <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">title</span>
-                        </a>
-                        <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
+                        </a> -->
+                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Ordinary order</span>
-                        </a>
+                        </a> -->
 
-                        <a class="badge badge-secondary mb-1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModalpermission">
+                        <!-- <a class="badge badge-secondary mb-1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModalpermission">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">make an appointment</span>
-                        </a>
+                        </a> -->
                         <a class="badge badge-primary mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Prohibition of transactions</span>
                         </a>
-                        <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm1">
+                        <!-- <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm1">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Ban invitations</span>
-                        </a>
+                        </a> -->
                       </td>
                       <td>
                         <ul class="action">
                           <li class="edit"> 
+                            <a href="{{ route('user.edit') }}"><i class="fa-solid fa-eye"></i></a>
+                          </li>
+                          <li class="edit"> 
                             <a href="{{ route('user.edit') }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
-                          <li class="delete">
+                          <!-- <li class="delete">
                             <a data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
-                          </li>
+                          </li> -->
                         </ul>
                       </td>
                     </tr>
