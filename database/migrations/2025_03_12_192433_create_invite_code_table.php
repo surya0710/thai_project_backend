@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code')->unique()->notNull();
             $table->tinyInteger('status')->default(1)->comment('0 = Inactive, 1 = Active');
             $table->tinyInteger('count')->default(0)->max(1);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->nullable()->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

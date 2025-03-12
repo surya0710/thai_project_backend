@@ -18,31 +18,39 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
-
             <div class="card-body">
-              <form class="row g-3 needs-validation custom-input" novalidate="" method="post" id="userForm">
-
+              <div class="row">
+                @if(session()->has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  {{ session()->get('success') }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @elseif(session()->has('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  {{ session()->get('error') }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+              </div>
+              <form class="row g-3 custom-input" method="post" action="{{ route('invitation.store') }}">
+                @csrf
                 <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip03">Invitation Code</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="invitation_code" placeholder="Invitation Code"
-                    required="">
+                  <label class="form-label">Invitation Code</label>
+                  <input class="form-control" id="invite_code" type="text" name="invite_code" placeholder="Invitation Code" required="">
+                  <span class="error">
+                    @if ($errors->has('invite_code'))
+                        {{ $errors->first('invite_code') }}
+                    @endif
+                  </span>
                 </div>
-
                 <div class="col-6 mt-5">
-                  <button class="btn btn-primary" name="user_create" type="submit">Submit</button>
-                  <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
+                  <button class="btn btn-secondary generate-code-form" type="button">Generate</button>
+                  <button class="btn btn-primary" type="submit">Save</button>
                 </div>
-
               </form>
-              <script>
-                function resetForm() {
-                  document.getElementById("userForm").reset();
-                }
-              </script>
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -66,16 +74,19 @@
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>
                       <th><span class="f-light f-w-600"></span>Invitation Code</span></th>
-                      <th><span class="f-light f-w-600"></span>User ID</span></th>
+                      <th><span class="f-light f-w-600"></span>Create By</span></th>
+                      <th><span class="f-light f-w-600"></span>Used By</th>
                     </tr>
                   </thead>
                   <tbody>
-                   
+                    @foreach($invitationList as $inviteCode)
                     <tr>
-                      <td>1</td>
-                      <td>1m8xtjwb9r</td>
-                      <td>Honey Gola</td>
+                      <td>{{ $loop->index + 1 }}</td>
+                      <td>{{ $inviteCode->code }}</td>
+                      <td>{{ $inviteCode->user['username'] }}</td>
+                      <td>{{ $inviteCode->usedBy['username'] ?? 'N/A' }}</td>
                     </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -130,5 +141,18 @@
         alert("Failed to update credit permission!");
       }
     });
+  });
+  
+  $('.generate-code-form').click(function() {
+      const alphaNum = '0123456789abcdefghijklmnopqrstuvwxyz';
+      let code = '';
+      for (let i = 0; i < 10; i++) {
+          if (i % 2 === 0) {
+              code += alphaNum[Math.floor(Math.random() * 10)];
+          } else {
+              code += alphaNum[Math.floor(Math.random() * 26) + 10];
+          }
+      }
+      $('#invite_code').val(code);
   });
 </script>

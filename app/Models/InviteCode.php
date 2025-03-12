@@ -9,7 +9,7 @@ class InviteCode extends Model
 {
     use HasFactory;
 
-    protected $table = 'invitation_code';
+    protected $table = 'invite_code';
 
     protected $fillable = [
         'code',
@@ -18,4 +18,12 @@ class InviteCode extends Model
         'user_id',
         'created_by',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function usedBy(){
+        return $this->belongsTo(User::class, 'used_by', 'id');
+    }
 }

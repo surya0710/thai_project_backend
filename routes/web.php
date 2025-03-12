@@ -49,8 +49,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
         Route::post('/profile/{user_id}', 'App\Http\Controllers\UserController@ProfileUpdate')->name('profile.update');
-        Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
+        Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');
         Route::post('invite-code', 'App\Http\Controllers\InvitationController@storeInviteCode')->name('invitation.store');
+        Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
     });
 });
 

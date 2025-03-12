@@ -182,10 +182,6 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
         return view('admin.userEdit')->with(['users' => $users, 'active' => 'userEdit']);
     }
-    public function invitationList(){
-        $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
-        return view('admin.invitationList')->with(['users' => $users, 'active' => 'invitationList']);
-    }
 
     public function userUpdateCreditPermission(Request $request, $userID){
         $validator = Validator::make($request->all(), [
