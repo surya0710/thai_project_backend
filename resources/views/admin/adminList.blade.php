@@ -74,40 +74,7 @@
                      <div class="btn-group">
                         <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
 
-                        <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                              class="fa-solid fa-share-from-square"></i></button>
-                        <ul class="dropdown-menu dropdown-block">
-                           <li><a class="dropdown-item" href="javascript:;" onclick="uploadCSV()">Upload CSV</a></li>
-                        </ul>
-                        <script>
-                           function uploadCSV() {
-                              var formData = new FormData();
-                              var input = document.createElement('input');
-                              input.type = 'file';
-                              input.accept = 'text/csv';
-                              input.onchange = function() {
-                                 formData.append('file', input.files[0]);
-                                 fetch('/upload-csv', {
-                                       method: 'POST',
-                                       body: formData
-                                    })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                       console.log(data);
-                                       if (data.success) {
-                                          alert('CSV uploaded successfully');
-                                       } else {
-                                          alert('Error uploading CSV');
-                                       }
-                                    })
-                                    .catch(error => {
-                                       console.error('Error:', error);
-                                       alert('Error uploading CSV');
-                                    });
-                              }
-                              input.click();
-                           }
-                        </script>
+                        
                      </div>
                      <a class="btn btn-primary mx-auto " href="{{ route('admin.add') }}"><i class="fa-solid fa-plus"></i></a>
                   </div>

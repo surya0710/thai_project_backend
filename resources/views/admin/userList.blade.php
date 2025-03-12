@@ -160,7 +160,7 @@
                       <td>{{ $user->country }}</td>
 
                       <td>
-                        <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
+                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">check</span>
                         </a>
@@ -171,7 +171,7 @@
                         <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">title</span>
-                        </a>
+                        </a> -->
                         <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Ordinary order</span>
