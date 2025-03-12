@@ -47,6 +47,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/recharge/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
         Route::get('/recharge/edit', 'App\Http\Controllers\UserController@rechargeEdit')->name('recharge.edit');
         Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
+        Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
     });
 });

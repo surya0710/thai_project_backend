@@ -56,8 +56,9 @@
                 <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" onclick="" class="btn btn-primary" type="button">
                   <i class="fa-solid fa-rotate"></i>
                 </button>
+               
+                    <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
               </div>
-              <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">

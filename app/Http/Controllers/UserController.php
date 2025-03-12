@@ -317,6 +317,10 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.withdrawalList')->with(['users' => $users, 'active' => 'withdrawalList']);
     }
+    public function withdrawalEdit(){
+        $users = User::where('user_type', 'Customer')->get();
+        return view('admin.withdrawalEdit')->with(['users' => $users, 'active' => 'withdrawalEdit']);
+    }
     public function Profile(){
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.Profile')->with(['users' => $users, 'active' => 'Profile']);
