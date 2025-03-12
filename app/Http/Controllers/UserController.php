@@ -306,8 +306,33 @@ class UserController extends Controller
         return view('admin.withdrawalList')->with(['users' => $users, 'active' => 'withdrawalList']);
     }
     public function Profile(){
-        $users = User::where('user_type', 'Customer')->get();
-        return view('admin.Profile')->with(['users' => $users, 'active' => 'Profile']);
+        $users = User::with('loginHistory')->find(Auth::id()); 
+        return view('admin.Profile')->with(['user' => $users, 'active' => 'Profile']);
+    }
+
+    public function ProfileUpdate(Request $request, $userID){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::find($userID);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        if($request->password !== ''){
+            $user->password = bcrypt($request->password);
+        }
+        if($user->save()){
+            return redirect()->back()->with('success', 'Profile Updated Successfully');
+        }
+        return redirect()->back()->with('error', 'Something went wrong');
+
     }
 
     public function logout(Request $request)

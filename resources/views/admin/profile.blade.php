@@ -23,34 +23,48 @@
                 <div class="card-options"><a class="card-options-collapse" href="#" data-bs-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a><a class="card-options-remove" href="#" data-bs-toggle="card-remove"><i class="fe fe-x"></i></a></div>
               </div>
               <div class="card-body">
-                <form method="post">
+                <form method="post" action="{{ route('profile.update', ['user_id' => $user->id]) }}">
+                  @csrf
                   <div class="row mb-2">
                     <div class="profile-title">
                       <div class="d-flex"> <img class="img-70 rounded-circle" alt="" src="{{ asset('assets/admin/images/dashboard/user.png') }}">
-                        <div class="flex-grow-1">
-                          <h3 class="mb-1 f-w-600">{{ Auth::user()->name }}</h3>
-                          <p>{{ Auth::user()->user_type }}</p>
+                        <div class="flex-grow-1 p-2">
+                          <h3 class="mb-1 f-w-600">{{ $user->name }}</h3>
+                          <p>{{ $user->user_type }}</p>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                    @if(session()->has('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+                    @if(session()->has('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+                    <span class="text-danger">{{ $errors->first('user_id') }}</span>
+                  </div>
                   <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input class="form-control" type="text" name="name" placeholder="Name" value="{{ Auth::user()->name }}">
+                    <input class="form-control" type="text" name="name" placeholder="Name" value="{{ $user->name }}">
+                    <span class="text-danger">{{ $errors->first('name') }}</span>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label">Email-Address</label>
-                    <input class="form-control" placeholder="your-email" name="email" value="{{ Auth::user()->email }}">
+                    <input class="form-control" placeholder="your-email" name="email" value="{{ $user->email }}">
+                    <span class="text-danger">{{ $errors->first('email') }}</span>
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Phone</label>
-                    <input class="form-control" type="text" placeholder="Phone" name="phone" value="{{ Auth::user()->phone }}">
+                    <input class="form-control" type="text" placeholder="Phone" name="phone" value="{{ $user->phone }}">
+                    <span class="text-danger">{{ $errors->first('phone') }}</span>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label">Password</label>
                     <input class="form-control" type="password" name="password" placeholder="password" value="">
+                    <span class="text-danger">{{ $errors->first('password') }}</span>
                   </div>
 
                   <div class="form-footer">
@@ -67,12 +81,6 @@
 
                 <div class="btn-group">
                   <h4 class="card-title mb-0">Admin Log</h4>
-                  <!-- <div class="square-product-setting d-inline-block">
-                      <a class="icon-grid grid-layout-view" href="#"
-                        data-original-title="" title=""><i data-feather="grid"></i>
-                      </a>
-                    </div> -->
-
                 </div>
 
                 <div class="btn-group" style="display: flex; float:right;">
@@ -105,34 +113,26 @@
                     <tr>
                       <th>ID</th>
                       <th>Title</th>
-                      <th>Url</th>
+                      <th>Time</th>
                       <th>IP</th>
-                      <th>Create Time</th>
+                      <th>Browser</th>
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($user->loginHistory as $history)
                     <tr>
-                      <td><a class="text-inherit" href="#">48382 </a></td>
-                      <td>Login</td>
-                      <td><span class="status-icon bg-success"></span> www.google.com</td>
-                      <td>12.56.908</td>
-                      <td class="text-end">30-01-2025</td>
+                      <td>{{ $loop->index + 1 }}</td>
+                      <td>{{ $history->event }}</td>
+                      <td>{{ $history->created_at }}</td>
+                      <td>{{ $history->ip_address }}</td>
+                      <td>{{ $history->user_agent }}</td>
                     </tr>
+                    @endforeach
+                    @if($user->loginHistory->count() == 0)
                     <tr>
-                      <td><a class="text-inherit" href="#">48382 </a></td>
-                      <td>Login</td>
-                      <td><span class="status-icon bg-success"></span> www.google.com</td>
-                      <td>12.56.908</td>
-                      <td class="text-end">30-01-2025</td>
+                      <td colspan="5" class="text-center">No data found</td>
                     </tr>
-                    <tr>
-                      <td><a class="text-inherit" href="#">48382 </a></td>
-                      <td>Login</td>
-                      <td><span class="status-icon bg-success"></span> www.google.com</td>
-                      <td>12.56.908</td>
-                      <td class="text-end">30-01-2025</td>
-                    </tr>
-
+                    @endif
                   </tbody>
                 </table>
               </div>
@@ -143,3 +143,10 @@
       </div>
       <!-- footer start-->
       @include('admin.partials.footer')
+      @if(session()->has('success') || session()->has('error'))
+      <script>
+          setTimeout(function() {
+              document.getElementById("success-alert").style.display="none";
+          }, 5000);
+      </script>
+      @endif
