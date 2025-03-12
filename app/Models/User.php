@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+    public function lastLogin()
+    {
+        return $this->hasOne(LoginHistory::class, 'user_id')->latest('created_at');
+    }
 }

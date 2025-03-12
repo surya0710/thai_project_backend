@@ -112,8 +112,12 @@
                                  <td>{{ $user->phone }}</td>
                                  <td>
                                     <ul class="action">
-                                       <li class="edit"> <a href=""><i class="fa-solid fa-pencil"></i></a></li>
-                                       <li class="delete"><a href="#"><i class="fa-solid fa-trash"></i></a></li>
+                                       <li class="edit">
+                                          <a href="{{ route('admin.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
+                                       </li>
+                                       <li class="delete">
+                                          <a title="Delete" data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
+                                       </li>
                                     </ul>
                                  </td>
                               </tr>
@@ -130,3 +134,56 @@
    </div>
    @include('admin.partials.footer')
 </div>
+<script>
+   function handleDelete(event, element){
+      event.preventDefault();
+      const userId = element.getAttribute("data-id");
+      const userName = element.getAttribute("data-name");
+
+      Swal.fire({
+         title: "Are you sure?",
+         text: `You are about to delete user ${userName}`,
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#d33",
+         cancelButtonColor: "#3085d6",
+         confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+         if (result.isConfirmed) {
+            $.ajax({
+               url: "{{ route('admin.delete') }}",
+               type: "POST", 
+               data: {
+                  id: userId,
+                  _token: "{{ csrf_token() }}" 
+               },
+               success: function(response) {
+                  console.log(response);
+                  if (response.status === 'success') {
+                     Swal.fire(
+                        "Deleted!",
+                        `User ${userName} has been deleted.`,
+                        "success"
+                     ).then(() => {
+                        location.reload();
+                     });
+                  } else {
+                     Swal.fire(
+                        "Error!",
+                        `${response.message}`,
+                        "error"
+                     );
+                  }
+               },
+               error: function(xhr) {
+                  Swal.fire(
+                        "Error!",
+                        "Something went wrong. Please try again.",
+                        "error"
+                  );
+               }
+            });
+         }
+      });
+   }
+</script>

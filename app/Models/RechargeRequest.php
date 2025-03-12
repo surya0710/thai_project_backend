@@ -16,4 +16,12 @@ class RechargeRequest extends Model
         'recharge_proof',
         'status',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function approver(){
+        return $this->belongsTo(User::class, 'handled_by', 'id');
+    }
 }

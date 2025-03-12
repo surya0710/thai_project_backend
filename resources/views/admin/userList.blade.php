@@ -104,7 +104,6 @@
                   <tbody>
                     @foreach($users as $user)
                     <tr>
-                    <tr>
                       <td>{{ $loop->index + 1 }}</td>
                       <td>{{ $user->uuid }}</td>
                       <td>{{ $user->invitation_code }}</td>
@@ -112,16 +111,15 @@
                       <td>{{ $user->name }}</td>
                       <td>{{ $user->phone }}</td>
                       <td>{{ $user->email }}</td>
-                      <td></td>
+                      <td>{{ $user->lastLogin['created_at'] ?? 'N/A' }}</td>
                       <td>{{ $user->created_at }}</td>
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
                       <td>
-                        <form method="post">
-                          <input type="checkbox" name="credit_permission" id="checkboxInput" value="1">
+                          <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" 
+                          {{ $user->credit_permission == 1 ? 'checked' : '' }}>
                           <label for="checkboxInput" class="toggleSwitch">
                           </label>
-                        </form>
                       </td>
                       <td>61</td>
                       <td>2011/04/25</td>
@@ -157,15 +155,17 @@
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Ban invitations</span>
                         </a>
-
                       </td>
                       <td>
                         <ul class="action">
-                          <li class="edit"> <a href="user-edit.php"><i class="fa-solid fa-pencil"></i></a></li>
-                          <li class="delete"><a href="#"><i class="fa-solid fa-trash"></i></a></li>
+                          <li class="edit"> 
+                            <a href=""><i class="fa-solid fa-pencil"></i></a>
+                          </li>
+                          <li class="delete">
+                            <a data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
+                          </li>
                         </ul>
                       </td>
-                    </tr>
                     </tr>
                     @endforeach
                     @if($users->count() == 0)
@@ -185,4 +185,46 @@
     <!-- Container-fluid Ends-->
   </div>
   @include('admin.partials.footer')
+  @include('admin.partials.popup')
 </div>
+<script>
+  $("#checkboxInput").change(function (){
+    let isChecked = $(this).is(":checked") ? 1 : 0;
+    let userID = $(this).data('user-id');
+    let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            _token: "{{ csrf_token() }}",
+            credit_permission: isChecked
+        },
+        success: function(response) {
+          if (response.status === 'success') {
+              Swal.fire(
+                "Updated!",
+                `Credit Permission Updated`,
+                "success"
+              );
+          } else {
+              Swal.fire(
+                "Error!",
+                `${response.message}`,
+                "error"
+              );
+          }
+        },
+        error: function(xhr) {
+          Swal.fire(
+                "Error!",
+                "Something went wrong. Please try again.",
+                "error"
+          );
+        },
+        error: function (xhr) {
+            console.error("Error:", xhr);
+            alert("Failed to update credit permission!");
+        }
+    });
+  });
+</script>

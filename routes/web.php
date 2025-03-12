@@ -32,12 +32,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
         Route::get('/admin/list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
         Route::get('/admin/add', 'App\Http\Controllers\UserController@adminAdd')->name('admin.add');
+        Route::get('/admin/edit/{user_id}', 'App\Http\Controllers\UserController@adminEdit')->name('admin.edit');
+        Route::post('/admin/edit/{user_id}', 'App\Http\Controllers\UserController@adminUpdate')->name('admin.update');
+        Route::post('/admin/delete', 'App\Http\Controllers\UserController@adminDelete')->name('admin.delete');
         Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
         Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
+        Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
+        Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
         Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
         Route::get('/lazada/add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
         Route::post('/lazada/add', 'App\Http\Controllers\UserController@lazadaStore')->name('lazada.store');
-        Route::get('/recharg/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
+        Route::get('/recharge/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
         Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
     });

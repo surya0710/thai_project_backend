@@ -60,36 +60,10 @@
                 <img class="img-fluid for-dark" src="{{ asset('assets/admin/images/logo/logo_dark.png') }}" alt="">
               </a>
             </div>
-            <div class="toggle-sidebar">
-              <svg class="sidebar-toggle">
-                <use href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#stroke-animation"></use>
-              </svg>
-            </div>
           </div>
-          <form class="col-sm-4 form-inline search-full d-none d-xl-block" action="#" method="get">
-            <div class="form-group">
-              <div class="Typeahead Typeahead--twitterUsers">
-                <div class="u-posRelative">
-                  <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text" placeholder="Type to Search .." name="q" title="" autofocus>
-                  <svg class="search-bg svg-color">
-                    <use href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#search"></use>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </form>
+          <form class="col-sm-4 form-inline search-full d-none d-xl-block" action="#" method="get"></form>
           <div class="nav-right col-xl-8 col-lg-12 col-auto pull-right right-header p-0">
             <ul class="nav-menus">
-              <li class="serchinput">
-                <div class="serchbox">
-                  <svg>
-                    <use href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#search"></use>
-                  </svg>
-                </div>
-                <div class="form-group search-form">
-                  <input type="text" placeholder="Search here...">
-                </div>
-              </li>
               <li>
                 <a class="badge badge-success mb-1" href="{{ route('recharge.list') }}">
                   <span class="lable">Top up 1</span>
@@ -131,10 +105,7 @@
                   <img class="b-r-25" src="{{ asset('assets/admin/images/dashboard/profile.png') }}"  alt="">
                   <div class="flex-grow-1 user">
                     <span>{{ Auth::user()->name }}</span>
-                    <p class="mb-0 font-nunito">{{ Auth::user()->user_type }} <svg>
-                        <use href="https://admin.pixelstrap.net/zono/assets/svg/icon-sprite.svg#header-arrow-down"></use>
-                      </svg>
-                    </p>
+                    <p class="mb-0 font-nunito">{{ Auth::user()->user_type }}</p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
