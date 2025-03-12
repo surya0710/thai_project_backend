@@ -21,10 +21,6 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#completed">Completed</button>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#frozen">Frozen</button>
-                        </li>
-
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -89,7 +85,6 @@
                                         <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
                                     </div>
                                 </div>
-                                <button class="tf-btn btn-lg warning mt-2">Submit order</button>
                             </li>
 
                         </ul>
@@ -126,9 +121,7 @@
                                         <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
                                     </div>
                                 </div>
-                                <button class="tf-btn btn-lg warning mt-2">Submit order</button>
                             </li>
-
                         </ul>
                     </div>
                     <div class="tab-pane fade" id="completed" role="tabpanel">
@@ -194,9 +187,6 @@
                                 </div>
                             </li>
                         </ul>
-                        
-                    </div>
-                    <div class="tab-pane fade" id="frozen" role="tabpanel">
                         
                     </div>
                 </div>

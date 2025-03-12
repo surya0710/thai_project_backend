@@ -178,6 +178,10 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
         return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
     }
+    public function userEdit(){
+        $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
+        return view('admin.userEdit')->with(['users' => $users, 'active' => 'userEdit']);
+    }
 
     public function userUpdateCreditPermission(Request $request, $userID){
         $validator = Validator::make($request->all(), [
@@ -300,6 +304,10 @@ class UserController extends Controller
         ->orderBy('created_at', 'ASC')
         ->get();
         return view('admin.rechargeList')->with(['rechargeList' => $rechargeList, 'active' => 'rechargeList']);
+    }
+    public function rechargeEdit(){
+        $users = User::where('user_type', 'Customer')->get();
+        return view('admin.rechargeEdit')->with(['users' => $users, 'active' => 'rechargeEdit']);
     }
     public function withdrawalList(){
         $users = User::where('user_type', 'Customer')->get();

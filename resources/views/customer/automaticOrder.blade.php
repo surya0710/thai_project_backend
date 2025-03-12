@@ -63,3 +63,50 @@
         </div>
     </div>
 @include('customer.partials.footer')
+<div class="offcanvas offcanvas-bottom show" tabindex="-1" id="createProject" aria-labelledby="offcanvasBottomLabel" aria-modal="true" role="dialog">
+    <div class="offcanvas-header style-1">
+        <span class="icon-close2 icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+    </div>
+    <div class="offcanvas-body pb-32">
+        <div class="mt-14 content-message">
+            <ul class="mt-24">
+                <li class="mt-16 pb-8 line-bt2">
+                    <a href="" class="box-inbox-item">
+                        <div class="avatar avt-32 avt-status">
+                            <img src="{{ asset('assets/images/avt/avt5.jpg') }}" alt="avatar">
+                        </div>
+                        <div class="content">
+                            <div class="desc">bro, kepriwe kie rawone ra mudun-mudun selak to kaliren duis
+                                enim velit mollit.</div>
+                            <div class="title"><span class="desc">USD</span> 434.545 <span class="desc">x1</span></div>
+
+                        </div>
+                        
+                    </a>
+                </li>
+                <li class="mt-20 ">
+                    <a href="" class="wd-file-message line-bt">
+                        <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
+                        <span class="body-4 text-black-5 fw-5">USD 2325.23 </span>
+                    </a>
+                </li>
+                <li class="mt-20 line-bt">
+                    <a href="" class="wd-file-message">
+                        <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
+                        <span class="body-4 text-black-5 fw-5">USD 65675.767 </span>
+                    </a>
+                </li>
+                <li class="mt-20 line-bt">
+                    <a href="" class="wd-file-message">
+                        <div class="body-4 text-black-2 fw-5 flex-grow-1">Expected return</div>
+                        <span class="body-4 text-black-5 fw-5">USD 613432.255 </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="mt-24">
+            <a href="" class="mt-35 tf-btn primary">Submit</a>
+        </div>
+    </div>
+</div>
