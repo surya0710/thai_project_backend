@@ -30,14 +30,15 @@ Route::group(['middleware' => 'guest'], function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
-        Route::get('admin-list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
-        Route::get('admin-add', 'App\Http\Controllers\UserController@adminAdd')->name('admin.add');
-        Route::get('/user-list', 'App\Http\Controllers\UserController@userList')->name('user.list');
-        Route::get('/user-add', 'App\Http\Controllers\UserController@userAdd')->name('user.add');
-        Route::get('/lazada-list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
-        Route::get('/lazada-add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
-        Route::get('/recharg-list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
-        Route::get('/withdrawal-list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
+        Route::get('/admin/list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
+        Route::get('/admin/add', 'App\Http\Controllers\UserController@adminAdd')->name('admin.add');
+        Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
+        Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
+        Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
+        Route::get('/lazada/add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
+        Route::post('/lazada/add', 'App\Http\Controllers\UserController@lazadaStore')->name('lazada.store');
+        Route::get('/recharg/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
+        Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
     });
 });

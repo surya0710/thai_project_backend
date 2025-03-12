@@ -27,31 +27,6 @@
                   <input class="form-control" id="validationTooltip03" type="text" name="invitation_code" placeholder="Invitation Code"
                     required="">
                 </div>
-                <!-- <div class="col-md-3 position-relative">
-                      <label class="form-label" for="validationTooltip04">User ID</label>
-                      <input class="form-control" id="validationTooltip04" type="text" name="user_id" placeholder="User ID"
-                        required="">
-                    </div>
-                    <div class="col-md-3 position-relative">
-                      <label class="form-label" for="validationTooltip05">Username</label>
-                      <input class="form-control" id="validationTooltip05" type="text" name="username" placeholder="Username"
-                        required="">
-                    </div>
-                    <div class="col-md-3 position-relative">
-                      <label class="form-label" for="validationTooltip06">Name </label>
-                      <input class="form-control" id="validationTooltip06" type="text" name="name"
-                        placeholder="Name" required="">
-                    </div>
-                    <div class="col-md-3 position-relative">
-                      <label class="form-label" for="validationTooltip07">Email</label>
-                      <input class="form-control" id="validationTooltip07" type="text" name="email" placeholder="Email"
-                        required="">
-                    </div>
-                    <div class="col-md-3 position-relative">
-                      <label class="form-label" for="validationTooltip08">Phone</label>
-                      <input class="form-control" id="validationTooltip08" type="text" name="phone" placeholder="Phone"
-                        required="">
-                    </div> -->
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip09">Country</label>
                   <select class="form-select" id="validationTooltip09" name="country" required="">
@@ -88,11 +63,6 @@
             <div class="card-header pb-0 card-no-border">
 
               <div class="btn-group">
-                <!-- <div class="square-product-setting d-inline-block">
-                      <a class="icon-grid grid-layout-view" href="#"
-                        data-original-title="" title=""><i data-feather="grid"></i>
-                      </a>
-                    </div> -->
                 <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
 
                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -106,7 +76,6 @@
                   <li><a class="dropdown-item" href="#">MS-Excel</a></li>
                 </ul>
               </div>
-              <a class="btn btn-primary mx-auto " href="{{ route('user.add') }}"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">

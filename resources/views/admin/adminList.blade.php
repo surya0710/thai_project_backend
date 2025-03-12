@@ -68,15 +68,10 @@
             <div class="col-sm-12">
                <div class="card">
                   <div class="card-header pb-0 card-no-border">
-                  </div>
-                  <div class="card-header pb-0 card-no-border">
-
+                     <div class="row">
+                        <span class="text-success error"> {{ session()->get('success') }} </span>
+                     </div>
                      <div class="btn-group">
-                        <!-- <div class="square-product-setting d-inline-block">
-        <a class="icon-grid grid-layout-view" href="#"
-          data-original-title="" title=""><i data-feather="grid"></i>
-        </a>
-      </div> -->
                         <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
 
                         <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -110,7 +105,7 @@
                               @foreach($users as $user)
                               <tr>
                                  <td>{{ $loop->index + 1 }}</td>
-                                 <td>{{ $user->uuid }}</td>
+                                 <td>{{ $user->username }}</td>
                                  <td>{{ $user->user_type }}</td>
                                  <td>{{ $user->name }}</td>
                                  <td>{{ $user->email }}</td>

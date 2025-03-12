@@ -69,13 +69,10 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header pb-0 card-no-border">
-
+                            <div class="row">
+                                <span class="text-success error"> {{ session()->get('success') }} </span>
+                            </div>
                             <div class="btn-group">
-                                <!-- <div class="square-product-setting d-inline-block">
-                      <a class="icon-grid grid-layout-view" href="#"
-                        data-original-title="" title=""><i data-feather="grid"></i>
-                      </a>
-                    </div> -->
                                 <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
 
                                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
@@ -141,14 +138,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    @foreach($products as $product)
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td><a href="javascript:"><img style="height: 40px;" class="img-sm img-center" src="https://img.bluksms.shop/aaa/8.png"></a></td>
-                                            <td>2011/04/25</td>
+                                            <td>{{ $loop->index + 1 }}</td>
+                                            <td>{{ $product->name }}</td>
+                                            <td>{{ $product->price }}</td>
                                             <td>
-                                                <a href="javascript:;" class="btn btn-danger btn-chooseone btn-xs"><i class="fa fa-check"></i>
+                                                <a href="javascript:">
+                                                    <img style="height: 40px;" class="img-sm img-center" src="{{ asset('uploads/products/' . $product->image_path) }}">
+                                                </a>
+                                            </td>
+                                            <td>{{ $product->created_at }}</td>
+                                            <td>
+                                                <a href="javascript:;" class="btn btn-danger btn-chooseone btn-xs">
+                                                    <i class="fa fa-check"></i>
                                                     <font style="vertical-align: inherit;">
                                                         <font style="vertical-align: inherit;">Choose</font>
                                                     </font>
@@ -156,13 +159,12 @@
                                             </td>
                                             <td>
                                                 <ul class="action">
-                                                    <li class="edit"> <a href="#"><i class="fa-solid fa-pen-to-square"></i></a></li>
+                                                    <li class="edit"><a href="#"><i class="fa-solid fa-pen-to-square"></i></a></li>
                                                     <li class="delete"><a href="#"><i class="fa-solid fa-trash-can"></i></a></li>
                                                 </ul>
                                             </td>
-
                                         </tr>
-
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
