@@ -90,4 +90,3 @@
     </div>
     <!-- footer start-->
     @include('admin.partials.footer')
-    @include('admin.partials.popup')

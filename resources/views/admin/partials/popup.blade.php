@@ -18,48 +18,27 @@
   </div>
 
   <!-- title popup -->
-  <div class="modal fade bd-example-modal-sm-title1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal fade bd-example-modal-sm-title1" id="invitationCodeModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
           <div class="modal-content">
               <div class="modal-header">
-                  <h4 class="modal-title" id="mySmallModalLabel">Add Invitation</h4>
+                  <h4 class="modal-title" id="mySmallModalLabel">Add Invitation Code</h4>
                   <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form action="" class="theme-form" method="post">
+              <form action="{{ route('invitation.store') }}" class="theme-form" method="post">
                   <div class="modal-body dark-modal">
-
-
                       <label for="invitation_code" class="form-label">Invitation Code</label>
                       <input type="text" class="form-control" name="invitation_code" id="invitation_code">
-
-                      <!-- <h5 class="">Generate Code</h5> -->
-                      <button type="button"  class="mt-3 btn btn-primary generate-code">Generate Code</button>
-                      <div class="mt-2">
-                          <div class="d-flex align-items-center">
-                              <input type="text" class="form-control flex-grow-1" id="generated-code" readonly>
-                              <button type="button" class="btn btn-secondary copy-code" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy"><i class="fa-regular fa-clipboard"></i></button>
-                          </div>
-                      </div>
-
+                      <button type="button" class="mt-3 btn btn-primary generate-code">Generate Code</button>
+                      <button class="mt-3 btn btn-success" type="submit">Save</button>
                       <script>
                           const generateCode = document.querySelector('.generate-code');
-                          const generatedCode = document.querySelector('#generated-code');
                           const invitationCode = document.querySelector('#invitation_code');
 
                           generateCode.addEventListener('click', () => {
                               const code = Math.random().toString(36).substring(2, 12);
-                              generatedCode.value = code;
                               invitationCode.value = code;
                           });
-                       
-                    //       const generateCode = document.querySelector('.generate-code');
-                    //       const generatedCode = document.querySelector('#generated-code');
-                    //       const copyCode = document.querySelector('.copy-code');
-
-                    //       generateCode.addEventListener('click', () => {
-                    //           const code = Math.random().toString(36).substring(2, 12);
-                    //           generatedCode.value = code;
-                    //       });
 
                           copyCode.addEventListener('click', () => {
                               navigator.clipboard.writeText(generatedCode.value);
@@ -70,10 +49,6 @@
                           });
                       </script>
 
-                  </div>
-                  <div class="modal-footer">    
-                      <button class="btn btn-primary" type="submit">Submit </button>
-                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
                   </div>
               </form>
           </div>

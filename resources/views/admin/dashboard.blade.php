@@ -1554,5 +1554,4 @@
           </div>
           <!-- Container-fluid Ends-->
         </div>
-/******  b59ca66d-5a11-48b3-9102-b69d9258b5ac  *******/
         @include('admin.partials.footer')

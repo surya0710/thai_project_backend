@@ -65,8 +65,8 @@
           <div class="nav-right col-xl-8 col-lg-12 col-auto pull-right right-header p-0">
             <ul class="nav-menus">
               <li>
-                <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1">
-                  <span class="lable">Create Invitation Code</span>
+                <a class="badge badge-success mb-1" onclick="$('#invitationCodeModal').modal('show');">
+                  <span class="label">Create Invitation Code</span>
                 </a>
               </li>
               <li>
@@ -79,12 +79,7 @@
                   <span class="lable">Withdraw 1</span>
                 </a>
               </li>
-              <!-- <li>
-                
-                <button class="badge badge-danger mb-1">
-                  <span class="lable">Turn on voice</span>
-                  <i class="fa-solid fa-volume-high"></i>
-                </button> -->
+            
               <li>
                 <button class="badge badge-danger mb-1" id="voice-button">
                   <span class="lable" id="voice-button-text">Turn off voice</span>
