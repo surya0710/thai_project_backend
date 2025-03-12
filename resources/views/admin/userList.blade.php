@@ -68,12 +68,44 @@
                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
                     class="fa-solid fa-share-from-square"></i></button>
                 <ul class="dropdown-menu dropdown-block">
-                  <li><a class="dropdown-item" href="#">JSON</a></li>
-                  <li><a class="dropdown-item" href="#">XML</a></li>
-                  <li><a class="dropdown-item" href="#">CSV</a></li>
-                  <li><a class="dropdown-item" href="#">TXT</a></li>
+                  <li><a class="dropdown-item" href="javascript:;" onclick="uploadCSV()">Upload CSV</a></li>
+                </ul>
+                <script>
+                  function uploadCSV() {
+                    var formData = new FormData();
+                    var input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = 'text/csv';
+                    input.onchange = function() {
+                      formData.append('file', input.files[0]);
+                      fetch('/upload-csv', {
+                        method: 'POST',
+                        body: formData
+                      })
+                      .then(response => response.json())
+                      .then(data => {
+                        console.log(data);
+                        if (data.success) {
+                          alert('CSV uploaded successfully');
+                        }
+                        else {
+                          alert('Error uploading CSV');
+                        }
+                      })
+                      .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error uploading CSV');
+                      });
+                    }
+                    input.click();
+                  }
+                </script>
+                  <!-- <li><a class="dropdown-item" href="#">JSON</a></li>
+                  <li><a class="dropdown-item" href="#">XML</a></li> -->
+                  <!-- <li><a class="dropdown-item" href="#">CSV</a></li> -->
+                  <!-- <li><a class="dropdown-item" href="#">TXT</a></li>
                   <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                  <li><a class="dropdown-item" href="#">MS-Excel</a></li>
+                  <li><a class="dropdown-item" href="#">MS-Excel</a></li> -->
                 </ul>
               </div>
             </div>
@@ -159,7 +191,7 @@
                       <td>
                         <ul class="action">
                           <li class="edit"> 
-                            <a href=""><i class="fa-solid fa-pencil"></i></a>
+                            <a href="{{ route('user.edit') }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
                           <li class="delete">
                             <a data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>

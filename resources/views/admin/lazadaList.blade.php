@@ -78,16 +78,40 @@
                                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
                                         class="fa-solid fa-share-from-square"></i></button>
                                 <ul class="dropdown-menu dropdown-block">
-                                    <li><a class="dropdown-item" href="#">JSON</a></li>
-                                    <li><a class="dropdown-item" href="#">XML</a></li>
-                                    <li><a class="dropdown-item" href="#">CSV</a></li>
-                                    <li><a class="dropdown-item" href="#">TXT</a></li>
-                                    <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                                    <li><a class="dropdown-item" href="#">MS-Excel</a></li>
+                                    <li><a class="dropdown-item" href="javascript:;" onclick="uploadCSV()">Upload CSV</a></li>
                                 </ul>
+                                <script>
+                                    function uploadCSV() {
+                                        var formData = new FormData();
+                                        var input = document.createElement('input');
+                                        input.type = 'file';
+                                        input.accept = 'text/csv';
+                                        input.onchange = function() {
+                                            formData.append('file', input.files[0]);
+                                            fetch('/upload-csv', {
+                                                    method: 'POST',
+                                                    body: formData
+                                                })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data);
+                                                    if (data.success) {
+                                                        alert('CSV uploaded successfully');
+                                                    } else {
+                                                        alert('Error uploading CSV');
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                    alert('Error uploading CSV');
+                                                });
+                                        }
+                                        input.click();
+                                    }
+                                </script>
                             </div>
 
-                            <div class="btn-group">
+                            <!-- <div class="btn-group">
                                 <button style="padding: 4px;" class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-table-cells"></i></button>
                                 <ul class="dropdown-menu " role="menu">
                                     <li role="menuitem"><label><input type="checkbox" data-field="id" value="0" checked="checked">
@@ -118,10 +142,10 @@
                                             </font>
                                         </label></li>
                                 </ul>
-                            </div>
+                            </div> -->
                             <a class="btn btn-primary mx-auto " href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
-                            <button class="btn btn-success" type="button"><i class="fa-solid fa-pen-to-square"></i> </button>
-                            <button class="btn btn-secondary" type="button"><i class="fa-solid fa-trash-can"></i></button>
+                            <!-- <button class="btn btn-success" type="button"><i class="fa-solid fa-pen-to-square"></i> </button> -->
+                            <!-- <button class="btn btn-secondary" type="button"><i class="fa-solid fa-trash-can"></i></button> -->
                         </div>
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
@@ -138,7 +162,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($products as $product)
+                                        @foreach($products as $product)
                                         <tr>
                                             <td>{{ $loop->index + 1 }}</td>
                                             <td>{{ $product->name }}</td>
