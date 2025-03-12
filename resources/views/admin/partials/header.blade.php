@@ -65,6 +65,11 @@
           <div class="nav-right col-xl-8 col-lg-12 col-auto pull-right right-header p-0">
             <ul class="nav-menus">
               <li>
+                <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1">
+                  <span class="lable">Create Invitation Code</span>
+                </a>
+              </li>
+              <li>
                 <a class="badge badge-success mb-1" href="{{ route('recharge.list') }}">
                   <span class="lable">Top up 1</span>
                 </a>
