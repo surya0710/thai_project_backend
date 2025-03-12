@@ -63,13 +63,15 @@
             <div class="card-header pb-0 card-no-border">
 
               <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-
+                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" onclick="" class="btn btn-primary" type="button">
+                  <i class="fa-solid fa-rotate"></i>
+                </button>
                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
                     class="fa-solid fa-share-from-square"></i></button>
                 <ul class="dropdown-menu dropdown-block">
                   <li><a class="dropdown-item" href="javascript:;" onclick="uploadCSV()">Upload CSV</a></li>
                 </ul>
+
                 <script>
                   function uploadCSV() {
                     var formData = new FormData();
@@ -79,35 +81,35 @@
                     input.onchange = function() {
                       formData.append('file', input.files[0]);
                       fetch('/upload-csv', {
-                        method: 'POST',
-                        body: formData
-                      })
-                      .then(response => response.json())
-                      .then(data => {
-                        console.log(data);
-                        if (data.success) {
-                          alert('CSV uploaded successfully');
-                        }
-                        else {
+                          method: 'POST',
+                          body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                          console.log(data);
+                          if (data.success) {
+                            alert('CSV uploaded successfully');
+                          } else {
+                            alert('Error uploading CSV');
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
                           alert('Error uploading CSV');
-                        }
-                      })
-                      .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error uploading CSV');
-                      });
+                        });
                     }
                     input.click();
                   }
                 </script>
-                  <!-- <li><a class="dropdown-item" href="#">JSON</a></li>
+                <!-- <li><a class="dropdown-item" href="#">JSON</a></li>
                   <li><a class="dropdown-item" href="#">XML</a></li> -->
-                  <!-- <li><a class="dropdown-item" href="#">CSV</a></li> -->
-                  <!-- <li><a class="dropdown-item" href="#">TXT</a></li>
+                <!-- <li><a class="dropdown-item" href="#">CSV</a></li> -->
+                <!-- <li><a class="dropdown-item" href="#">TXT</a></li>
                   <li><a class="dropdown-item" href="#">MS-Word</a></li>
                   <li><a class="dropdown-item" href="#">MS-Excel</a></li> -->
                 </ul>
               </div>
+              <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
@@ -148,17 +150,17 @@
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
                       <td>
-                          <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" 
+                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1"
                           {{ $user->credit_permission == 1 ? 'checked' : '' }}>
-                          <label for="checkboxInput" class="toggleSwitch">
-                          </label>
+                        <label for="checkboxInput" class="toggleSwitch">
+                        </label>
                       </td>
                       <!-- <td>61</td>
                       <td>2011/04/25</td> -->
                       <td>{{ $user->country }}</td>
 
                       <td>
-                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
+                        <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">check</span>
                         </a>
@@ -169,7 +171,7 @@
                         <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">title</span>
-                        </a> -->
+                        </a>
                         <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Ordinary order</span>
@@ -190,10 +192,10 @@
                       </td>
                       <td>
                         <ul class="action">
-                          <li class="edit"> 
+                          <li class="edit">
                             <a href="{{ route('user.edit') }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
-                          <li class="edit"> 
+                          <li class="edit">
                             <a href="{{ route('user.edit') }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
                           <!-- <li class="delete">
@@ -212,6 +214,7 @@
                 </table>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -223,43 +226,43 @@
   @include('admin.partials.popup')
 </div>
 <script>
-  $("#checkboxInput").change(function (){
+  $("#checkboxInput").change(function() {
     let isChecked = $(this).is(":checked") ? 1 : 0;
     let userID = $(this).data('user-id');
     let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
     $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-            _token: "{{ csrf_token() }}",
-            credit_permission: isChecked
-        },
-        success: function(response) {
-          if (response.status === 'success') {
-              Swal.fire(
-                "Updated!",
-                `Credit Permission Updated`,
-                "success"
-              );
-          } else {
-              Swal.fire(
-                "Error!",
-                `${response.message}`,
-                "error"
-              );
-          }
-        },
-        error: function(xhr) {
+      url: url,
+      type: "POST",
+      data: {
+        _token: "{{ csrf_token() }}",
+        credit_permission: isChecked
+      },
+      success: function(response) {
+        if (response.status === 'success') {
           Swal.fire(
-                "Error!",
-                "Something went wrong. Please try again.",
-                "error"
+            "Updated!",
+            `Credit Permission Updated`,
+            "success"
           );
-        },
-        error: function (xhr) {
-            console.error("Error:", xhr);
-            alert("Failed to update credit permission!");
+        } else {
+          Swal.fire(
+            "Error!",
+            `${response.message}`,
+            "error"
+          );
         }
+      },
+      error: function(xhr) {
+        Swal.fire(
+          "Error!",
+          "Something went wrong. Please try again.",
+          "error"
+        );
+      },
+      error: function(xhr) {
+        console.error("Error:", xhr);
+        alert("Failed to update credit permission!");
+      }
     });
   });
 </script>
