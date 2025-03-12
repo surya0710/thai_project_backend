@@ -131,7 +131,7 @@
                       <td>{{ $recharge->user['phone'] ?? 'N/A' }}</td>
                       <td>{{ $recharge->user['name'] ?? 'N/A' }}</td>
                       <td>{{ $recharge->user['invitation_code'] }}</td>
-                      <td><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></td>
+                      <td><a href="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></a></td>
                       <td>{{ $recharge->created_at }}</td>
                       <td>{{ $recharge->status == 0 ? 'Pending' : 'Approved' }}</td>
                       <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
@@ -142,12 +142,13 @@
                       </td> -->
                       <td>
                         <ul class="action">
-                          <li class="edit"> 
-                            <a href="{{ route('recharge.edit') }}"><i class="fa-solid fa-pencil"></i></a>
+                          <li class="view me-2">
+                            <button type="button" class="btn btn-success">Approve</button>
                           </li>
-                          <!-- <li class="delete">
-                            <a data-name="" data-id="" onclick=""><i class="fa-solid fa-trash"></i></a>
-                          </li> -->
+                          <li class="view">
+                            <button type="button" class="btn btn-danger">Reject</button>
+                          </li>
+
                         </ul>
                       </td>
                     </tr>
