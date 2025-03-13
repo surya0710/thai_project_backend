@@ -47,6 +47,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('lazada/upload-products', 'App\Http\Controllers\UserController@uploadProducts')->name('lazada.upload');
         Route::get('/lazada/add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
         Route::post('/lazada/add', 'App\Http\Controllers\UserController@lazadaStore')->name('lazada.store');
+        Route::post('/lazada/delete', 'App\Http\Controllers\UserController@lazadaDelete')->name('lazada.delete');
         Route::get('/recharge/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
         Route::get('/recharge/edit', 'App\Http\Controllers\UserController@rechargeEdit')->name('recharge.edit');
         Route::post('/recharge/statusUpdate', 'App\Http\Controllers\UserController@rechargeStatusUpdate')->name('admin.rechargeStatus');

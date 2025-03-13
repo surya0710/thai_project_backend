@@ -138,7 +138,9 @@
                                             <td>
                                                 <ul class="action">
                                                     <li class="edit"><a href="#"><i class="fa-solid fa-pen-to-square"></i></a></li>
-                                                    <li class="delete"><a href="#"><i class="fa-solid fa-trash-can"></i></a></li>
+                                                    <li class="delete">
+                                                        <a data-id="{{ $product->id }}" class="deleteProduct"><i class="fa-solid fa-trash-can"></i></a>
+                                                    </li>
                                                 </ul>
                                             </td>
                                         </tr>
@@ -261,4 +263,54 @@
             };
             input.click();
         }
+
+        $(document).on('click', '.deleteProduct', function(event) {
+            event.preventDefault();
+            let productId = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('lazada.delete') }}",
+                        type: "POST",
+                        data: {
+                            id: productId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status === 'success') {
+                                Swal.fire(
+                                    "Deleted!",
+                                    `Product has been deleted.`,
+                                    "success"
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "Error!",
+                                    `${response.message}`,
+                                    "error"
+                                );
+                            }
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                "Error!",
+                                "Something went wrong. Please try again.",
+                                "error"
+                            );
+                        }
+                    });
+                }
+            });
+        });
     </script>

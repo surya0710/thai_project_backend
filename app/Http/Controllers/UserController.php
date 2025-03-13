@@ -296,12 +296,42 @@ class UserController extends Controller
     }
 
     public function lazadaList(){
-        $products = $products = Products::paginate(10);;
+        $products = Products::where('is_deleted', 0)->paginate(10);
         return view('admin.lazadaList', compact('products'));
     }
 
     public function lazadaAdd(){
         return view('admin.lazadaAdd')->with(['active' => 'lazadaAdd']);
+    }
+
+    public function lazadaDelete(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:products,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        $product = Products::find($request->id);
+        $product->is_deleted = 1;
+        $product->deleted_by = Auth::user()->id;
+
+        if($product->save()){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product deleted successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Something went wrong'
+            ]);
+        }
     }
 
     public function lazadaStore(Request $request)
