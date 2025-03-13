@@ -37,7 +37,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/admin/delete', 'App\Http\Controllers\UserController@adminDelete')->name('admin.delete');
         Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
         Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
-        Route::get('/user/edit', 'App\Http\Controllers\UserController@userEdit')->name('user.edit');
+        Route::get('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userEdit')->name('user.edit');
+        Route::get('/user/view/{user_id}', 'App\Http\Controllers\UserController@userView')->name('user.view');
+        Route::post('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userUpdate')->name('user.update');
         Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
@@ -46,6 +48,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/lazada/add', 'App\Http\Controllers\UserController@lazadaStore')->name('lazada.store');
         Route::get('/recharge/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
         Route::get('/recharge/edit', 'App\Http\Controllers\UserController@rechargeEdit')->name('recharge.edit');
+        Route::post('/recharge/statusUpdate', 'App\Http\Controllers\UserController@rechargeStatusUpdate')->name('admin.rechargeStatus');
         Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
@@ -53,6 +56,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');
         Route::post('invite-code', 'App\Http\Controllers\InvitationController@storeInviteCode')->name('invitation.store');
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
+        Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.block');
+        Route::post('/unblock-user', 'App\Http\Controllers\UserController@unblockUser')->name('user.unblock');
     });
 });
 
@@ -65,6 +70,10 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/my-account', 'App\Http\Controllers\CustomerController@myAccount')->name('customer.myAccount');
     Route::get('/recharge', 'App\Http\Controllers\CustomerController@recharge')->name('customer.recharge');
     Route::post('/recharge', 'App\Http\Controllers\CustomerController@rechargeSubmit')->name('customer.rechargeSubmit');
+    Route::get('/bank-details', 'App\Http\Controllers\CustomerController@bankDetails')->name('customer.bankDetails');
+    Route::post('/bank-details', 'App\Http\Controllers\CustomerController@bankDetailsSubmit')->name('customer.bankDetailsSubmit');
+    Route::get('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawal')->name('customer.withdrawal');
+    Route::post('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawalSubmit')->name('customer.withdrawalSubmit');
 });
 
 Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('logout')->middleware('auth');

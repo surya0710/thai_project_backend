@@ -57,13 +57,11 @@
                     </div>
                 </li>
             </ul>
-            <button class=""><a style="color: white;" href="#createProject" data-bs-toggle="offcanvas"
-                aria-controls="offcanvasBottom">Automatic Order</a></button>
-
+            <a style="color: white;" href="#createProject" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom"><button>Automatic Order</button></a>
         </div>
     </div>
 @include('customer.partials.footer')
-<div class="offcanvas offcanvas-bottom show" tabindex="-1" id="createProject" aria-labelledby="offcanvasBottomLabel" aria-modal="true" role="dialog">
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="createProject" aria-labelledby="offcanvasBottomLabel">
     <div class="offcanvas-header style-1">
         <span class="icon-close2 icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
     </div>

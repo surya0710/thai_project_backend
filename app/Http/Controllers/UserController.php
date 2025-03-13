@@ -178,9 +178,46 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
         return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
     }
-    public function userEdit(){
-        $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
-        return view('admin.userEdit')->with(['users' => $users, 'active' => 'userEdit']);
+    public function userEdit($userID){
+        $user = User::find($userID);
+        return view('admin.userEdit')->with(['user' => $user, 'type' => 'edit' , 'active' => 'userEdit']);
+    }
+
+    public function userUpdate(Request $request, $userID){
+        $FormData = $request->all();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'country' => 'required|string',
+            'badge' => 'required|string',
+            'revenue_generated' => 'required',
+            'total_amount' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::find($userID);
+        $user->name = $request->name;
+        $user->country = $request->country;
+        $user->badge = $request->badge;
+        $user->revenue_generated = $request->revenue_generated;
+        $user->total_amount = $request->total_amount;
+        if($request->password !== ''){
+            $user->password = bcrypt($request->password);
+        }
+
+        if($user->update()){
+            return redirect()->route('user.list')->with('success', 'User Updated Successfully');
+        }
+        else{
+            return redirect()->route('user.edit')->with('error', 'Something went wrong');
+        }
+    }
+
+    public function userView($userID){
+        $user = User::find($userID);
+        return view('admin.userEdit')->with(['user' => $user, 'type' => 'view', 'active' => 'userEdit']);
     }
 
     public function userUpdateCreditPermission(Request $request, $userID){
@@ -309,6 +346,51 @@ class UserController extends Controller
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.rechargeEdit')->with(['users' => $users, 'active' => 'rechargeEdit']);
     }
+
+    public function rechargeStatusUpdate(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:recharge_request,id',
+            'event' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $id = $request->input('id');
+        $event = $request->input('event');
+
+        $recharge = RechargeRequest::find($id);
+
+        if($event == 'approve'){
+            $recharge->status = 1;
+        }
+        else if($event == 'reject'){
+            $recharge->status = 2;
+        }
+        $recharge->handled_by = Auth::user()->id;
+
+        if($recharge->save()){
+            if($event == 'approve'){
+                $user = User::find($recharge->user_id);
+                $user->total_amount = $user->total_amount + $recharge->amount;
+                $user->save();
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Recharge status updated successfully'
+            ], 200);
+        }
+        
+        return response()->json([
+            'status' => 'Failed',
+            'message' => 'Something Went Wrong'
+        ], 500);
+    }
+
     public function withdrawalList(){
         $users = User::where('user_type', 'Customer')->get();
         return view('admin.withdrawalList')->with(['users' => $users, 'active' => 'withdrawalList']);
@@ -345,6 +427,78 @@ class UserController extends Controller
         }
         return redirect()->back()->with('error', 'Something went wrong');
 
+    }
+
+    public function blockUser(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        $user = User::where('id', $request->id)->where('user_type', 'Customer')->first();
+
+        if($user){
+            $user->is_blocked = 1;
+            $user->blocked_by = Auth::user()->id;
+            if($user->save()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'User Blocked Successfully'
+                ]);
+            }
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Something went wrong'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found'
+            ]);
+        }
+    }
+
+    public function unblockUser(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:users,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ]);
+        }
+
+        $user = User::where('id', $request->id)->where('user_type', 'Customer')->first();
+
+        if($user){
+            $user->is_blocked = 0;
+            $user->blocked_by = Auth::user()->id;
+            if($user->save()){
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'User Blocked Successfully'
+                ]);
+            }
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Something went wrong'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found'
+            ]);
+        }
     }
 
     public function logout(Request $request)

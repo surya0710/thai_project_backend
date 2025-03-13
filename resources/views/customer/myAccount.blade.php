@@ -195,12 +195,12 @@
                     </a>
                 </li>
                 <li class="list-view-item style-1 line-bt">
-                    <a href="bank-card.html" class="gap-20">
+                    <a href="{{ route('customer.bankDetails') }}" class="gap-20">
                         <div class="box-icon w-36 bg-grey-2 radius-12">
                             <i class="icon icon-input fs-20"></i>
                         </div>
                         <div class="font-title-btn text-black-2 title">
-                            Bank Card
+                            Accounts
                         </div>
                         <div class="box-icon w-20">
                             <i class="icon-arr-r fs-12"></i>

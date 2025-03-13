@@ -51,104 +51,20 @@
             <div class="card-header pb-0 card-no-border">
               <div class="btn-group">
                 <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-                <!-- <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-share-from-square"></i></button>
-                <ul class="dropdown-menu dropdown-block">
-                  <li><a class="dropdown-item" href="#">JSON</a></li>
-                  <li><a class="dropdown-item" href="#">XML</a></li>
-                  <li><a class="dropdown-item" href="#">CSV</a></li>
-                  <li><a class="dropdown-item" href="#">TXT</a></li>
-                  <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                  <li><a class="dropdown-item" href="#">MS-Excel</a></li>
-                </ul>
-              </div>
-
-              <div class="btn-group">
-                <button style="padding: 4px;" class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-table-cells"></i></button>
-                <ul class="dropdown-menu tb-drop-check" role="menu">
-                  <li role="menuitem"><label><input type="checkbox" data-field="id" value="0" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Id</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="money" value="1" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Money</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user_id" value="2" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">User_id</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user.mobile" value="3" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Phone number</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user.username" value="4" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">User.username</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user.nickname" value="5" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Real name</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user.code" value="6" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Invite Code</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="name" value="7" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Recharge pictures</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="recharge_datetime" value="8" checked="checked"> Recharge_datetime</label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="createtime" value="9" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Createtime</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="status" value="10" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Status</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="remarks" value="11" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Remarks</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="user.money" value="12" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Current account balance</font>
-                      </font>
-                    </label></li>
-                  <li role="menuitem"><label><input type="checkbox" data-field="operate" value="13" checked="checked">
-                      <font style="vertical-align: inherit;">
-                        <font style="vertical-align: inherit;">Operate</font>
-                      </font>
-                    </label></li>
-                </ul>
-              </div> -->
               </div>
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
                   <table class="display" id="basic-1">
                     <thead>
                       <tr>
-                        <th> ID</th>
-                        <th>Money</th>
+                        <th>ID</th>
+                        <th>Amount</th>
                         <th>Username</th>
-                        <th>Phone Number</th>
-                        <th>Real Name</th>
-                        <th>Invite Code</th>
-                        <th>Recharge Picture</th>
-                        <th>Recharge_datetime</th>
-                        <th>State</th>
+                        <th>Phone</th>
+                        <th>Name</th>
+                        <th>Recharge Proof</th>
+                        <th>Created At</th>
+                        <th>Status</th>
                         <th>Approved By</th>
                         <th>Action</th>
                       </tr>
@@ -161,26 +77,29 @@
                         <td>{{ $recharge->user['username'] ?? 'N/A' }}</td>
                         <td>{{ $recharge->user['phone'] ?? 'N/A' }}</td>
                         <td>{{ $recharge->user['name'] ?? 'N/A' }}</td>
-                        <td>{{ $recharge->user['invitation_code'] }}</td>
                         <td><a href="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></a></td>
                         <td>{{ $recharge->created_at }}</td>
-                        <td>{{ $recharge->status == 0 ? 'Pending' : 'Approved' }}</td>
-                        <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
-                        <!-- <td>
-                        <input type="checkbox" name="status" data-user-id="" id="checkboxInput" value="1">
-                        <label for="checkboxInput" class="toggleSwitch">
-                        </label>
-                      </td> -->
                         <td>
+                          @if($recharge->status == 0)
+                            Pending
+                          @elseif($recharge->status == 1)
+                            Approved
+                          @elseif($recharge->status == 2)
+                            Rejected
+                          @endif
+                        </td>
+                        <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
+                        <td>
+                          @if($recharge->status == 0)
                           <ul class="action">
                             <li class="view me-2">
-                              <button type="button" class="btn btn-success">Approve</button>
+                              <button type="button" data-id="{{ $recharge->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>
                             </li>
                             <li class="view">
-                              <button type="button" class="btn btn-danger">Reject</button>
+                              <button type="button" data-id="{{ $recharge->id }}" data-event="reject" class="btn btn-danger rechargeStatus">Reject</button>
                             </li>
-
                           </ul>
+                          @endif
                         </td>
                       </tr>
                       @endforeach
@@ -190,9 +109,54 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
-      <!-- Container-fluid Ends-->
     </div>
-    @include('admin.partials.footer')
+  @include('admin.partials.footer')
+  <script>
+    jQuery(document).ready(function () {
+      $('.rechargeStatus').on("click", function (event) {
+        event.preventDefault();
+
+        var id = $(this).data("id");
+        var action = $(this).data("event");
+
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You want to " + action + " this transaction",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: `Yes, ${action} it!`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "{{ route('admin.rechargeStatus') }}",
+              type: "POST",
+              data: {
+                id: id,
+                event: action,
+                _token: "{{ csrf_token() }}",
+              },
+              success: function (response) {
+                console.log(response);
+                if (response.status === "success") {
+                  Swal.fire("Success!", `Transaction has been ${action}.`, "success").then(() => {
+                    location.reload();
+                  });
+                } else {
+                  Swal.fire("Error!", response.message, "error");
+                }
+              },
+              error: function (xhr, status, error) {
+                console.log(error);
+                Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+              },
+            });
+          }
+        });
+      });
+    });
+  </script>
+  

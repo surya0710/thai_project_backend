@@ -101,12 +101,6 @@
                     input.click();
                   }
                 </script>
-                <!-- <li><a class="dropdown-item" href="#">JSON</a></li>
-                  <li><a class="dropdown-item" href="#">XML</a></li> -->
-                <!-- <li><a class="dropdown-item" href="#">CSV</a></li> -->
-                <!-- <li><a class="dropdown-item" href="#">TXT</a></li>
-                  <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                  <li><a class="dropdown-item" href="#">MS-Excel</a></li> -->
                 </ul>
               </div>
               <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
@@ -124,12 +118,10 @@
                       <th><span class="f-light f-w-600"></span>Phone</span></th>
                       <th><span class="f-light f-w-600"></span>Email</span></th>
                       <th><span class="f-light f-w-600"></span>Login Time</span></th>
-                      <th><span class="f-light f-w-600"></span>Registration Time</span></th>
-                      <th><span class="f-light f-w-600"></span>Number of Orders</span></th>
-                      <th><span class="f-light f-w-600"></span>Money</span></th>
+                      <th><span class="f-light f-w-600"></span>Created At</span></th>
+                      <th><span class="f-light f-w-600"></span>No of Orders</span></th>
+                      <th><span class="f-light f-w-600"></span>Total Amount</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
-                      <!-- <th><span class="f-light f-w-600"></span>Ratio of goods snatched</span></th>
-                      <th><span class="f-light f-w-600"></span>Order Grabbing sussess rate</span></th> -->
                       <th><span class="f-light f-w-600"></span>Country</span></th>
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
                       <th><span class="f-light f-w-600"></span>Action</span></th>
@@ -155,52 +147,29 @@
                         <label for="checkboxInput" class="toggleSwitch">
                         </label>
                       </td>
-                      <!-- <td>61</td>
-                      <td>2011/04/25</td> -->
                       <td>{{ $user->country }}</td>
 
                       <td>
-                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl-check">
+                        @if($user->is_blocked == 1)
+                        <button class="badge badge-success mb-1" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
-                          <span class="lable">check</span>
-                        </a>
-                        <a class="badge badge-primary mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-lg">
-                          <i class="fa-solid fa-bars"></i>
-                          <span class="lable">Reset order grabbing</span>
-                        </a>
-                        <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title">
-                          <i class="fa-solid fa-bars"></i>
-                          <span class="lable">title</span>
-                        </a> -->
-                        <!-- <a class="badge badge-success mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-xl">
-                          <i class="fa-solid fa-bars"></i>
-                          <span class="lable">Ordinary order</span>
-                        </a> -->
-
-                        <!-- <a class="badge badge-secondary mb-1" data-bs-toggle="modal" data-original-title="test" data-bs-target="#exampleModalpermission">
-                          <i class="fa-solid fa-bars"></i>
-                          <span class="lable">make an appointment</span>
-                        </a> -->
-                        <a class="badge badge-primary mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm">
+                          <span class="lable">Allow transactions</span>
+                        </button>
+                        @else
+                        <button class="badge badge-primary mb-1" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Prohibition of transactions</span>
-                        </a>
-                        <!-- <a class="badge badge-danger mb-1" data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm1">
-                          <i class="fa-solid fa-bars"></i>
-                          <span class="lable">Ban invitations</span>
-                        </a> -->
+                        </button>
+                        @endif
                       </td>
                       <td>
                         <ul class="action">
                           <li class="edit">
-                            <a href="{{ route('user.edit') }}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{{ route('user.view', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
                           <li class="edit">
-                            <a href="{{ route('user.edit') }}"><i class="fa-solid fa-pencil"></i></a>
+                            <a href="{{ route('user.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
-                          <!-- <li class="delete">
-                            <a data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
-                          </li> -->
                         </ul>
                       </td>
                     </tr>
@@ -226,43 +195,100 @@
   @include('admin.partials.popup')
 </div>
 <script>
-  $("#checkboxInput").change(function() {
-    let isChecked = $(this).is(":checked") ? 1 : 0;
-    let userID = $(this).data('user-id');
-    let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
-    $.ajax({
-      url: url,
-      type: "POST",
-      data: {
-        _token: "{{ csrf_token() }}",
-        credit_permission: isChecked
-      },
-      success: function(response) {
-        if (response.status === 'success') {
-          Swal.fire(
-            "Updated!",
-            `Credit Permission Updated`,
-            "success"
-          );
-        } else {
+  jQuery(document).ready(function () {
+    $("#checkboxInput").change(function() {
+      let isChecked = $(this).is(":checked") ? 1 : 0;
+      let userID = $(this).data('user-id');
+      let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
+      $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+          _token: "{{ csrf_token() }}",
+          credit_permission: isChecked
+        },
+        success: function(response) {
+          if (response.status === 'success') {
+            Swal.fire(
+              "Updated!",
+              `Credit Permission Updated`,
+              "success"
+            );
+          } else {
+            Swal.fire(
+              "Error!",
+              `${response.message}`,
+              "error"
+            );
+          }
+        },
+        error: function(xhr) {
           Swal.fire(
             "Error!",
-            `${response.message}`,
+            "Something went wrong. Please try again.",
             "error"
           );
+        },
+        error: function(xhr) {
+          console.error("Error:", xhr);
+          alert("Failed to update credit permission!");
         }
-      },
-      error: function(xhr) {
-        Swal.fire(
-          "Error!",
-          "Something went wrong. Please try again.",
-          "error"
-        );
-      },
-      error: function(xhr) {
-        console.error("Error:", xhr);
-        alert("Failed to update credit permission!");
-      }
+      });
+    });
+
+
+    $('.badge').on('click', function(e) {
+
+      e.preventDefault();
+      const userId = $(this).data("id");
+      const userName = $(this).data("name");
+      const event = $(this).data("event");
+      const postURL = event === "block" ? "{{ route('user.block') }}" : "{{ route('user.unblock') }}";
+      Swal.fire({
+        title: "Are you sure?",
+        text: `You are about to ${event} ${userName}`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: `Yes, ${event} it!`
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: postURL,
+            type: "POST",
+            data: {
+              id: userId,
+              _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+              console.log(response);
+              if (response.status === 'success') {
+                Swal.fire(
+                  "Blocked!",
+                  `User ${userName} has been ${event}.`,
+                  "success"
+                ).then(() => {
+                  location.reload();
+                });
+              } else {
+                Swal.fire(
+                  "Error!",
+                  `${response.message}`,
+                  "error"
+                );
+              }
+            },
+            error: function(xhr) {
+              Swal.fire(
+                "Error!",
+                "Something went wrong. Please try again.",
+                "error"
+              );
+            }
+          });
+        }
+      });
     });
   });
 </script>

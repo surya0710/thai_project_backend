@@ -85,7 +85,7 @@
                   <span class="lable" id="voice-button-text">Turn off voice</span>
                   <i class="fa-solid fa-volume-high"></i>
                 </button>
-                <audio id="myAudio" src="{{ asset('assets/admin/music/relaxing.mp3') }}" autoplay loop></audio>
+                <!-- <audio id="myAudio" src="{{ asset('assets/admin/audio/msg.mp3') }}" autoplay loop></audio> -->
                 <script>
                   const audio = document.getElementById('myAudio');
                   const button = document.getElementById('voice-button');

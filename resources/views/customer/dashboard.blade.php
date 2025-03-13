@@ -102,7 +102,7 @@
                </div>
                <div class="d-flex mt-3">
                   <a href="{{ route('customer.recharge') }}"> <button class="tf-btn primary btn-sm inline m-1">Recharge</button></a>
-                  <a href=""> <button class="tf-btn primary btn-sm inline m-1">Withdraw</button></a>       
+                  <a href="{{ route('customer.withdrawal') }}"> <button class="tf-btn primary btn-sm inline m-1">Withdraw</button></a>       
                </div>
             </div>
             <div class="content">
