@@ -28,6 +28,31 @@
                     required="">
                 </div>
                 <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">User Id</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="user_id" placeholder="User Id"
+                    required="">
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">Username</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="username" placeholder="Username"
+                    required="">
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">Email</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="email" placeholder="Email"
+                    required="">
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">Phone</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="phone" placeholder="Phone"
+                    required="">
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">Login Date</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="login_date" placeholder="Login Date"
+                    required="">
+                </div>
+                <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip09">Country</label>
                   <select class="form-select" id="validationTooltip09" name="country" required="">
                     <option selected="" disabled="" value="">Choose...</option>
@@ -69,45 +94,34 @@
                 <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
                     class="fa-solid fa-share-from-square"></i></button>
                 <ul class="dropdown-menu dropdown-block">
-                  <li><a class="dropdown-item" href="javascript:;" onclick="uploadCSV()">Upload CSV</a></li>
-                </ul>
+                  <div id="exportOptions">
+                    <label><input type="checkbox" class="exportField" value="ID" checked> ID</label>
+                    <label><input type="checkbox" class="exportField" value="User ID" checked> User ID</label>
+                    <label><input type="checkbox" class="exportField" value="Invitation Code" checked> Invitation Code</label>
+                    <label><input type="checkbox" class="exportField" value="Username" checked> Username</label>
+                    <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
+                    <label><input type="checkbox" class="exportField" value="Phone" checked> Phone</label>
+                    <label><input type="checkbox" class="exportField" value="Email" checked> Email</label>
+                    <label><input type="checkbox" class="exportField" value="Login Time" checked> Login Time</label>
+                    <label><input type="checkbox" class="exportField" value="Registration Time" checked> Registration Time</label>
+                    <label><input type="checkbox" class="exportField" value="Number of Orders" checked> Number of Orders</label>
+                    <label><input type="checkbox" class="exportField" value="Money" checked> Money</label>
+                    <label><input type="checkbox" class="exportField" value="Credit Permission" checked> Credit Permission</label>
+                    <label><input type="checkbox" class="exportField" value="Country" checked> Country</label>
 
-                <script>
-                  function uploadCSV() {
-                    var formData = new FormData();
-                    var input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'text/csv';
-                    input.onchange = function() {
-                      formData.append('file', input.files[0]);
-                      fetch('/upload-csv', {
-                          method: 'POST',
-                          body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                          console.log(data);
-                          if (data.success) {
-                            alert('CSV uploaded successfully');
-                          } else {
-                            alert('Error uploading CSV');
-                          }
-                        })
-                        .catch(error => {
-                          console.error('Error:', error);
-                          alert('Error uploading CSV');
-                        });
-                    }
-                    input.click();
-                  }
-                </script>
+                  </div>
+
+                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
+                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
+                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
+                  <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
                 </ul>
               </div>
               <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table class="display" id="basic-1">
+                <table class="display dataTable" id="basic-1" role="grid" aria-describedby="basic-1_info">
                   <thead>
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>
@@ -192,7 +206,6 @@
     <!-- Container-fluid Ends-->
   </div>
   @include('admin.partials.footer')
-  @include('admin.partials.popup')
 </div>
 <script>
   jQuery(document).ready(function () {
@@ -237,58 +250,106 @@
     });
 
 
-    $('.badge').on('click', function(e) {
+    function getSelectedFields() {
+      let selectedFields = [];
+      document.querySelectorAll(".exportField:checked").forEach(checkbox => {
+        selectedFields.push(checkbox.value);
+      });
+      return selectedFields;
+    }
 
-      e.preventDefault();
-      const userId = $(this).data("id");
-      const userName = $(this).data("name");
-      const event = $(this).data("event");
-      const postURL = event === "block" ? "{{ route('user.block') }}" : "{{ route('user.unblock') }}";
-      Swal.fire({
-        title: "Are you sure?",
-        text: `You are about to ${event} ${userName}`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: `Yes, ${event} it!`
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            url: postURL,
-            type: "POST",
-            data: {
-              id: userId,
-              _token: "{{ csrf_token() }}"
-            },
-            success: function(response) {
-              console.log(response);
-              if (response.status === 'success') {
-                Swal.fire(
-                  "Blocked!",
-                  `User ${userName} has been ${event}.`,
-                  "success"
-                ).then(() => {
-                  location.reload();
-                });
-              } else {
-                Swal.fire(
-                  "Error!",
-                  `${response.message}`,
-                  "error"
-                );
-              }
-            },
-            error: function(xhr) {
-              Swal.fire(
-                "Error!",
-                "Something went wrong. Please try again.",
-                "error"
-              );
-            }
-          });
+    function filterTableBySelectedFields(table) {
+      let selectedFields = getSelectedFields();
+      let headers = table.querySelectorAll("thead tr th");
+      let columnsToKeep = [];
+
+      headers.forEach((th, index) => {
+        if (selectedFields.includes(th.innerText.trim())) {
+          columnsToKeep.push(index);
         }
       });
-    });
+
+      let rows = table.rows;
+      for (let row of rows) {
+        let cells = row.cells;
+        for (let i = cells.length - 1; i >= 0; i--) {
+          if (!columnsToKeep.includes(i)) {
+            row.deleteCell(i);
+          }
+        }
+      }
+    }
+
+    function exportToExcel(tableID, filename = 'User_List') {
+      let table = document.getElementById(tableID);
+      filterTableBySelectedFields(table);
+      let ws = XLSX.utils.table_to_sheet(table);
+      let wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      XLSX.writeFile(wb, `${filename}.xlsx`);
+    }
+
+    function exportToCSV(tableID, filename = 'User_List') {
+      let table = document.getElementById(tableID);
+      filterTableBySelectedFields(table);
+      let ws = XLSX.utils.table_to_sheet(table);
+      let csv = XLSX.utils.sheet_to_csv(ws);
+      let blob = new Blob([csv], {
+        type: 'text/csv'
+      });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${filename}.csv`;
+      link.click();
+    }
+
+    function exportToPDF(tableID, filename = 'User_List') {
+      const {
+        jsPDF
+      } = window.jspdf;
+      let doc = new jsPDF();
+      let table = document.getElementById(tableID);
+      filterTableBySelectedFields(table);
+
+      let rows = [];
+      let headers = [];
+
+      table.querySelectorAll("thead tr th").forEach(th => headers.push(th.innerText));
+      table.querySelectorAll("tbody tr").forEach(tr => {
+        let rowData = [];
+        tr.querySelectorAll("td").forEach(td => rowData.push(td.innerText));
+        rows.push(rowData);
+      });
+
+      doc.autoTable({
+        head: [headers],
+        body: rows,
+        theme: 'grid'
+      });
+      doc.save(`${filename}.pdf`);
+    }
+
+    function importCSV() {
+      let input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv';
+      input.onchange = function(event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function(e) {
+          let data = e.target.result;
+          let workbook = XLSX.read(data, {
+            type: 'binary'
+          });
+          let sheet = workbook.Sheets[workbook.SheetNames[0]];
+          let jsonData = XLSX.utils.sheet_to_json(sheet);
+
+          console.log("Parsed CSV Data:", jsonData);
+        };
+        reader.readAsBinaryString(file);
+      };
+      input.click();
+    }
   });
 </script>
