@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 use App\Models\RechargeRequest;
 use App\Models\UserBankDetails;
 use App\Models\Withdraw;
+use App\Models\UserAddress;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -134,4 +136,122 @@ class CustomerController extends Controller
             return redirect()->back()->with('error', 'Invalid password or transaction PIN');
         }
     }    
+
+    public function rechargeWithdrawalHistory(){
+        $rechargeRequests = RechargeRequest::where('user_id', Auth::user()->id)->get();
+        $withdrawals = Withdraw::where('user_id', Auth::user()->id)->get();
+        return view('customer.rechargeWithdrawalHistory', compact('rechargeRequests', 'withdrawals'));
+    }
+
+    public function myAddress(){
+        $address = UserAddress::where('user_id', Auth::user()->id)->get();
+        return view('customer.myAddress')->with(['addresses' => $address]);
+    }
+
+    public function myAddressAdd(){
+        $address = UserAddress::where('user_id', Auth::user()->id)->first();
+        return view('customer.myAddressAdd')->with(['address' => $address]);
+    }
+
+    public function myAddressStore(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'contact_name' => 'required|string',
+            'contact_number' => 'required|numeric',
+            'location' => 'required|string',
+            'detailed_address' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Get user ID
+        $userId = Auth::user()->id;
+
+        // Retrieve or create address
+        $address = UserAddress::updateOrCreate(
+            ['user_id' => $userId], // Search condition
+            [ // Values to update or create
+                'contact_name' => $request->contact_name,
+                'contact_number' => $request->contact_number,
+                'location' => $request->location,
+                'detailed_address' => $request->detailed_address,
+            ]
+        );
+
+        return $address
+            ? redirect('/my-address')->with('success', 'Address saved successfully!')
+            : redirect()->back()->with('error', 'Something went wrong');
+    }
+
+    public function profile(){
+        $user = Auth::user();
+        return view('customer.profile', compact('user'));
+    }
+
+    public function profileUpdate(Request $request){
+        $FormData = $request->all();
+        $user = User::find(Auth::user()->id);
+        if($FormData['username'] != $user->username){
+            $user->username = $FormData['username'];
+        }
+        if($FormData['telegram_id'] != $user->telegram_id){
+            $user->telegram_id = $FormData['telegram_id'];
+        }
+        if($FormData['email'] != $user->email){
+            $user->email = $FormData['email'];
+        }
+        $user->save();
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
+
+    public function changePassword(){
+        return view('customer.changePassword');
+    }
+
+    public function changePasswordUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'password' => 'required|string',
+            'confirm_password' => 'required|string|same:password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if (!Hash::check($request->old_password, Auth::user()->password)) {
+            return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.'])->withInput();
+        }
+
+        if($request->password == $request->old_password){
+            return redirect()->back()->with(['error' => 'New password cannot be the same as the old password.'])->withInput();
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Password changed successfully!');
+    }
+
+    public function transactionPassword(){
+        return view('customer.transactionPassword');
+    }
+
+    public function transactionPasswordUpdate(Request $request){
+        $FormData = $request->all();
+        $pin = $FormData['digit-2'] . $FormData['digit-3'] . $FormData['digit-4'] . $FormData['digit-5'];
+        if(!Hash::check($pin, Auth::user()->transaction_password)){
+            $user = User::find(Auth::user()->id);
+            $user->transaction_password = Hash::make($pin);
+            $user->save();
+            return redirect()->back()->with('success', 'Transaction PIN updated successfully!');
+        }
+        else{
+            return redirect()->back()->with('error', 'PIN cannot be the same as the old PIN.');
+        }
+    }
 }

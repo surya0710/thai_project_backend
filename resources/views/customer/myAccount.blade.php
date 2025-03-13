@@ -141,7 +141,7 @@
                     </a>
                 </li>
                 <li class="list-view-item style-1 line-bt">
-                    <a href="withdraw.html" class="gap-20">
+                    <a href="{{ route('customer.withdrawal') }}" class="gap-20">
                         <div class="box-icon w-36 bg-grey-2 radius-12">
                             <i class="icon-life-buoy fs-20"></i>
                         </div>
@@ -182,7 +182,7 @@
                     </a>
                 </li>
                 <li class="list-view-item style-1 line-bt">
-                    <a href="my-address.html" class="gap-20">
+                    <a href="{{ route('customer.myAddress') }}" class="gap-20">
                         <div class="box-icon w-36 bg-grey-2 radius-12">
                             <i class="icon icon-btn-group fs-20"></i>
                         </div>
@@ -208,7 +208,7 @@
                     </a>
                 </li>
                 <li class="list-view-item style-1 line-bt">
-                    <a href="/recharge-and-withdraw.html" class="gap-20">
+                    <a href="{{ route('customer.rechargeWithdrawalHistory') }}" class="gap-20">
                         <div class="box-icon w-36 bg-grey-2 radius-12">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M11.6463 1.66687C11.6821 1.66687 11.7172 1.66988 11.7513 1.67567L11.8654 1.67637C12.0354 1.67637 12.1979 1.74554 12.3162 1.86804L16.5371 6.26554C16.6487 6.38137 16.7113 6.5372 16.7113 6.69804V14.3364C16.7262 16.4272 15.0979 18.1355 13.0037 18.2205L6.32122 18.2214H6.23039C4.18877 18.1752 2.55136 16.5241 2.50147 14.5024L2.50122 5.40887C2.54955 3.34137 4.25705 1.67637 6.30955 1.67637L11.5413 1.67567C11.5754 1.66988 11.6105 1.66687 11.6463 1.66687ZM11.0212 2.92604L6.31122 2.92637C4.93039 2.92637 3.78372 4.0447 3.75122 5.42387V14.3364C3.72039 15.7639 4.84539 16.9397 6.25872 16.9714H12.9787C14.3696 16.9139 15.4712 15.758 15.4613 14.3414L15.4612 7.48604L13.7863 7.48687C12.2613 7.4827 11.0213 6.23937 11.0213 4.71604L11.0212 2.92604ZM11.4906 12.1736C11.8356 12.1736 12.1156 12.4536 12.1156 12.7986C12.1156 13.1436 11.8356 13.4236 11.4906 13.4236H6.99064C6.64564 13.4236 6.36564 13.1436 6.36564 12.7986C6.36564 12.4536 6.64564 12.1736 6.99064 12.1736H11.4906ZM9.78655 9.04695C10.1316 9.04695 10.4116 9.32695 10.4116 9.67195C10.4116 10.017 10.1316 10.297 9.78655 10.297H6.98989C6.64489 10.297 6.36489 10.017 6.36489 9.67195C6.36489 9.32695 6.64489 9.04695 6.98989 9.04695H9.78655ZM12.2712 3.62687L12.2713 4.71604C12.2713 5.5527 12.9521 6.23437 13.788 6.23687L14.7762 6.23604L12.2712 3.62687Z" fill="#31394F"></path>
@@ -370,7 +370,7 @@
                 <ul class="mt-32">
                     <li class="list-view-item style-1 line-bt" data-bs-toggle="offcanvas"
                         data-bs-target="#upgradePremium" aria-controls="offcanvasBottom">
-                        <a href="profile.html" class="gap-20">
+                        <a href="{{ route('customer.profile') }}" class="gap-20">
                             <div class="box-icon w-36 bg-grey-2 radius-12">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -396,7 +396,7 @@
                         </a>
                     </li>
                     <li class="list-view-item style-1 line-bt">
-                        <a href="new-pass.html" class="gap-20">
+                        <a href="{{ route('customer.changePassword') }}" class="gap-20">
                             <div class="box-icon w-36 bg-grey-2 radius-12">
                                 <i class="icon-life-buoy fs-20"></i>
                             </div>
@@ -409,7 +409,7 @@
                         </a>
                     </li>
                     <li class="list-view-item style-1 line-bt">
-                        <a href="forgetpwd.html" class="gap-20">
+                        <a href="{{ route('customer.transactionPassword') }}" class="gap-20">
                             <div class="box-icon w-36 bg-grey-2 radius-12">
                                 <i class="icon-life-buoy fs-20"></i>
                             </div>

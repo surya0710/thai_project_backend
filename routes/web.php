@@ -78,6 +78,17 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::post('/bank-details', 'App\Http\Controllers\CustomerController@bankDetailsSubmit')->name('customer.bankDetailsSubmit');
     Route::get('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawal')->name('customer.withdrawal');
     Route::post('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawalSubmit')->name('customer.withdrawalSubmit');
+    Route::get('recharge-&-withdraw-history', 'App\Http\Controllers\CustomerController@rechargeWithdrawalHistory')->name('customer.rechargeWithdrawalHistory');
+    Route::get('/my-address', 'App\Http\Controllers\CustomerController@myAddress')->name('customer.myAddress');
+    Route::get('/my-address/add', 'App\Http\Controllers\CustomerController@myAddressAdd')->name('address.add');
+    Route::get('/my-address/edit', 'App\Http\Controllers\CustomerController@myAddressAdd')->name('address.edit');
+    Route::post('/my-address/add', 'App\Http\Controllers\CustomerController@myAddressStore')->name('address.store');
+    Route::get('/profile', 'App\Http\Controllers\CustomerController@profile')->name('customer.profile');
+    Route::post('/profile', 'App\Http\Controllers\CustomerController@profileUpdate')->name('profile.store');
+    Route::get('/change-password', 'App\Http\Controllers\CustomerController@changePassword')->name('customer.changePassword');
+    Route::post('/change-password', 'App\Http\Controllers\CustomerController@changePasswordUpdate')->name('customer.passwordUpdate');
+    Route::get('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPassword')->name('customer.transactionPassword');
+    Route::post('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPasswordUpdate')->name('customer.transactionPasswordUpdate');
 });
 
 Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('logout')->middleware('auth');
