@@ -70,13 +70,13 @@
                 </a>
               </li>
               <li>
-                <a class="badge badge-success mb-1" href="{{ route('recharge.list') }}">
-                  <span class="lable">Top up 1</span>
+                <a class="badge @if($pendingRechargeRequest === 0)badge-success @else badge-danger @endif mb-1" href="{{ route('recharge.list') }}">
+                  <span class="lable">Recharge {{ $pendingRechargeRequest }}</span>
                 </a>
               </li>
               <li>
-                <a class="badge badge-danger mb-1" href="{{ route('withdrawal.list') }}">
-                  <span class="lable">Withdraw 1</span>
+                <a class="badge @if($pendingWithrawRequest === 0)badge-success @else badge-danger @endif mb-1" href="{{ route('withdrawal.list') }}">
+                  <span class="lable">Withdraw {{ $pendingWithrawRequest }}</span>
                 </a>
               </li>
             

@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Products;
 use App\Models\RechargeRequest;
+use App\Models\Withdraw;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
+use App\Jobs\DownloadImageJob;
+
 
 class UserController extends Controller
 {
@@ -290,8 +296,8 @@ class UserController extends Controller
     }
 
     public function lazadaList(){
-        $products = Products::all();
-        return view('admin.lazadaList')->with(['products' => $products, 'active' => 'lazadaList']);
+        $products = $products = Products::paginate(10);;
+        return view('admin.lazadaList', compact('products'));
     }
 
     public function lazadaAdd(){
@@ -392,12 +398,59 @@ class UserController extends Controller
     }
 
     public function withdrawalList(){
-        $users = User::where('user_type', 'Customer')->get();
-        return view('admin.withdrawalList')->with(['users' => $users, 'active' => 'withdrawalList']);
+        $withdrawalList = Withdraw::with('user', 'handledBy', 'bankDetails')->orderBy('status', 'ASC')->orderBy('created_at', 'ASC')->get();
+        return view('admin.withdrawalList')->with(['withdrawalList' => $withdrawalList, 'active' => 'withdrawalList']);
     }
-    public function withdrawalEdit(){
-        $users = User::where('user_type', 'Customer')->get();
-        return view('admin.withdrawalEdit')->with(['users' => $users, 'active' => 'withdrawalEdit']);
+
+    public function withdrawalStatusUpdate(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:withdraw,id',
+            'event' => 'required|string',
+            'amount' => 'required|numeric|min:1',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $id = $request->input('id');
+        $event = $request->input('event');
+        $amount = $request->input('amount');
+
+        $withdraw = Withdraw::find($id);
+
+        if($event == 'approve'){
+            $withdraw->status = 1;
+        }
+        else if($event == 'reject'){
+            $withdraw->status = 2;
+        }
+        $withdraw->handled_by = Auth::user()->id;
+
+        if($withdraw->save()){
+            if($event == 'approve'){
+                $user = User::find($withdraw->user_id);
+                $user->total_amount = $user->total_amount - $amount;
+                $user->updated_at = now();
+                $user->save();
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Withdrawal status updated successfully'
+            ], 200);
+        }
+        
+        return response()->json([
+            'status' => 'Failed',
+            'message' => 'Something Went Wrong'
+        ], 500);
+    }
+    public function withdrawalEdit($withdrawal_id){
+        $withdrawal= Withdraw::with('user', 'handledBy', 'bankDetails')->where('id', $withdrawal_id)->first();
+        return view('admin.withdrawalEdit')->with(['withdrawal' => $withdrawal, 'active' => 'withdrawalEdit']);
     }
     public function Profile(){
         $users = User::with('loginHistory')->find(Auth::id()); 
@@ -498,6 +551,73 @@ class UserController extends Controller
                 'status' => 'failed',
                 'message' => 'User not found'
             ]);
+        }
+    }
+
+    public function uploadProducts(Request $request){
+        set_time_limit(600);
+        $request->validate([
+            'csv_file' => 'required|mimes:csv,txt|max:2048'
+        ]);
+
+        $file = $request->file('csv_file');
+        $data = array_map('str_getcsv', file($file->getPathname()));
+
+        if (count($data) < 2) {
+            return back()->with('error', 'CSV file is empty or invalid.');
+        }
+
+        // Process headers
+        $headers = array_map(fn($h) => trim(strtolower($h)), $data[0]);
+        $headers[0] = preg_replace('/^\x{FEFF}/u', '', $headers[0]); // Remove BOM
+
+        unset($data[0]); // Remove header row
+
+        foreach ($data as $row) {
+            $rowData = @array_combine($headers, $row);
+
+            if (!$rowData || !isset($rowData['name'], $rowData['price'], $rowData['image'])) {
+                continue; // Skip invalid rows
+            }
+
+            // Save product to database
+            $product = Products::create([
+                'name'  => $rowData['name'],
+                'url'   => preg_replace('/\s+/', '-', preg_replace('/\.{2,}/', '', $rowData['name'])),
+                'price' => (float) ($rowData['price'] ?? 0),
+                'image_path' => null, // Image will be updated asynchronously
+                'description' => '',
+                'product_type' => 'lazada',
+            ]);
+
+            // Dispatch image download job
+            if (!empty($rowData['image'])) {
+                DownloadImageJob::dispatch($rowData['image'], $product->id);
+            }
+        }
+        return back()->with('success', 'CSV data saved to database successfully!');
+
+    }
+
+    private function downloadImage($url)
+    {
+        try {
+            $imageContents = Http::get($url)->body(); // Fetch image content
+            $extension = pathinfo($url, PATHINFO_EXTENSION);
+            $filename = Str::uuid() . '.' . $extension;
+            $folderPath = public_path('uploads/products');
+
+            // Ensure directory exists
+            if (!File::exists($folderPath)) {
+                File::makeDirectory($folderPath, 0777, true, true);
+            }
+
+            $filePath = $folderPath . '/' . $filename;
+            file_put_contents($filePath, $imageContents); // Save image
+
+            return 'uploads/products/' . $filename; // Save relative path in DB
+        } catch (\Exception $e) {
+            return null; // Return null if download fails
         }
     }
 

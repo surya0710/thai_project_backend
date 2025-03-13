@@ -44,13 +44,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
         Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
+        Route::post('lazada/upload-products', 'App\Http\Controllers\UserController@uploadProducts')->name('lazada.upload');
         Route::get('/lazada/add', 'App\Http\Controllers\UserController@lazadaAdd')->name('lazada.add');
         Route::post('/lazada/add', 'App\Http\Controllers\UserController@lazadaStore')->name('lazada.store');
         Route::get('/recharge/list', 'App\Http\Controllers\UserController@rechargeList')->name('recharge.list');
         Route::get('/recharge/edit', 'App\Http\Controllers\UserController@rechargeEdit')->name('recharge.edit');
         Route::post('/recharge/statusUpdate', 'App\Http\Controllers\UserController@rechargeStatusUpdate')->name('admin.rechargeStatus');
         Route::get('/withdrawal/list', 'App\Http\Controllers\UserController@withdrawalList')->name('withdrawal.list');
-        Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
+        Route::get('/withdrawal/view/{withdrawal_id}', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.view');
+        Route::post('/withdrawal/statusUpdate', 'App\Http\Controllers\UserController@withdrawalStatusUpdate')->name('admin.withdrawalStatus');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
         Route::post('/profile/{user_id}', 'App\Http\Controllers\UserController@ProfileUpdate')->name('profile.update');
         Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');

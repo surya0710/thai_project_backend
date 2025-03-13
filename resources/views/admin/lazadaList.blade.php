@@ -1,4 +1,9 @@
 @include('admin.partials.header')
+<style>
+    .pagination svg{
+        width: 15px
+    }
+</style>
 <div class="page-body-wrapper">
     <!-- Page Sidebar Ends-->
     @include('admin.partials.sidenav')
@@ -83,51 +88,19 @@
                                         <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
                                         <label><input type="checkbox" class="exportField" value="Price" checked> Price</label>
                                         <label><input type="checkbox" class="exportField" value="Create Time" checked> Create Time</label>
-
                                     </div>
-
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
                                 </ul>
                             </div>
-
-                            <!-- <div class="btn-group">
-                                <button style="padding: 4px;" class=" dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-table-cells"></i></button>
-                                <ul class="dropdown-menu " role="menu">
-                                    <li role="menuitem"><label><input type="checkbox" data-field="id" value="0" checked="checked">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Id</font>
-                                            </font>
-                                        </label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="name" value="1" checked="checked"> Name</label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="price" value="2" checked="checked">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">price</font>
-                                            </font>
-                                        </label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="image" value="3" checked="checked"> Image</label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="createtime" value="4" checked="checked">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Createtime</font>
-                                            </font>
-                                        </label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="operate" value="5" checked="checked">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Operate</font>
-                                            </font>
-                                        </label></li>
-                                    <li role="menuitem"><label><input type="checkbox" data-field="operate" value="6" checked="checked">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Operate</font>
-                                            </font>
-                                        </label></li>
-                                </ul>
-                            </div> -->
                             <a class="btn btn-primary mx-auto " href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
-                            <!-- <button class="btn btn-success" type="button"><i class="fa-solid fa-pen-to-square"></i> </button> -->
-                            <!-- <button class="btn btn-secondary" type="button"><i class="fa-solid fa-trash-can"></i></button> -->
+                            <form action="{{ route('lazada.upload') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="csv_file" required>
+                                <button type="submit">Upload</button>
+                            </form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
@@ -150,7 +123,7 @@
                                             <td>{{ $product->price }}</td>
                                             <td>
                                                 <a href="javascript:">
-                                                    <img style="height: 40px;" class="img-sm img-center" src="{{ asset('uploads/products/' . $product->image_path) }}">
+                                                    <img style="height: 40px;" class="img-sm img-center" src="{{ asset( $product->image_path) }}">
                                                 </a>
                                             </td>
                                             <td>{{ $product->created_at }}</td>
@@ -171,7 +144,11 @@
                                         </tr>
                                         @endforeach
                                     </tbody>
+                                    <!-- Pagination Links -->
                                 </table>
+                                <div class="pagination">
+                                {{ $products->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

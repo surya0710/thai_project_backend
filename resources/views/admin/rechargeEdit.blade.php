@@ -33,31 +33,31 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Username</label>
-                                            <input class="form-control" type="text" name="username" value="" required>
+                                            <input class="form-control" type="text" name="username" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Phone</label>
-                                            <input class="form-control" type="text" name="user_id" value="" required>
+                                            <input class="form-control" type="text" name="user_id" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Real Name</label>
-                                            <input class="form-control" type="text" name="username" value="" required>
+                                            <input class="form-control" type="text" name="username" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Invite Code</label>
-                                            <input class="form-control" type="text" placeholder="Name" name="name" value="" required>
+                                            <input class="form-control" type="text" placeholder="Name" name="name" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Recharge Image </label>
-                                            <!-- <input class="form-control" type="text"  name="phone" value="" required> -->
+                                            <!-- <input class="form-control" type="text"  name="phone" value="" required readonly> -->
                                             <a href="" target="_blank"><img src="" alt=" " style="width: 100%;"></a>
                                         </div>
                                     </div>
@@ -65,7 +65,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Status</label>
-                                            <select class="form-select" name="country">
+                                            <select class="form-select" name="country" readonly>
                                                
                                                     <option selected="" disabled="" value="">Choose...</option>
                                                 <option value="pending">Pending </option>
@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="text-end"><button type="submit" name="users_create" class="btn btn-success me-3">Save Changes</button><a class="btn btn-danger" href="{{ route('recharge.list') }}">Cancel</a></div>
+                                        <div class="text-end"><button type="submit" name="users_create" class="btn btn-success me-3" disabled>Save Changes</button><a class="btn btn-danger" href="{{ route('recharge.list') }}">Cancel</a></div>
                                     </div>
                                 </div>
                             </form>

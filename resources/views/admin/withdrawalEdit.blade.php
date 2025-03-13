@@ -32,79 +32,81 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="mb-3">
-                                            <label>User Id</label>
-                                            <input class="form-control" type="text" placeholder="User Id*" name="user_id" value="" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
                                             <label>Username</label>
-                                            <input class="form-control" type="text" placeholder="Username*" name="user_id" value="" required>
+                                            <input class="form-control" type="text" placeholder="Username*" name="user_id" value="{{ $withdrawal->user['username'] }}" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Amount</label>
-                                            <input class="form-control" type="text" placeholder="Amount*" name="username" value="" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Invitation Code</label>
-                                            <input class="form-control" type="text" placeholder="Invitation Code" name="name" value="" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Bank Account Holder Name</label>
-                                            <input class="form-control" type="text" placeholder="Bank Account Holder Name" name="phone" value="" required>
+                                            <input class="form-control" type="text" placeholder="Amount*" name="username" value="{{ $withdrawal->amount}}" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Bank Name</label>
-                                            <input class="form-control" type="text" placeholder="Bank Name" name="phone" value="" required>
+                                            <input class="form-control" type="text" placeholder="Bank Name" value="{{ $withdrawal->bankDetails['bank_name'] }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Bank Account Holder Name</label>
+                                            <input class="form-control" type="text" placeholder="Bank Account Holder Name" value="{{ $withdrawal->bankDetails['account_holder_name'] }}">
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Bank Account No. </label>
-                                            <input class="form-control" type="text" placeholder="Bank Account No." name="email" value="" required>
+                                            <input class="form-control" type="text" placeholder="Bank Account No." value="{{ $withdrawal->bankDetails['account_number'] }}" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Bank Branch Name </label>
-                                            <input class="form-control" type="text" placeholder="Bank Branch Name" name="email" value="" required>
+                                            <input class="form-control" type="text" placeholder="Bank Branch Name" name="email" value="{{ $withdrawal->bankDetails['bank_branch'] }}" required>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-sm-4">
-                                        <ul class="action">
-                                            <li class="view me-2">
-                                                <button type="button" class="btn btn-success">Approve</button>
-                                            </li>
-                                            <li class="view">
-                                                <button type="button" class="btn btn-danger">Reject</button>
-                                            </li>
-
-                                        </ul>
-                                    </div> -->
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Status</label>
-                                            <select class="form-select" name="country">
-
-                                                <option selected="" disabled="" value="">Choose...</option>
-                                                <option value="Complete">Complete </option>
-                                                <option value="Pending">Pending </option>
-                                                <option value="Frozon">Frozon</option>
-                                            </select>
+                                            <p>@if($withdrawal->status === 0)
+                                                Pending
+                                            @elseif($withdrawal->status === 1)
+                                                Complete
+                                            @elseif($withdrawal->status === 2)
+                                                Rejected
+                                            @endif
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Date & Time</label>
+                                            <p>{{ $withdrawal->created_at }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Handled By</label>
+                                            <p>{{ $withdrawal->handledBy['name'] }} </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="text-end"><button type="submit" name="users_create" class="btn btn-success me-3">Save Changes</button><a class="btn btn-danger" href="user-list.php">Cancel</a></div>
+                                        <ul class="action">
+                                            @if($withdrawal->status === 0)
+                                            <li class="view me-2">
+                                                <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>
+                                            </li>
+                                            <li class="view">
+                                                <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="reject" class="btn btn-danger rechargeStatus">Reject</button>
+                                            </li>
+                                            @endif
+                                            <li class="view">
+                                                <a href="{{ route('withdrawal.list') }}" class="btn btn-primary">Go back</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </form>
@@ -118,3 +120,52 @@
     <!-- footer start-->
     @include('admin.partials.footer')
     @include('admin.partials.popup')
+    <script>
+        jQuery(document).ready(function () {
+            $('.rechargeStatus').on("click", function (event) {
+                event.preventDefault();
+
+                var id = $(this).data("id");
+                var amount = $(this).data("amount");
+                var user = $(this).data("user");
+                var action = $(this).data("event");
+
+                Swal.fire({
+                title: "Are you sure?",
+                text: "You want to " + action + " this transaction of " + amount + " to " + user,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: `Yes, ${action} it!`,
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                    url: "{{ route('admin.withdrawalStatus') }}",
+                    type: "POST",
+                    data: {
+                        id: id,
+                        event: action,
+                        amount: amount,
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        if (response.status === "success") {
+                        Swal.fire("Success!", `Transaction of $ ${amount} has been ${action} successfully to ${user}`).then(() => {
+                            location.reload();
+                        });
+                        } else {
+                        Swal.fire("Error!", response.message, "error");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                    },
+                    });
+                }
+                });
+            });
+        });
+    </script>

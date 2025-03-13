@@ -16,4 +16,18 @@ class Withdraw extends Model
         'amount',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function handledBy()
+    {
+        return $this->belongsTo(User::class, 'handled_by', 'id');
+    }
+
+    public function bankDetails(){
+        return $this->belongsTo(UserBankDetails::class, 'user_id', 'user_id');
+    }
 }
