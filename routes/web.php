@@ -24,6 +24,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', function () { return view('register'); })->name('register');
     Route::post('/register', 'App\Http\Controllers\UserController@register')->name('userRegister');
     Route::get('/forgetPassword', function () { return view('forgetPassword'); })->name('forgetPassword');
+    Route::post('/checkInviteCode', 'App\Http\Controllers\InvitationController@checkInviteCode')->name('checkInviteCode');
 });
 
 

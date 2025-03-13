@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Products;
 use App\Models\RechargeRequest;
 use App\Models\Withdraw;
+use App\Models\InviteCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -53,6 +54,45 @@ class UserController extends Controller
             }
         } else {
             return redirect('/')->with('error', 'Invalid username or password');
+        }
+    }
+
+    public function register(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:users',
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required|unique:users',
+            'password' => 'required',
+            'transaction_password' => 'required|digits:4',
+            'invitation' => 'required|exists:invite_code,code',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = new User();
+        $user->uuid = uniqid();
+        $user->username = $request->username;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->password = bcrypt($request->password);
+        $user->transaction_password = bcrypt($request->transaction_password);
+        $user->user_type = 'Customer';
+        $user->status = 1;
+        $user->invitation_code = $request->invitation;
+        $user->badge = 'VIP0';
+        $user->role = 'customer';
+        if($user->save()){
+            $inviteCode = InviteCode::where('code', $request->invitation)->first();
+            $inviteCode->used_by = $user->id;
+            $inviteCode->save();
+            return redirect()->back()->with('success', 'Registration successful');
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');
         }
     }
 
