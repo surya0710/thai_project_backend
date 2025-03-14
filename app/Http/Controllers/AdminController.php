@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\RechargeRequest;
+use App\Models\Withdraw;
 
 class AdminController extends Controller
 {
@@ -39,7 +41,14 @@ class AdminController extends Controller
     }
 
     public function dashboard(){
-        return view('admin.dashboard');
+        $withdrawList = Withdraw::where('status', 0)->with('user', 'handledBy', 'bankDetails')->orderBy('status', 'ASC')->orderBy('created_at', 'ASC')->limit(10)->get();
+        $rechargeList = RechargeRequest::with('user:id,username,phone,name,invitation_code', 'approver:id,username,name')
+        ->where('status', 0)
+        ->orderBy('status', 'ASC')
+        ->orderBy('created_at', 'ASC')
+        ->limit(10)
+        ->get();
+        return view('admin.dashboard', compact('withdrawList', 'rechargeList'));
     }
 
     public function logout(){
