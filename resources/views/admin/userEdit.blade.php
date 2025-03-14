@@ -111,6 +111,17 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
+                                            <label>Lucky Draw Level</label>
+                                            <input class="form-control" type="text" placeholder="Lucky Draw Level" name="badge" 
+                                            value="" >
+                                        </div>
+                                        <span class="error text-danger">
+                                        
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
                                             <label>Revenue Generated</label>
                                             <input class="form-control" type="number" placeholder="Revenue Amount" name="revenue_generated" 
                                             value="{{  old('revenue_generated', $user->revenue_generated)}}" required @if($type === 'view') readonly @endif>
@@ -138,7 +149,7 @@
                                         <div class="mb-3">
                                             <label>Password</label>
                                             <input class="form-control" type="password" placeholder="Password" name="password" 
-                                            value="{{  old('password')}}" required @if($type === 'view') readonly @endif>
+                                            value="{{  old('password')}}"  @if($type === 'view') readonly @endif>
                                         </div>
                                     </div>
                                     @endif
