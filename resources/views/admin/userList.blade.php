@@ -111,6 +111,12 @@
 
                   </div>
 
+                </ul>
+                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+                    class="fa-solid fa-share-from-square"></i></button>
+                <ul class="dropdown-menu dropdown-block">
+
+
                   <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
                   <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
                   <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
@@ -208,7 +214,7 @@
   @include('admin.partials.footer')
 </div>
 <script>
-  jQuery(document).ready(function () {
+  jQuery(document).ready(function() {
     $("#checkboxInput").change(function() {
       let isChecked = $(this).is(":checked") ? 1 : 0;
       let userID = $(this).data('user-id');
@@ -248,108 +254,109 @@
         }
       });
     });
-
-
-    function getSelectedFields() {
-      let selectedFields = [];
-      document.querySelectorAll(".exportField:checked").forEach(checkbox => {
-        selectedFields.push(checkbox.value);
-      });
-      return selectedFields;
-    }
-
-    function filterTableBySelectedFields(table) {
-      let selectedFields = getSelectedFields();
-      let headers = table.querySelectorAll("thead tr th");
-      let columnsToKeep = [];
-
-      headers.forEach((th, index) => {
-        if (selectedFields.includes(th.innerText.trim())) {
-          columnsToKeep.push(index);
-        }
-      });
-
-      let rows = table.rows;
-      for (let row of rows) {
-        let cells = row.cells;
-        for (let i = cells.length - 1; i >= 0; i--) {
-          if (!columnsToKeep.includes(i)) {
-            row.deleteCell(i);
-          }
-        }
-      }
-    }
-
-    function exportToExcel(tableID, filename = 'User_List') {
-      let table = document.getElementById(tableID);
-      filterTableBySelectedFields(table);
-      let ws = XLSX.utils.table_to_sheet(table);
-      let wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-      XLSX.writeFile(wb, `${filename}.xlsx`);
-    }
-
-    function exportToCSV(tableID, filename = 'User_List') {
-      let table = document.getElementById(tableID);
-      filterTableBySelectedFields(table);
-      let ws = XLSX.utils.table_to_sheet(table);
-      let csv = XLSX.utils.sheet_to_csv(ws);
-      let blob = new Blob([csv], {
-        type: 'text/csv'
-      });
-      let link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${filename}.csv`;
-      link.click();
-    }
-
-    function exportToPDF(tableID, filename = 'User_List') {
-      const {
-        jsPDF
-      } = window.jspdf;
-      let doc = new jsPDF();
-      let table = document.getElementById(tableID);
-      filterTableBySelectedFields(table);
-
-      let rows = [];
-      let headers = [];
-
-      table.querySelectorAll("thead tr th").forEach(th => headers.push(th.innerText));
-      table.querySelectorAll("tbody tr").forEach(tr => {
-        let rowData = [];
-        tr.querySelectorAll("td").forEach(td => rowData.push(td.innerText));
-        rows.push(rowData);
-      });
-
-      doc.autoTable({
-        head: [headers],
-        body: rows,
-        theme: 'grid'
-      });
-      doc.save(`${filename}.pdf`);
-    }
-
-    function importCSV() {
-      let input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.csv';
-      input.onchange = function(event) {
-        let file = event.target.files[0];
-        let reader = new FileReader();
-
-        reader.onload = function(e) {
-          let data = e.target.result;
-          let workbook = XLSX.read(data, {
-            type: 'binary'
-          });
-          let sheet = workbook.Sheets[workbook.SheetNames[0]];
-          let jsonData = XLSX.utils.sheet_to_json(sheet);
-
-          console.log("Parsed CSV Data:", jsonData);
-        };
-        reader.readAsBinaryString(file);
-      };
-      input.click();
-    }
   });
+  function getSelectedFields() {
+    let selectedFields = [];
+    document.querySelectorAll(".exportField:checked").forEach(checkbox => {
+      selectedFields.push(checkbox.value);
+    });
+    return selectedFields;
+  }
+
+  function filterTableData(table) {
+    let selectedFields = getSelectedFields();
+    let headers = Array.from(table.querySelectorAll("thead tr th"));
+    let columnsToKeep = headers.map((th, index) => selectedFields.includes(th.innerText.trim()) ? index : -1).filter(index => index !== -1);
+    return {
+      headers,
+      columnsToKeep
+    };
+  }
+
+  function exportToExcel(tableID, filename = 'User_List') {
+    let table = document.getElementById(tableID);
+    let {
+      columnsToKeep
+    } = filterTableData(table);
+    let wsData = [];
+
+    table.querySelectorAll("tr").forEach(row => {
+      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? cell.innerText : null).filter(value => value !== null);
+      wsData.push(rowData);
+    });
+
+    let ws = XLSX.utils.aoa_to_sheet(wsData);
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, `${filename}.xlsx`);
+  }
+
+  function exportToCSV(tableID, filename = 'User_List') {
+    let table = document.getElementById(tableID);
+    let {
+      columnsToKeep
+    } = filterTableData(table);
+    let csvContent = [];
+
+    table.querySelectorAll("tr").forEach(row => {
+      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? `"${cell.innerText}"` : null).filter(value => value !== null);
+      csvContent.push(rowData.join(","));
+    });
+
+    let csvBlob = new Blob([csvContent.join("\n")], {
+      type: 'text/csv'
+    });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(csvBlob);
+    link.download = `${filename}.csv`;
+    link.click();
+  }
+
+  function exportToPDF(tableID, filename = 'User_List') {
+    let {
+      jsPDF
+    } = window.jspdf;
+    let doc = new jsPDF();
+    let table = document.getElementById(tableID);
+    let {
+      headers,
+      columnsToKeep
+    } = filterTableData(table);
+    let data = [];
+
+    table.querySelectorAll("tbody tr").forEach(row => {
+      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? cell.innerText : null).filter(value => value !== null);
+      data.push(rowData);
+    });
+
+    let headerNames = columnsToKeep.map(index => headers[index].innerText);
+    doc.autoTable({
+      head: [headerNames],
+      body: data,
+      theme: 'grid'
+    });
+    doc.save(`${filename}.pdf`);
+  }
+
+  function importCSV() {
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.onchange = function(event) {
+      let file = event.target.files[0];
+      let reader = new FileReader();
+
+      reader.onload = function(e) {
+        let data = e.target.result;
+        let workbook = XLSX.read(data, {
+          type: 'binary'
+        });
+        let sheet = workbook.Sheets[workbook.SheetNames[0]];
+        let jsonData = XLSX.utils.sheet_to_json(sheet);
+        console.log("Imported CSV Data:", jsonData);
+      };
+      reader.readAsBinaryString(file);
+    };
+    input.click();
+  }
 </script>
