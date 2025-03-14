@@ -35,7 +35,7 @@
                         </div>
                         <fieldset class="mt-20 input-line">
                             <label>Bank Info</label>
-                            <input type="text" placeholder="" class="form-control" name="account_number" value="{{ $bankDetails->account_number }}" readonly>
+                            <input type="text" placeholder="" class="form-control" name="account_number" value="{{ $bankDetails->account_number ?? '' }}" readonly>
                             <span class="text-danger error">
                                 @error('account_number')
                                     {{ $message }}
@@ -62,8 +62,12 @@
                             <div class="desc-p">* Withdrawals are available 24/7. However, the credited amount will be processed and reflected in your account the next day.
                             </div>
                         </div>
+                        @if(isset($bankDetails->account_number))
                         <button type="button" class="mt-20 tf-btn primary" disabled data-bs-target="#modalLong"
                         data-bs-toggle="modal">Withdraw Immediately</button>
+                        @else
+                        <a class="mt-20 tf-btn primary" href="{{ route('customer.bankDetails') }}">Add Bank Account</a>
+                        @endif
                     </form>
                 </div>
             </div>   

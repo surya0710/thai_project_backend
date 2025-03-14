@@ -145,7 +145,11 @@ class CustomerController extends Controller
                 return redirect()->back()->with('error', 'Something went wrong');
             }
         } else {
-            return redirect()->back()->with('error', 'Invalid password or transaction PIN');
+            if (!Hash::check($request->password, Auth::user()->password)) {
+                return redirect()->back()->with('error', 'Invalid password');
+            } else {
+                return redirect()->back()->with('error', 'Invalid transaction PIN');
+            }
         }
     }    
 
@@ -256,7 +260,7 @@ class CustomerController extends Controller
     public function transactionPasswordUpdate(Request $request){
         $FormData = $request->all();
         $pin = $FormData['digit-2'] . $FormData['digit-3'] . $FormData['digit-4'] . $FormData['digit-5'];
-        if(!Hash::check($pin, Auth::user()->transaction_password)){
+        if (!Hash::check($pin, Auth::user()->transaction_password)) {
             $user = User::find(Auth::user()->id);
             $user->transaction_password = Hash::make($pin);
             $user->save();

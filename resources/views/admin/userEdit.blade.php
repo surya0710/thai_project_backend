@@ -101,7 +101,7 @@
                                         <div class="mb-3">
                                             <label>Badge</label>
                                             <input class="form-control" type="text" placeholder="Badge" name="badge" 
-                                            value="{{  old('badge', $user->badge)}}" required @if($type === 'view') readonly @endif>
+                                            value="{{  $user->badge, old('badge') }}" required @if($type === 'view') readonly @endif>
                                         </div>
                                         <span class="error text-danger">
                                             @error('badge')
@@ -109,16 +109,16 @@
                                             @enderror
                                         </span>
                                     </div>
+                                    @if($user->badge == 'admin')
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Lucky Draw Level</label>
-                                            <input class="form-control" type="text" placeholder="Lucky Draw Level" name="badge" 
+                                            <input class="form-control" type="text" placeholder="Lucky Draw Level" name="lucky_draw" 
                                             value="" >
                                         </div>
-                                        <span class="error text-danger">
-                                        
-                                        </span>
+                                        <span class="error text-danger"></span>
                                     </div>
+                                    @endif
                                     
                                     <div class="col-sm-4">
                                         <div class="mb-3">
