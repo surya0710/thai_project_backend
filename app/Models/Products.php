@@ -22,4 +22,9 @@ class Products extends Model
     public function taskStatus(){
         return $this->belongsTo(TasksHistory::class, 'id', 'product_id');
     }
+
+    public function checkTaskCompletion()
+    {
+        return $this->hasMany(TasksHistory::class, 'id', 'product_id');
+    }
 }
