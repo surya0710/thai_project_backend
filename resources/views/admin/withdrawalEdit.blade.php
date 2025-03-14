@@ -88,7 +88,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Handled By</label>
-                                            <p>{{ $withdrawal->handledBy['name'] }} </p>
+                                            <p>{{ $withdrawal->handledBy['name'] ?? 'N/A' }} </p>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@
                                             <li class="view me-2">
                                                 <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>
                                             </li>
-                                            <li class="view">
+                                            <li class="view me-2">
                                                 <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="reject" class="btn btn-danger rechargeStatus">Reject</button>
                                             </li>
                                             @endif

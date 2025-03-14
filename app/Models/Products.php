@@ -25,6 +25,7 @@ class Products extends Model
 
     public function checkTaskCompletion()
     {
-        return $this->hasMany(TasksHistory::class, 'id', 'product_id');
+        return $this->hasMany(TasksHistory::class, 'product_id', 'id');
     }
+
 }
