@@ -30,7 +30,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="form theme-form" method="post" action="{{  route('lazada.store') }}" enctype="multipart/form-data">
+                            <form class="form theme-form" method="post" action="{{  route('lazada.update',['product_id' => $product->id]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <span class="error text-danger">
@@ -43,7 +43,8 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Name</label>
-                                            <input class="form-control" type="text" placeholder="Name*" name="name" required value="">
+                                            <input class="form-control" type="text" placeholder="Name*" name="name" required 
+                                            value="{{ $product->name, old('name') }}">
                                             <span class="error text-danger">
                                                 @error('name')
                                                     {{ $message }}
@@ -54,7 +55,8 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Url</label>
-                                            <input class="form-control" type="text" placeholder="Url*" name="url" value="{{ old('url') }}">
+                                            <input class="form-control" type="text" placeholder="Url*" name="url" required 
+                                            value="{{ $product->url, old('url') }}">
                                             <span class="error text-danger">
                                                 @error('url')
                                                     {{ $message }}  
@@ -65,7 +67,8 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Price</label>
-                                            <input class="form-control" type="text" placeholder="Price*" name="price" value="{{ old('price')}}" required>
+                                            <input class="form-control" type="text" placeholder="Price*" name="price" required 
+                                            value="{{ $product->price, old('price') }}">
                                             <span class="error text-danger">
                                                 @error('price')
                                                     {{ $message }}
@@ -76,8 +79,10 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Image</label>
-                                            <input class="form-control" type="file" placeholder="Image" name="image" value="{{ old('image') }}" required>
-                                            <img src="../uploads/product/" alt="" width="100px">
+                                            <input class="form-control" type="file" placeholder="Image" name="image" value="{{ old('image') }}">
+                                            <a href="{{ asset( $product->image_path) }}" target="_blank">
+                                                <img src="{{ asset( $product->image_path) }}" alt="" width="100px">
+                                            </a>
                                             <span class="error text-danger">
                                                 @error('image')
                                                     {{ $message }}
@@ -88,7 +93,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Content</label>
-                                            <textarea class="form-control" type="text" placeholder="Description" name="description" required>{{  old('content')}}</textarea>
+                                            <textarea class="form-control" type="text" placeholder="Description" name="description" required>{{ $product->description, old('description')}}</textarea>
                                             <span class="error text-danger">
                                                 @error('description')
                                                     {{ $message }}

@@ -97,7 +97,7 @@
                                 <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
                                 <form action="{{ route('lazada.upload') }}" method="POST" class="d-flex ms-2" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" class="form-control me-2" name="csv_file" required>
+                                    <input type="file" class="form-control me-2" accept=".csv" name="csv_file" required>
                                     <button type="submit" class="btn btn-primary">Upload</button>
                                 </form>
                             </div>
@@ -137,7 +137,7 @@
                                             </td>
                                             <td>
                                                 <ul class="action">
-                                                    <li class="edit"><a href="{{ route('lazada.edit') }}"><i class="fa-solid fa-pen-to-square"></i></a></li>
+                                                    <li class="edit"><a href="{{ route('lazada.edit', ['product_id' => $product->id]) }}"><i class="fa-solid fa-pen-to-square"></i></a></li>
                                                     <li class="delete">
                                                         <a data-id="{{ $product->id }}" class="deleteProduct"><i class="fa-solid fa-trash-can"></i></a>
                                                     </li>

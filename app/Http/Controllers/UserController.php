@@ -343,8 +343,43 @@ class UserController extends Controller
     public function lazadaAdd(){
         return view('admin.lazadaAdd')->with(['active' => 'lazadaAdd']);
     }
-    public function lazadaEdit(){
-        return view('admin.lazadaEdit')->with(['active' => 'lazadaEdit']);
+    public function lazadaEdit($lazadaEdit){
+        $product = Products::find($lazadaEdit);
+        return view('admin.lazadaEdit', compact('product'))->with(['active' => 'lazadaEdit']);
+    }
+
+    public function lazadaUpdate(Request $request, $productID){
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'url' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => $request->has('image') ? 'required|image|mimes:jpeg,png,jpg,gif,svg' : 'nullable',
+            'description' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        if($request->has('image')){
+            $image = $request->file('image');
+            $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/products'), $imageName);
+        }
+
+        $product = Products::find($productID);
+        $product->name = $request->name;
+        $product->url = $request->url;
+        $product->price = $request->price;
+        $product->image_path = $request->has('image') ? 'uploads/products/'.$imageName : $product->image_path;
+        $product->description = $request->description;
+
+        if($product->save()){
+            return redirect()->route('lazada.list')->with('success', 'Product Updated Successfully');
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function lazadaDelete(Request $request){
