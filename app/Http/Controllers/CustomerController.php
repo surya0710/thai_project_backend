@@ -22,14 +22,19 @@ class CustomerController extends Controller
 
     public function tasks()
     {
+        
         $userBadge = Auth::user()->badge;
         $tasks = collect(); // Default empty collection in case user is not VIP0
-
+        $averageProductPrice = calculateAverageProductPrice($userBadge);
         if ($userBadge === 'VIP0') {
-            $tasks = Products::with('taskStatus')->take(30)->get();
+            $tasks = Products::with('taskStatus')->where(function($query) use ($averageProductPrice) {
+                $query->where('price', '<', $averageProductPrice)->orWhere('price', '=', $averageProductPrice + 2);
+            })->take(30)->get();
         }
         elseif($userBadge === 'VIP1'){
-            $tasks = Products::with('taskStatus')->skip(30)->take(30)->get();
+            $tasks = Products::with('taskStatus')->where(function($query) use ($averageProductPrice) {
+                $query->where('price', '<', $averageProductPrice)->orWhere('price', '=', $averageProductPrice + 2);
+            })->take(30)->get();
         }
 
         return view('customer.tasks', compact('tasks'));

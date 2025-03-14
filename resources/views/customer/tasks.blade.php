@@ -36,7 +36,7 @@
                                         <div class="sub">11-2-25 12:00</div>
                                         <div class="sub">7263726</div>
                                         @endif
-                                        <div class="desc">{{ $task->description }}</div>
+                                        <div class="desc">{{ $task->name }}</div>
                                         <div class="title"><span class="desc">USD</span> {{ $task->price }} <span
                                                 class="desc">x1</span></div>
                                     </div>
@@ -75,7 +75,7 @@
                                             <div class="sub">11-2-25 12:00</div>
                                             <div class="sub">7263726</div>
                                             @endif
-                                            <div class="desc">{{ $task->description }}</div>
+                                            <div class="desc">{{ $task->name }}</div>
                                             <div class="title"><span class="desc">USD</span> {{ $task->price }} <span
                                                     class="desc">x1</span></div>
                                         </div>
@@ -112,7 +112,7 @@
                                             <div class="sub">11-2-25 12:00</div>
                                             <div class="sub">7263726</div>
                                             @endif
-                                            <div class="desc">{{ $task->description }}</div>
+                                            <div class="desc">{{ $task->name }}</div>
                                             <div class="title"><span class="desc">USD</span> {{ $task->price }} <span
                                                     class="desc">x1</span></div>
                                         </div>

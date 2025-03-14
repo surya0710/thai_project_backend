@@ -16,13 +16,13 @@
                     <li class="mt-20 ">
                         <a href="" class="wd-file-message line-bt">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Available Balance</div>
-                            <span class="body-4 text-black-5 fw-5">2325.23 USD</span>
+                            <span class="body-4 text-black-5 fw-5">{{ Auth::user()->total_amount }} USD</span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Historical Commission</div>
-                            <span class="body-4 text-black-5 fw-5">344.34 </span>
+                            <span class="body-4 text-black-5 fw-5">{{  Auth::user()->revenue_generated }} </span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
@@ -34,16 +34,9 @@
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Number of order recevied</div>
-                            <span class="body-4 text-black-5 fw-5">26 /30 </span>
+                            <span class="body-4 text-black-5 fw-5">{{ ordersCount(Auth::user()->badge) }} /30 </span>
                         </a>
                     </li>
-                    <li class="mt-20 ">
-                        <a href="" class="wd-file-message">
-                            <div class="body-4 text-black-2 fw-5 flex-grow-1">Amount to be refunded</div>
-                            <span class="body-4 text-black-5 fw-5">0 </span>
-                        </a>
-                    </li>
-
                 </ul>
             </div>
             <ul class="py-24 ">
@@ -71,33 +64,24 @@
                 <li class="mt-16 pb-8 line-bt2">
                     <a href="" class="box-inbox-item">
                         <div class="avatar avt-32 avt-status">
-                            <img src="{{ asset('assets/images/avt/avt5.jpg') }}" alt="avatar">
+                            <img src="{{ $tasks->image_path }}" alt="avatar">
                         </div>
                         <div class="content">
-                            <div class="desc">bro, kepriwe kie rawone ra mudun-mudun selak to kaliren duis
-                                enim velit mollit.</div>
-                            <div class="title"><span class="desc">USD</span> 434.545 <span class="desc">x1</span></div>
-
+                            <div class="desc">{{ $tasks->name }}</div>
+                            <div class="title"><span class="desc">USD</span> {{ $tasks->price }} <span class="desc">x1</span></div>
                         </div>
-                        
                     </a>
                 </li>
                 <li class="mt-20 ">
                     <a href="" class="wd-file-message line-bt">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
-                        <span class="body-4 text-black-5 fw-5">USD 2325.23 </span>
+                        <span class="body-4 text-black-5 fw-5">USD {{ $tasks->price }} </span>
                     </a>
                 </li>
                 <li class="mt-20 line-bt">
                     <a href="" class="wd-file-message">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
-                        <span class="body-4 text-black-5 fw-5">USD 65675.767 </span>
-                    </a>
-                </li>
-                <li class="mt-20 line-bt">
-                    <a href="" class="wd-file-message">
-                        <div class="body-4 text-black-2 fw-5 flex-grow-1">Expected return</div>
-                        <span class="body-4 text-black-5 fw-5">USD 613432.255 </span>
+                        <span class="body-4 text-black-5 fw-5">USD {{ getCPSCalculation($tasks->price, Auth::user()->badge) }} </span>
                     </a>
                 </li>
                 
