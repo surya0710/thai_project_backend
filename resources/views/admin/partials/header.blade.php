@@ -84,7 +84,7 @@
 
             <li>
               <button class="badge badge-danger mb-1" id="voice-button">
-                <span class="label" id="voice-button-text">Turn off voice</span>
+                <span class="label" id="voice-button-text">Turn on voice</span>
                 <i class="fa-solid fa-volume-high"></i>
               </button>
 
@@ -96,10 +96,9 @@
                   const button = document.getElementById("voice-button");
                   const buttonText = document.getElementById("voice-button-text");
 
-                  // Try to play audio automatically
-                  audio.play().catch(() => {
-                    console.log("Autoplay blocked by browser. User interaction required.");
-                  });
+                  // Ensure music starts off (it already does by default)
+                  audio.pause();
+                  buttonText.textContent = "Turn on voice";
 
                   button.addEventListener("click", () => {
                     if (audio.paused) {
@@ -107,13 +106,15 @@
                       buttonText.textContent = "Turn off voice";
                     } else {
                       audio.pause();
-                      audio.currentTime = 0; // Reset audio
+                      audio.currentTime = 0; // Reset audio to the beginning
                       buttonText.textContent = "Turn on voice";
                     }
                   });
                 });
               </script>
             </li>
+
+
 
             <li class="profile-nav onhover-dropdown pe-0 py-0">
               <div class="d-flex align-items-center profile-media">
