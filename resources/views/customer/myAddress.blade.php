@@ -26,10 +26,10 @@
                 </li>
                 @endforeach
             </ul>
-            @if($address === null)
-                <a href="{{ route('address.add') }}" class="tf-btn primary">Add Address</a>
-            @else
+            @if($addresses->count() > 0)
                 <a href="{{ route('address.edit') }}" class="tf-btn primary">Edit Address</a>
+            @else
+                <a href="{{ route('address.add') }}" class="tf-btn primary">Add Address</a>
             @endif
         </div>
 
