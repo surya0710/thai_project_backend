@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::post('/bank-details', 'App\Http\Controllers\CustomerController@bankDetailsSubmit')->name('customer.bankDetailsSubmit');
     Route::get('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawal')->name('customer.withdrawal');
     Route::post('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawalSubmit')->name('customer.withdrawalSubmit');
-    Route::get('recharge-&-withdraw-history', 'App\Http\Controllers\CustomerController@rechargeWithdrawalHistory')->name('customer.rechargeWithdrawalHistory');
+    Route::get('/recharge-&-withdraw-history', 'App\Http\Controllers\CustomerController@rechargeWithdrawalHistory')->name('customer.rechargeWithdrawalHistory');
     Route::get('/my-address', 'App\Http\Controllers\CustomerController@myAddress')->name('customer.myAddress');
     Route::get('/my-address/add', 'App\Http\Controllers\CustomerController@myAddressAdd')->name('address.add');
     Route::get('/my-address/edit', 'App\Http\Controllers\CustomerController@myAddressAdd')->name('address.edit');

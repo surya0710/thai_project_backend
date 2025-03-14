@@ -20,6 +20,7 @@ class InvitationController extends Controller
         $inviteCode = new InviteCode();
         $inviteCode->code = $request->invite_code;
         $inviteCode->count = 1;
+        $inviteCode->user_id = Auth::user()->id;
         $inviteCode->created_by = Auth::user()->id;
         if($inviteCode->save()){
             return redirect()->route('invitation.list')->with('success', 'Product added successfully');

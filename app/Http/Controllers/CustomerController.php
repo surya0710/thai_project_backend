@@ -10,6 +10,7 @@ use App\Models\UserBankDetails;
 use App\Models\Withdraw;
 use App\Models\UserAddress;
 use App\Models\User;
+use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,8 +20,19 @@ class CustomerController extends Controller
         return view('customer.dashboard');
     }
 
-    public function tasks(){
-        return view('customer.tasks');
+    public function tasks()
+    {
+        $userBadge = Auth::user()->badge;
+        $tasks = collect(); // Default empty collection in case user is not VIP0
+
+        if ($userBadge === 'VIP0') {
+            $tasks = Products::with('taskStatus')->take(30)->get();
+        }
+        elseif($userBadge === 'VIP1'){
+            $tasks = Products::with('taskStatus')->skip(30)->take(30)->get();
+        }
+
+        return view('customer.tasks', compact('tasks'));
     }
 
     public function revenueRecord(){

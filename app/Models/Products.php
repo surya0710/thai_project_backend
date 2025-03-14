@@ -18,4 +18,8 @@ class Products extends Model
         'image_path',
         'description',
     ];
+
+    public function taskStatus(){
+        return $this->belongsTo(TasksHistory::class, 'id', 'product_id');
+    }
 }
