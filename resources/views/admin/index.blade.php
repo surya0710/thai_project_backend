@@ -5,9 +5,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="{{  asset('assets/admin/images/favicon.png') }}" type="image/x-icon">
-  <link rel="shortcut icon" href="{{  asset('assets/admin/images/favicon.png') }}" type="image/x-icon">
-  <title>Zono </title>
+  <link rel="icon" href="{{  asset('assets/images/logo/paytm-favicon.png')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{  asset('assets/images/logo/paytm-favicon.png')}}" type="image/x-icon">
+  <title>Login Admin </title>
   <!-- Google font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -38,11 +38,11 @@
       <div class="col-12 p-0">
         <div class="login-card login-dark">
           <div>
-            <div><a class="logo" href="{{ url('/admin') }}">
-                <img class="img-fluid for-light" src="{{ asset('assets/admin/images/logo/paytmicon-png.png') }}" alt="looginpage">
-                <img class="img-fluid for-dark" src="{{ asset('assets/admin/images/logo/paytmicon-png.png') }}" alt="looginpage"></a>
-            </div>
             <div class="login-main">
+              <div><a class="logo" href="{{ url('/admin') }}">
+                  <img class="img-fluid for-light" src="{{ asset('assets/images/logo/paytm-mall-image-3.webp') }}" alt="looginpage">
+                  <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/paytm-mall-image-3.webp') }}" alt="looginpage"></a>
+              </div>
               <form class="theme-form" method="post" action="{{ route('login') }}">
                 @csrf
                 <p class="text-center">Enter your email & password to login</p>
