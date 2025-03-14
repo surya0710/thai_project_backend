@@ -92,15 +92,15 @@
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
                                     <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
-                                    <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
+                                    <!-- <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li> -->
                                 </ul>
+                                <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
+                                <form action="{{ route('lazada.upload') }}" method="POST" class="d-flex ms-2" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" class="form-control me-2" name="csv_file" required>
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </form>
                             </div>
-                            <a class="btn btn-primary mx-auto " href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
-                            <form action="{{ route('lazada.upload') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="csv_file" required>
-                                <button type="submit">Upload</button>
-                            </form>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
@@ -137,7 +137,7 @@
                                             </td>
                                             <td>
                                                 <ul class="action">
-                                                    <li class="edit"><a href="#"><i class="fa-solid fa-pen-to-square"></i></a></li>
+                                                    <li class="edit"><a href="{{ route('lazada.edit') }}"><i class="fa-solid fa-pen-to-square"></i></a></li>
                                                     <li class="delete">
                                                         <a data-id="{{ $product->id }}" class="deleteProduct"><i class="fa-solid fa-trash-can"></i></a>
                                                     </li>

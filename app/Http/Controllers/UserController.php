@@ -343,6 +343,9 @@ class UserController extends Controller
     public function lazadaAdd(){
         return view('admin.lazadaAdd')->with(['active' => 'lazadaAdd']);
     }
+    public function lazadaEdit(){
+        return view('admin.lazadaEdit')->with(['active' => 'lazadaEdit']);
+    }
 
     public function lazadaDelete(Request $request){
         $validator = Validator::make($request->all(), [
