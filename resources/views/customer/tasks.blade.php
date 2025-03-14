@@ -55,114 +55,86 @@
                                     </div>
                                     <div class="d-flex justify-content-around">
                                         <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
-                                        <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
-
+                                        <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
                                     </div>
-
                                 </div>
                             </li>
                         </ul>
                         @endforeach
                     </div>
-                    <div class="tab-pane fade" id="progress" role="tabpanel">
-                       
-                        <ul class="mt-20">
+                    <div class="tab-pane fade" id="progress" role="tabpanel">   
+                        @foreach($tasks as $task)
+                            @if($task->taskStatus == null)
+                            <ul class="mt-20">
+                                <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
+                                        <div class="avatar avt-32 avt-status">
+                                            <img src="{{ asset($task->image_path) }}" alt="avatar">
+                                        </div>
+                                        <div class="content">
+                                            @if($task->taskStatus !== null)
+                                            <div class="sub">11-2-25 12:00</div>
+                                            <div class="sub">7263726</div>
+                                            @endif
+                                            <div class="desc">{{ $task->description }}</div>
+                                            <div class="title"><span class="desc">USD</span> {{ $task->price }} <span
+                                                    class="desc">x1</span></div>
+                                        </div>
+                                        <div class="text-right tag-status type-1">
+                                            Pending
+                                        </div>
+                                    </a>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-around">
+                                            <p class="text-caption-2 text-black-4">Total Order Amount</p>
+                                            <p class="text-caption-2 text-black-4">CPS</p>
 
-                            <li class="mt-16 pb-8 line-bt2">
-                                <a href="" class="box-inbox-item">
-                                    <div class="avatar avt-32 avt-status">
-                                        <img src="{{ asset('assets/images/store/store10.png') }}" alt="avatar">
+                                        </div>
+                                        <div class="d-flex justify-content-around">
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                        </div>
                                     </div>
-                                    <div class="content">
-                                        <div class="sub">11-2-25 12:00</div>
-                                        <div class="sub">7263726</div>
-                                        <div class="desc">bro, kepriwe kie rawone ra mudun-mudun selak to kaliren duis
-                                            enim velit mollit.</div>
-                                        <div class="title"><span class="desc">USD</span> 434.545 <span
-                                                class="desc">x1</span></div>
-
-                                    </div>
-                                    <div class="text-right tag-status type-5"> Pending</div>
-
-                                </a>
-
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-around">
-                                        <p class="text-caption-2 text-black-4">Total Order Amount</p>
-                                        <p class="text-caption-2 text-black-4">CPS</p>
-                                    </div>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                            @endif
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="completed" role="tabpanel">
-                        <ul class="mt-20">
-                            <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
-                                    <div class="avatar avt-32 avt-status">
-                                        <img src="{{ asset('assets/images/store/store5.png') }}" alt="avatar">
-                                    </div>
-                                    <div class="content">
-                                        <div class="sub">11-2-25 12:00</div>
-                                        <div class="sub">7263726</div>
-                                        <div class="desc">bro, kepriwe kie rawone ra mudun-mudun selak to kaliren duis
-                                            enim velit mollit.</div>
-                                        <div class="title"><span class="desc">USD</span> 434.545 <span
-                                                class="desc">x1</span></div>
+                        @foreach($tasks as $task)
+                            @if($task->taskStatus != null)
+                            <ul class="mt-20">
+                                <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
+                                        <div class="avatar avt-32 avt-status">
+                                            <img src="{{ asset($task->image_path) }}" alt="avatar">
+                                        </div>
+                                        <div class="content">
+                                            @if($task->taskStatus !== null)
+                                            <div class="sub">11-2-25 12:00</div>
+                                            <div class="sub">7263726</div>
+                                            @endif
+                                            <div class="desc">{{ $task->description }}</div>
+                                            <div class="title"><span class="desc">USD</span> {{ $task->price }} <span
+                                                    class="desc">x1</span></div>
+                                        </div>
+                                        <div class="text-right tag-status type-1">
+                                            Pending
+                                        </div>
+                                    </a>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-around">
+                                            <p class="text-caption-2 text-black-4">Total Order Amount</p>
+                                            <p class="text-caption-2 text-black-4">CPS</p>
 
+                                        </div>
+                                        <div class="d-flex justify-content-around">
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                        </div>
                                     </div>
-                                    <div class="text-right tag-status type-1"> Completed</div>
-                                </a>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-around">
-                                        <p class="text-caption-2 text-black-4">Total Order Amount</p>
-                                        <p class="text-caption-2 text-black-4">CPS</p>
-
-                                    </div>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                        <ul class="mt-20">
-                            <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
-                                    <div class="avatar avt-32 avt-status">
-                                        <img src="{{ asset('assets/images/store/store14.png') }}" alt="avatar">
-                                    </div>
-                                    <div class="content">
-                                        <div class="sub">11-2-25 12:00</div>
-                                        <div class="sub">7263726</div>
-                                        <div class="desc">bro, kepriwe kie rawone ra mudun-mudun selak to kaliren duis
-                                            enim velit mollit.</div>
-                                        <div class="title"><span class="desc">USD</span> 434.545 <span
-                                                class="desc">x1</span></div>
-
-                                    </div>
-                                    <div class="text-right tag-status type-1"> Completed</div>
-                                </a>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex justify-content-around">
-                                        <p class="text-caption-2 text-black-4">Total Order Amount</p>
-                                        <p class="text-caption-2 text-black-4">CPS</p>
-
-                                    </div>
-                                    <div class="d-flex justify-content-around">
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-                                        <div class="font-title-btn fw-7 text-black-2">USD 314.147</div>
-
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
-                        
+                                </li>
+                            </ul>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>
