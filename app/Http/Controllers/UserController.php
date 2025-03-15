@@ -336,7 +336,7 @@ class UserController extends Controller
     }
 
     public function lazadaList(){
-        $products = Products::where('is_deleted', 0)->paginate(10);
+        $products = Products::where('is_deleted', 0)->limit(500)->get();
         return view('admin.lazadaList', compact('products'));
     }
 
@@ -561,11 +561,11 @@ class UserController extends Controller
         return view('admin.withdrawalEdit')->with(['withdrawal' => $withdrawal, 'active' => 'withdrawalEdit']);
     }
     public function Profile(){
-        $users = User::with('loginHistory')->find(Auth::id()); 
+        $users = User::with('loginHistory')->find(Auth::guard('admin')->user()->id); 
         return view('admin.Profile')->with(['user' => $users, 'active' => 'Profile']);
     }
 
-    public function ProfileUpdate(Request $request, $userID){
+    public function ProfileUpdate(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|email',
@@ -575,8 +575,8 @@ class UserController extends Controller
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
-        $user = User::find($userID);
+        $userID = Auth::guard('admin')->user()->id;
+        $user = User::find();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;

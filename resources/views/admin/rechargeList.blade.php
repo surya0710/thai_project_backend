@@ -49,12 +49,9 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
-              <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-              </div>
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
-                  <table class="display" id="basic-1">
+                  <table table class="display nowrap" id="myTable">
                     <thead>
                       <tr>
                         <th>ID</th>

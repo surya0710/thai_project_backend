@@ -86,48 +86,11 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
-
-              <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" onclick="" class="btn btn-primary" type="button">
-                  <i class="fa-solid fa-rotate"></i>
-                </button>
-                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-share-from-square"></i></button>
-                <ul class="dropdown-menu dropdown-block">
-                  <div id="exportOptions">
-                    <label><input type="checkbox" class="exportField" value="ID" checked> ID</label>
-                    <label><input type="checkbox" class="exportField" value="User ID" checked> User ID</label>
-                    <label><input type="checkbox" class="exportField" value="Invitation Code" checked> Invitation Code</label>
-                    <label><input type="checkbox" class="exportField" value="Username" checked> Username</label>
-                    <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
-                    <label><input type="checkbox" class="exportField" value="Phone" checked> Phone</label>
-                    <label><input type="checkbox" class="exportField" value="Email" checked> Email</label>
-                    <label><input type="checkbox" class="exportField" value="Login Time" checked> Login Time</label>
-                    <label><input type="checkbox" class="exportField" value="Registration Time" checked> Registration Time</label>
-                    <label><input type="checkbox" class="exportField" value="Number of Orders" checked> Number of Orders</label>
-                    <label><input type="checkbox" class="exportField" value="Money" checked> Money</label>
-                    <label><input type="checkbox" class="exportField" value="Credit Permission" checked> Credit Permission</label>
-                    <label><input type="checkbox" class="exportField" value="Country" checked> Country</label>
-
-                  </div>
-
-                </ul>
-                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-share-from-square"></i></button>
-                <ul class="dropdown-menu dropdown-block">
-
-
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
-                </ul>
-              </div>
               <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table class="display dataTable" id="basic-1" role="grid" aria-describedby="basic-1_info">
+                <table table class="display nowrap" id="myTable">
                   <thead>
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>

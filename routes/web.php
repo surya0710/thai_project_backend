@@ -58,7 +58,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/withdrawal/view/{withdrawal_id}', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.view');
         Route::post('/withdrawal/statusUpdate', 'App\Http\Controllers\UserController@withdrawalStatusUpdate')->name('admin.withdrawalStatus');
         Route::get('/profile', 'App\Http\Controllers\UserController@Profile')->name('profile');
-        Route::post('/profile/{user_id}', 'App\Http\Controllers\UserController@ProfileUpdate')->name('profile.update');
+        Route::post('/profile', 'App\Http\Controllers\UserController@ProfileUpdate')->name('profile.update');
         Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');
         Route::post('invite-code', 'App\Http\Controllers\InvitationController@storeInviteCode')->name('invitation.store');
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');

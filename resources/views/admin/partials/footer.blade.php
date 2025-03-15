@@ -10,7 +10,7 @@
       </div>
     </div>
     <!-- latest jquery-->
-    <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap js-->
     <script src="{{ asset('assets/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <!-- feather icon js-->
@@ -24,10 +24,7 @@
     <!-- Plugins JS start-->
     <script src="{{ asset('assets/admin/js/sidebar-menu.js') }}"></script>
     <script src="{{ asset('assets/admin/js/sidebar-pin.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/notify/bootstrap-notify.min.js') }}"></script> 
-    <script src="{{ asset('assets/admin/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/datatable/datatables/datatable.custom.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/datatable/datatables/datatable.custom1.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/notify/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/owlcarousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('assets/admin/js/owlcarousel/owl-custom.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -41,9 +38,49 @@
     <!-- Theme js-->
     <script src="{{ asset('assets/admin/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
+
+    <!-- Export Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        let table = $('#myTable').DataTable({
+            dom: 'lBfrtip', // Removed 'l' from the dom string to hide the length menu
+            lengthMenu: [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "All"]],
+            pageLength: 10,
+            buttons: [
+                { extend: 'copy'},
+                { extend: 'csv'},
+                { extend: 'excel'},
+                { extend: 'print'}
+            ]
+        });
+
+        // Column Search Filters
+        $('#myTable tfoot th').each(function () {
+            let title = $(this).text();
+            $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+        });
+
+        table.columns().every(function () {
+            let that = this;
+            $('input', this.footer()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+      });
+    </script>
   </body>
 </html>
 @include('admin.partials.popup')

@@ -81,26 +81,10 @@
                             <div class="tab-content" id="topline-tabContent">
                                 <div class="tab-pane fade show active" id="topline-top-user" role="tabpanel" aria-labelledby="topline-top-user-tab">
                                     <div class="card">
-                                        <div class="card-header pb-0 card-no-border">
-                                            <div class="btn-group">
-
-                                                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-
-                                                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                        class="fa-solid fa-share-from-square"></i></button>
-                                                <ul class="dropdown-menu dropdown-block">
-                                                    <li><a class="dropdown-item" href="#">JSON</a></li>
-                                                    <li><a class="dropdown-item" href="#">XML</a></li>
-                                                    <li><a class="dropdown-item" href="#">CSV</a></li>
-                                                    <li><a class="dropdown-item" href="#">TXT</a></li>
-                                                    <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                                                    <li><a class="dropdown-item" href="#">MS-Excel</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <div class="card-header pb-0 card-no-border" style="height: 50px;"></div>
                                         <div class="card-body">
                                             <div class="table-responsive custom-scrollbar">
-                                                <table class="display" id="basic-1">
+                                                <table table class="display nowrap" id="myTable">
                                                     <thead>
                                                         <tr>
                                                             <th>ID</th>

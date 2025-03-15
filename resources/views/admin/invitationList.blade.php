@@ -61,16 +61,12 @@
             <div class="card-header pb-0 card-no-border">
 
               <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" onclick="" class="btn btn-primary" type="button">
-                  <i class="fa-solid fa-rotate"></i>
-                </button>
-               
-                    <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
+                <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
               </div>
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table class="display" id="basic-1">
+                <table table class="display nowrap" id="myTable">
                   <thead>
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>

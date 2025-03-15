@@ -72,34 +72,12 @@
                         <span class="text-success error"> {{ session()->get('success') }} </span>
                      </div>
                      <div class="btn-group">
-                        <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-
-                        <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                              class="fa-solid fa-share-from-square"></i></button>
-                        <ul class="dropdown-menu dropdown-block">
-                           <div id="exportOptions">
-                              <label><input type="checkbox" class="exportField" value="ID" checked> ID</label>
-                              <label><input type="checkbox" class="exportField" value="Admin User ID" checked> Admin User ID</label>
-                              <label><input type="checkbox" class="exportField" value="Admin User Type" checked> Admin User Type</label>
-                              <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
-                              <label><input type="checkbox" class="exportField" value="Email" checked> Email</label>
-                              <label><input type="checkbox" class="exportField" value="Phone" checked> Phone</label>
-                           </div>
-                           <!-- <button onclick="exportToExcel('basic-1')">Export Excel</button>
-                           <button onclick="exportToCSV('basic-1')">Export CSV</button>
-                           <button onclick="exportToPDF('basic-1')">Export PDF</button> -->
-
-                           <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
-                           <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
-                           <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
-                           <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
-                        </ul>
                         <a class="btn btn-primary mx-auto " href="{{ route('admin.add') }}"><i class="fa-solid fa-plus"></i></a>
                      </div>
                   </div>
                   <div class="card-body">
                      <div class="table-responsive custom-scrollbar">
-                        <table class="display dataTable no-footer" id="basic-1" role="grid" aria-describedby="basic-1_info">
+                        <table table class="display nowrap" id="myTable">
                            <thead>
                               <tr>
                                  <th>ID</th>
