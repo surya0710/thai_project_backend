@@ -76,7 +76,7 @@
    </div>
    <div class="content-left">
       <a href="profile.html" class="avt">
-         <img src="{{ asset('assets/images/avt/avt2.jpg') }}" alt="avatar">
+         <img src="{{ asset('assets/images/avt/avt1.jpg') }}" alt="avatar">
       </a>
       <h5>Hello, {{ Auth::guard('customer')->user()->name }}!</h5>
    </div>

@@ -74,7 +74,27 @@
             <a href="javascript:void(0);" class="icon back-btn"><i class="icon-back"></i></a>
         </div>
         <h5>My Account</h5>
-
+        <div class="right">
+            <div id='google_translate_element' class="skiptranslate goog-te-gadget" dir="ltr" style="">
+                <div class="language-wrapper">
+                    <div class="language-select-container">
+                    <img id="selected-flag" src="https://flagcdn.com/w40/us.png" class="flag-icon" alt="Flag">
+                    <select id="language-selector" class="language-select" onchange="changeLanguage()">
+                        <option value="en" data-flag="https://flagcdn.com/w40/us.png">English</option>
+                        <option value="hi" data-flag="https://flagcdn.com/w40/in.png">Hindi</option>
+                        <option value="ja" data-flag="https://flagcdn.com/w40/jp.png">Japanese</option>
+                        <option value="ko" data-flag="https://flagcdn.com/w40/kr.png">Korean</option>
+                        <option value="my" data-flag="https://flagcdn.com/w40/mm.png">Burmese</option>
+                        <option value="th" data-flag="https://flagcdn.com/w40/th.png">Thai</option>
+                        <option value="ru" data-flag="https://flagcdn.com/w40/ru.png">Russian</option>
+                        <option value="ms" data-flag="https://flagcdn.com/w40/sg.png">Malay (Singapore)</option>
+                        <option value="ar" data-flag="https://flagcdn.com/w40/sa.png">Arabic</option>
+                        <option value="ur" data-flag="https://flagcdn.com/w40/pk.png">Urdu</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="app-content">
 

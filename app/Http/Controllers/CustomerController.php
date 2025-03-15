@@ -252,10 +252,12 @@ class CustomerController extends Controller
         }
 
         $user = Auth::guard('customer')->user();
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return redirect()->back()->with('success', 'Password changed successfully!');
+        if($user->update(['password' => Hash::make($request->password)])){
+            return redirect()->back()->with('success', 'Password changed successfully!');
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function transactionPassword(){
