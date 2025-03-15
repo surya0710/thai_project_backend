@@ -82,7 +82,6 @@
                 <div class="btn-group">
                   <h4 class="card-title mb-0">Admin Log</h4>
                 </div>
-
               </div>
               <div class="table-responsive custom-scrollbar theme-scrollbar add-project px-2">
                 <table class="display nowrap" id="myTable">

@@ -67,7 +67,7 @@ class CustomerController extends Controller
         $image->move(public_path('uploads/recharge'), $imageName);
 
         $recharge = RechargeRequest::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::guard('customer')->user()->id,
             'amount' => $request->amount,
             'recharge_proof' => $imageName,
             'created_at' => now(),

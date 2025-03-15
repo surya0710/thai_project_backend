@@ -26,6 +26,7 @@
                     <div class="card">
 
                         <div class="card-body">
+                            <h3 class="mb-2">Product Filters</h3>
                             <form class="row g-3 needs-validation custom-input" novalidate="">
 
                                 <div class="col-md-3 position-relative">
@@ -56,7 +57,7 @@
                                 </div>
 
                                 <div class="col-6 mt-5">
-                                    <button class="btn btn-primary" type="submit">Submit</button>
+                                    <button class="btn btn-primary" type="submit">Filter</button>
                                     <button class="btn btn-primary" type="reset">Reset</button>
                                 </div>
 

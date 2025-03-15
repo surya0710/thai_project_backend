@@ -19,6 +19,7 @@
           <div class="card">
 
             <div class="card-body">
+              <h3 class="mb-2">Recharge Filters</h3>
               <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip09">Status</label>
@@ -35,7 +36,7 @@
                 </div>
 
                 <div class="col-6 mt-5">
-                  <button class="btn btn-primary" type="submit" name="admin_create">Submit</button>
+                  <button class="btn btn-primary" type="submit" name="admin_create">Filter</button>
                   <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
                 </div>
               </form>
@@ -109,6 +110,7 @@
         </div>
       </div>
     </div>
+  </div>
   @include('admin.partials.footer')
   <script>
     jQuery(document).ready(function () {

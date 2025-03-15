@@ -33,6 +33,7 @@
                 @endif
               </div>
               <form class="row g-3 custom-input" method="post" action="{{ route('invitation.store') }}">
+                <h3 class="mb-2">Admin Filters</h3>
                 @csrf
                 <div class="col-md-3 position-relative">
                   <label class="form-label">Invitation Code</label>
@@ -44,8 +45,7 @@
                   </span>
                 </div>
                 <div class="col-6 mt-5">
-                  <button class="btn btn-secondary generate-code-form" type="button">Generate</button>
-                  <button class="btn btn-primary" type="submit">Save</button>
+                  <button class="btn btn-primary" type="submit">Filter</button>
                 </div>
               </form>
             </div>

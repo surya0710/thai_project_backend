@@ -75,7 +75,7 @@
       <img src="{{ asset('assets/images/logo/paytmicon-png.png') }}" alt="logo">
    </div>
    <div class="content-left">
-      <a href="profile.html" class="avt">
+      <a href="{{ route('customer.profile') }}" class="avt">
          <img src="{{ asset('assets/images/avt/avt1.jpg') }}" alt="avatar">
       </a>
       <h5>Hello, {{ Auth::guard('customer')->user()->name }}!</h5>

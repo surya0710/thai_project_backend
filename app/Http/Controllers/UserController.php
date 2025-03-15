@@ -221,7 +221,7 @@ class UserController extends Controller
     }
 
     public function userList(){
-        $users = User::where('user_type', 'Customer')->with('lastLogin')->get();
+        $users = User::where('user_type', 'Customer')->with('lastLogin')->orderBy('id', 'desc')->get();
         return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
     }
     public function userEdit($userID){
@@ -336,7 +336,7 @@ class UserController extends Controller
     }
 
     public function lazadaList(){
-        $products = Products::where('is_deleted', 0)->limit(500)->get();
+        $products = Products::where('is_deleted', 0)->limit(500)->orderBy('id', 'desc')->get();
         return view('admin.lazadaList', compact('products'));
     }
 
@@ -452,7 +452,7 @@ class UserController extends Controller
     public function rechargeList(){
         $rechargeList = RechargeRequest::with('user:id,username,phone,name,invitation_code', 'approver:id,username,name')
         ->orderBy('status', 'ASC')
-        ->orderBy('created_at', 'ASC')
+        ->orderBy('created_at', 'desc')
         ->get();
         return view('admin.rechargeList')->with(['rechargeList' => $rechargeList, 'active' => 'rechargeList']);
     }
@@ -562,7 +562,7 @@ class UserController extends Controller
     }
     public function Profile(){
         $users = User::with('loginHistory')->find(Auth::guard('admin')->user()->id); 
-        return view('admin.Profile')->with(['user' => $users, 'active' => 'Profile']);
+        return view('admin.profile')->with(['user' => $users, 'active' => 'Profile']);
     }
 
     public function ProfileUpdate(Request $request){

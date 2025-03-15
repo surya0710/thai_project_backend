@@ -32,7 +32,7 @@ class InvitationController extends Controller
     }
 
     public function invitationList(){
-        $invitationList = InviteCode::where('status', '1')->orderBy('created_at', 'ASC')->with(['user', 'usedBy'])->get();
+        $invitationList = InviteCode::where('status', '1')->orderBy('created_at', 'desc')->with(['user', 'usedBy'])->get();
         return view('admin.invitationList')->with(['invitationList' => $invitationList, 'active' => 'invitationList']);
     }
 

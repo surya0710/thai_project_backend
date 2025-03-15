@@ -346,7 +346,7 @@
             <div class="left" data-bs-dismiss="offcanvas">
                 <a href="javascript:void(0);" class="icon"><i class="icon-back"></i></a>
             </div>
-            <h5>Service</h5>
+            <h5>Customer Service</h5>
         </div>
         <div class="overflow-auto app-content style-3 pb-32">
             <div class="tf-container">
@@ -371,10 +371,9 @@
                             <a href="" class="tf-btn outline-btn-primary mt-16">Contact us</a>
                         </a>
                     </li>
-
                 </ul>
-
             </div>
+            <script src='//fw-cdn.com/12542621/4940638.js' chat='true'></script>
         </div>
     </div>
     <!-- personal info -->

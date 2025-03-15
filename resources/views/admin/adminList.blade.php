@@ -17,8 +17,8 @@
          <div class="row">
             <div class="col-sm-12">
                <div class="card">
-
                   <div class="card-body">
+                     <h3 class="mb-2">Admin Filters</h3>
                      <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip09">Admin User Type</label>
@@ -49,12 +49,8 @@
                            <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email"
                               required="">
                         </div>
-                        <div class="col-md-3 position-relative">
-                           <label class="form-label" for="validationTooltip06">Password </label>
-                           <input class="form-control" id="validationTooltip06" name="password" type="text" placeholder="Password" required="">
-                        </div>
                         <div class="col-6 mt-5">
-                           <button class="btn btn-primary" type="submit" name="admin_create">Submit</button>
+                           <button class="btn btn-primary" type="submit" name="admin_create">Filter</button>
                            <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
                         </div>
                      </form>
