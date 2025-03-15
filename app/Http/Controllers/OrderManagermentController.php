@@ -10,8 +10,8 @@ class OrderManagermentController extends Controller
 {
     public function automaticOrder()
     {
-        $userId = Auth::id(); // Get authenticated user ID
-        $userBadge = Auth::user()->badge;
+        $userId = Auth::guard('customer')->id(); // Get authenticated user ID
+        $userBadge = Auth::guard('customer')->user()->badge;
 
         // Calculate average product price
         $averageProductPrice = calculateAverageProductPrice($userBadge);

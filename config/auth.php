@@ -36,11 +36,21 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'web' => [ // Default Laravel guard (keep this)
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],
+
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'customer' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],  
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +72,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class, // Ensure this points to your User model
+            'model' => App\Models\User::class,
         ],
     ],
 

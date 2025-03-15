@@ -45,8 +45,8 @@ class UserController extends Controller
             return redirect('/')->with(['error' => 'Account either deleted or blocked']);
         }
 
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            if (Auth::user()->role === 'customer') {
+        if (Auth::guard('customer')->attempt(['username' => $request->username, 'password' => $request->password])) {
+            if (Auth::guard('customer')->user()->role === 'customer') {
                 return redirect()->route('customer.dashboard');
             }
             else{
@@ -205,7 +205,7 @@ class UserController extends Controller
         }
 
         $user->is_deleted = 1;
-        $user->deleted_by = Auth::user()->id;
+        $user->deleted_by = Auth::guard('admin')->user()->id;
 
         if($user->save()){
             return response()->json([
@@ -320,7 +320,7 @@ class UserController extends Controller
         }
 
         $user->is_deleted = 1;
-        $user->deleted_by = Auth::user()->id;
+        $user->deleted_by = Auth::guard('admin')->user()->id;
 
         if($user->save()){
             return response()->json([
@@ -396,7 +396,7 @@ class UserController extends Controller
 
         $product = Products::find($request->id);
         $product->is_deleted = 1;
-        $product->deleted_by = Auth::user()->id;
+        $product->deleted_by = Auth::guard('admin')->user()->id;
 
         if($product->save()){
             return response()->json([
@@ -485,7 +485,7 @@ class UserController extends Controller
         else if($event == 'reject'){
             $recharge->status = 2;
         }
-        $recharge->handled_by = Auth::user()->id;
+        $recharge->handled_by = Auth::guard('admin')->user()->id;
 
         if($recharge->save()){
             if($event == 'approve'){
@@ -536,7 +536,7 @@ class UserController extends Controller
         else if($event == 'reject'){
             $withdraw->status = 2;
         }
-        $withdraw->handled_by = Auth::user()->id;
+        $withdraw->handled_by = Auth::guard('admin')->user()->id;
 
         if($withdraw->save()){
             if($event == 'approve'){
@@ -606,7 +606,7 @@ class UserController extends Controller
 
         if($user){
             $user->is_blocked = 1;
-            $user->blocked_by = Auth::user()->id;
+            $user->blocked_by = Auth::guard('admin')->user()->id;
             if($user->save()){
                 return response()->json([
                     'status' => 'success',
@@ -642,7 +642,7 @@ class UserController extends Controller
 
         if($user){
             $user->is_blocked = 0;
-            $user->blocked_by = Auth::user()->id;
+            $user->blocked_by = Auth::guard('admin')->user()->id;
             if($user->save()){
                 return response()->json([
                     'status' => 'success',

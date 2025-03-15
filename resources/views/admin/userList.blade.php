@@ -162,9 +162,9 @@
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
                       <td>
-                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1"
+                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" class="user-{{ $user->id }}"
                           {{ $user->credit_permission == 1 ? 'checked' : '' }}>
-                        <label for="checkboxInput" class="toggleSwitch">
+                        <label for="checkboxInput" data-user-id="{{ $user->id }}" onclick="updateCreditPermission({{ $user->id }})" class="toggleSwitch">
                         </label>
                       </td>
                       <td>{{ $user->country }}</td>
@@ -214,47 +214,46 @@
   @include('admin.partials.footer')
 </div>
 <script>
-  jQuery(document).ready(function() {
-    $("#checkboxInput").change(function() {
-      let isChecked = $(this).is(":checked") ? 1 : 0;
-      let userID = $(this).data('user-id');
-      let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-          _token: "{{ csrf_token() }}",
-          credit_permission: isChecked
-        },
-        success: function(response) {
-          if (response.status === 'success') {
-            Swal.fire(
-              "Updated!",
-              `Credit Permission Updated`,
-              "success"
-            );
-          } else {
-            Swal.fire(
-              "Error!",
-              `${response.message}`,
-              "error"
-            );
-          }
-        },
-        error: function(xhr) {
+  function updateCreditPermission(userID) {
+    let isChecked = $('.user-'+userID).is(":checked") ? 1 : 0;
+    console.log(isChecked);
+    let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {
+        _token: "{{ csrf_token() }}",
+        credit_permission: isChecked,
+      },
+      success: function(response) {
+        if (response.status === 'success') {
+          Swal.fire(
+            "Updated!",
+            `Credit Permission Updated`,
+            "success"
+          );
+        } else {
           Swal.fire(
             "Error!",
-            "Something went wrong. Please try again.",
+            `${response.message}`,
             "error"
           );
-        },
-        error: function(xhr) {
-          console.error("Error:", xhr);
-          alert("Failed to update credit permission!");
         }
-      });
+      },
+      error: function(xhr) {
+        Swal.fire(
+          "Error!",
+          "Something went wrong. Please try again.",
+          "error"
+        );
+      },
+      error: function(xhr) {
+        console.error("Error:", xhr);
+        alert("Failed to update credit permission!");
+      }
     });
-  });
+  }
+
   function getSelectedFields() {
     let selectedFields = [];
     document.querySelectorAll(".exportField:checked").forEach(checkbox => {

@@ -20,7 +20,7 @@ Route::group(['middleware' => 'guest'], function () {
     });
 
     Route::get('/', function () { return view('index'); })->name('index');
-    Route::post('/', 'App\Http\Controllers\UserController@login')->name('userLogin');
+    Route::post('/login', 'App\Http\Controllers\UserController@login')->name('userLogin');
     Route::get('/register', function () { return view('register'); })->name('register');
     Route::post('/register', 'App\Http\Controllers\UserController@register')->name('userRegister');
     Route::get('/forgetPassword', function () { return view('forgetPassword'); })->name('forgetPassword');
@@ -28,7 +28,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['admin'])->group(function () {
     Route::group(['prefix' => 'admin'], function () {
         Route::get('/dashboard', 'App\Http\Controllers\AdminController@dashboard')->name('dashboard');
         Route::get('/admin/list', 'App\Http\Controllers\UserController@adminList')->name('admin.list');
@@ -64,11 +64,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
         Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.block');
         Route::post('/unblock-user', 'App\Http\Controllers\UserController@unblockUser')->name('user.unblock');
+        Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('admin.logout');
     });
 });
 
 // Customer Routes (Only for Customers)
-Route::middleware(['auth', 'role:customer'])->group(function () {
+Route::middleware(['customer'])->group(function () {
     Route::get('/dashboard', 'App\Http\Controllers\CustomerController@dashboard')->name('customer.dashboard');
     Route::get('/tasks', 'App\Http\Controllers\CustomerController@tasks')->name('customer.tasks');
     Route::get('/automatic-order', 'App\Http\Controllers\OrderManagermentController@automaticOrder')->name('customer.automaticOrder');
@@ -91,6 +92,5 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::post('/change-password', 'App\Http\Controllers\CustomerController@changePasswordUpdate')->name('customer.passwordUpdate');
     Route::get('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPassword')->name('customer.transactionPassword');
     Route::post('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPasswordUpdate')->name('customer.transactionPasswordUpdate');
+    Route::get('/logout', 'App\Http\Controllers\CustomerController@logout')->name('customer.logout');
 });
-
-Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('logout')->middleware('auth');

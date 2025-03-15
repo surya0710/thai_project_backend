@@ -55,7 +55,7 @@
                                     </div>
                                     <div class="d-flex justify-content-around">
                                         <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
-                                        <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                        <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::guard('customer')->user()->badge) }}</div>
                                     </div>
                                 </div>
                             </li>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="d-flex justify-content-around">
                                             <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
-                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::guard('customer')->user()->badge) }}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="d-flex justify-content-around">
                                             <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
-                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                            <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::guard('customer')->user()->badge) }}</div>
                                         </div>
                                     </div>
                                 </li>

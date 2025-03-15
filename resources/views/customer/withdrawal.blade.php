@@ -22,7 +22,7 @@
                         @endif
                         <fieldset class="mt-20 input-line">
                             <label>Withdraw Amount</label>
-                            <input type="number" name="amount" required min="1" max="{{ Auth::user()->total_amount }}" 
+                            <input type="number" name="amount" required min="1" max="{{ Auth::guard('customer')->user()->total_amount }}" 
                             placeholder="Enter withdraw amount" class="form-control" value="{{ old('amount') ?? 1.00}}" step="0.01">
                             <span class="text-danger error">
                                 @error('amount')
@@ -31,7 +31,7 @@
                             </span>
                         </fieldset>
                         <div class="withdraw-para">
-                            <div class="desc-p">Balance <span>{{ Auth::user()->total_amount }}</span> USD</div>
+                            <div class="desc-p">Balance <span>{{ Auth::guard('customer')->user()->total_amount }}</span> USD</div>
                         </div>
                         <fieldset class="mt-20 input-line">
                             <label>Bank Info</label>

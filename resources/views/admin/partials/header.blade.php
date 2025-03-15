@@ -121,8 +121,8 @@
               <div class="d-flex align-items-center profile-media">
                 <img class="b-r-25" src="{{ asset('assets/admin/images/dashboard/profile.png') }}" alt="">
                 <div class="flex-grow-1 user">
-                  <span>{{ Auth::user()->name }}</span>
-                  <p class="mb-0 font-nunito">{{ Auth::user()->user_type }}</p>
+                  <span>{{ Auth::guard('admin')->user()->name }}</span>
+                  <p class="mb-0 font-nunito">{{ Auth::guard('admin')->user()->user_type }}</p>
                 </div>
               </div>
               <ul class="profile-dropdown onhover-show-div">
@@ -133,7 +133,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{ route('logout') }}">
+                  <a href="{{ route('admin.logout') }}">
                     <i data-feather="log-in"></i>
                     <span>Log Out</span>
                   </a>
@@ -151,7 +151,7 @@
                         </svg>
                     </div>
                     <div class="ProfileCard-details">
-                        <div class="ProfileCard-realName">{{auth()->user()->name}}</div>
+                        <div class="ProfileCard-realName">{{Auth::guard('admin')->user()->name}}</div>
                     </div>
                 </div>
             </script>

@@ -23,7 +23,7 @@ class CustomerController extends Controller
     public function tasks()
     {
         
-        $userBadge = Auth::user()->badge;
+        $userBadge = Auth::guard('customer')->user()->badge;
         $tasks = collect(); // Default empty collection in case user is not VIP0
         $averageProductPrice = calculateAverageProductPrice($userBadge);
         if ($userBadge === 'VIP0') {
@@ -78,7 +78,7 @@ class CustomerController extends Controller
     }
 
     public function bankDetails(){
-        $bankDetails = UserBankDetails::where('user_id', Auth::user()->id)->first();
+        $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->first();
         return view('customer.bankDetails')->with('bankDetails', $bankDetails);
     }
 
@@ -95,7 +95,7 @@ class CustomerController extends Controller
         }
 
         $bank = UserBankDetails::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::guard('customer')->user()->id,
             'bank_name' => $request->bank_name,
             'account_number' => $request->account_number,
             'account_holder_name' => $request->account_holder_name,
@@ -112,7 +112,7 @@ class CustomerController extends Controller
     }
 
     public function withdrawal(){
-        $bankDetails = UserBankDetails::where('user_id', Auth::user()->id)->first();
+        $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->first();
         return view('customer.withdrawal')->with('bankDetails', $bankDetails);
     }
 
@@ -130,15 +130,15 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
     
-        if (Auth::user()->total_amount < $request->amount) {
+        if (Auth::guard('customer')->user()->total_amount < $request->amount) {
             return redirect()->back()->with('error', 'Insufficient balance');
         }
     
         $pin = $request->input('digit-2') . $request->input('digit-3') . $request->input('digit-4') . $request->input('digit-5');
     
-        if (Hash::check($request->password, Auth::user()->password) && Hash::check($pin, Auth::user()->transaction_password)) {
+        if (Hash::check($request->password, Auth::guard('customer')->user()->password) && Hash::check($pin, Auth::guard('customer')->user()->transaction_password)) {
             $withdraw = Withdraw::create([
-                'user_id' => Auth::user()->id,
+                'user_id' => Auth::guard('customer')->user()->id,
                 'amount' => $request->amount,
                 'created_at' => now(),
             ]);
@@ -150,7 +150,7 @@ class CustomerController extends Controller
                 return redirect()->back()->with('error', 'Something went wrong');
             }
         } else {
-            if (!Hash::check($request->password, Auth::user()->password)) {
+            if (!Hash::check($request->password, Auth::guard('customer')->user()->password)) {
                 return redirect()->back()->with('error', 'Invalid password');
             } else {
                 return redirect()->back()->with('error', 'Invalid transaction PIN');
@@ -159,18 +159,18 @@ class CustomerController extends Controller
     }    
 
     public function rechargeWithdrawalHistory(){
-        $rechargeRequests = RechargeRequest::where('user_id', Auth::user()->id)->get();
-        $withdrawals = Withdraw::where('user_id', Auth::user()->id)->get();
+        $rechargeRequests = RechargeRequest::where('user_id', Auth::guard('customer')->user()->id)->get();
+        $withdrawals = Withdraw::where('user_id', Auth::guard('customer')->user()->id)->get();
         return view('customer.rechargeWithdrawalHistory', compact('rechargeRequests', 'withdrawals'));
     }
 
     public function myAddress(){
-        $address = UserAddress::where('user_id', Auth::user()->id)->get();
+        $address = UserAddress::where('user_id', Auth::guard('customer')->user()->id)->get();
         return view('customer.myAddress')->with(['addresses' => $address]);
     }
 
     public function myAddressAdd(){
-        $address = UserAddress::where('user_id', Auth::user()->id)->first();
+        $address = UserAddress::where('user_id', Auth::guard('customer')->user()->id)->first();
         return view('customer.myAddressAdd')->with(['address' => $address]);
     }
 
@@ -188,7 +188,7 @@ class CustomerController extends Controller
         }
 
         // Get user ID
-        $userId = Auth::user()->id;
+        $userId = Auth::guard('customer')->user()->id;
 
         // Retrieve or create address
         $address = UserAddress::updateOrCreate(
@@ -207,13 +207,13 @@ class CustomerController extends Controller
     }
 
     public function profile(){
-        $user = Auth::user();
+        $user = Auth::guard('customer')->user();
         return view('customer.profile', compact('user'));
     }
 
     public function profileUpdate(Request $request){
         $FormData = $request->all();
-        $user = User::find(Auth::user()->id);
+        $user = User::find(Auth::guard('customer')->user()->id);
         if($FormData['username'] != $user->username){
             $user->username = $FormData['username'];
         }
@@ -243,7 +243,7 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if (!Hash::check($request->old_password, Auth::user()->password)) {
+        if (!Hash::check($request->old_password, Auth::guard('customer')->user()->password)) {
             return redirect()->back()->withErrors(['old_password' => 'The old password is incorrect.'])->withInput();
         }
 
@@ -251,7 +251,7 @@ class CustomerController extends Controller
             return redirect()->back()->with(['error' => 'New password cannot be the same as the old password.'])->withInput();
         }
 
-        $user = Auth::user();
+        $user = Auth::guard('customer')->user();
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -265,8 +265,8 @@ class CustomerController extends Controller
     public function transactionPasswordUpdate(Request $request){
         $FormData = $request->all();
         $pin = $FormData['digit-2'] . $FormData['digit-3'] . $FormData['digit-4'] . $FormData['digit-5'];
-        if (!Hash::check($pin, Auth::user()->transaction_password)) {
-            $user = User::find(Auth::user()->id);
+        if (!Hash::check($pin, Auth::guard('customer')->user()->transaction_password)) {
+            $user = User::find(Auth::guard('customer')->user()->id);
             $user->transaction_password = Hash::make($pin);
             $user->save();
             return redirect()->back()->with('success', 'Transaction PIN updated successfully!');
@@ -274,5 +274,10 @@ class CustomerController extends Controller
         else{
             return redirect()->back()->with('error', 'PIN cannot be the same as the old PIN.');
         }
+    }
+
+    public function logout(){
+        Auth::guard('customer')->logout();
+        return redirect('/');
     }
 }
