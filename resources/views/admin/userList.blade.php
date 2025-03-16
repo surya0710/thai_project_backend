@@ -135,7 +135,7 @@
                       <td>
 
                         <div class="form-check form-switch">
-                          <select name="credit_permission" id="" onchange="updateCreditPermission({{ $user->id }})">>
+                          <select name="credit_permission_{{ $user->id }}" id="" onchange="updateCreditPermission({{ $user->id }}, this)">>
                             <option value="0" {{ $user->credit_permission == 0 ? 'selected' : '' }}>Denied </option>
                             <option value="1" {{ $user->credit_permission == 1 ? 'selected' : '' }}>Access</option>
                           </select>
@@ -198,8 +198,8 @@
 </div>
 <script>
   function updateCreditPermission(userID) {
-    let isChecked = $('.user-' + userID).is(":checked") ? 1 : 0;
-    console.log(isChecked);
+    let isChecked = $('select[name="credit_permission_' + userID + '"]').val();
+
     let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
     $.ajax({
       url: url,
@@ -235,110 +235,5 @@
         alert("Failed to update credit permission!");
       }
     });
-  }
-
-  function getSelectedFields() {
-    let selectedFields = [];
-    document.querySelectorAll(".exportField:checked").forEach(checkbox => {
-      selectedFields.push(checkbox.value);
-    });
-    return selectedFields;
-  }
-
-  function filterTableData(table) {
-    let selectedFields = getSelectedFields();
-    let headers = Array.from(table.querySelectorAll("thead tr th"));
-    let columnsToKeep = headers.map((th, index) => selectedFields.includes(th.innerText.trim()) ? index : -1).filter(index => index !== -1);
-    return {
-      headers,
-      columnsToKeep
-    };
-  }
-
-  function exportToExcel(tableID, filename = 'User_List') {
-    let table = document.getElementById(tableID);
-    let {
-      columnsToKeep
-    } = filterTableData(table);
-    let wsData = [];
-
-    table.querySelectorAll("tr").forEach(row => {
-      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? cell.innerText : null).filter(value => value !== null);
-      wsData.push(rowData);
-    });
-
-    let ws = XLSX.utils.aoa_to_sheet(wsData);
-    let wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, `${filename}.xlsx`);
-  }
-
-  function exportToCSV(tableID, filename = 'User_List') {
-    let table = document.getElementById(tableID);
-    let {
-      columnsToKeep
-    } = filterTableData(table);
-    let csvContent = [];
-
-    table.querySelectorAll("tr").forEach(row => {
-      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? `"${cell.innerText}"` : null).filter(value => value !== null);
-      csvContent.push(rowData.join(","));
-    });
-
-    let csvBlob = new Blob([csvContent.join("\n")], {
-      type: 'text/csv'
-    });
-    let link = document.createElement('a');
-    link.href = URL.createObjectURL(csvBlob);
-    link.download = `${filename}.csv`;
-    link.click();
-  }
-
-  function exportToPDF(tableID, filename = 'User_List') {
-    let {
-      jsPDF
-    } = window.jspdf;
-    let doc = new jsPDF();
-    let table = document.getElementById(tableID);
-    let {
-      headers,
-      columnsToKeep
-    } = filterTableData(table);
-    let data = [];
-
-    table.querySelectorAll("tbody tr").forEach(row => {
-      let rowData = Array.from(row.cells).map((cell, index) => columnsToKeep.includes(index) ? cell.innerText : null).filter(value => value !== null);
-      data.push(rowData);
-    });
-
-    let headerNames = columnsToKeep.map(index => headers[index].innerText);
-    doc.autoTable({
-      head: [headerNames],
-      body: data,
-      theme: 'grid'
-    });
-    doc.save(`${filename}.pdf`);
-  }
-
-  function importCSV() {
-    let input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.csv';
-    input.onchange = function(event) {
-      let file = event.target.files[0];
-      let reader = new FileReader();
-
-      reader.onload = function(e) {
-        let data = e.target.result;
-        let workbook = XLSX.read(data, {
-          type: 'binary'
-        });
-        let sheet = workbook.Sheets[workbook.SheetNames[0]];
-        let jsonData = XLSX.utils.sheet_to_json(sheet);
-        console.log("Imported CSV Data:", jsonData);
-      };
-      reader.readAsBinaryString(file);
-    };
-    input.click();
   }
 </script>
