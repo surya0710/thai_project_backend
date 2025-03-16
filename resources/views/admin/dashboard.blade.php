@@ -151,12 +151,13 @@
                       <span>{{ $withdraw->created_at->format('M d') == date('M d') ? 'Today' : $withdraw->created_at->format('M d') }} {{ $withdraw->created_at->format('h:iA') }} [Amt: {{ number_format($withdraw->amount, 2) }}]</span>
                     </div>
                   </div>
-                
+                  @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                   <div class="show-btn">
                     <a href="{{ route('withdrawal.view', ['withdrawal_id' => $withdraw->id]) }}">
                       <span>Show</span>
                     </a>
                   </div>
+                  @endif
                 </li>
                 @endforeach
                 @if(count($withdrawList) === 0)
@@ -190,11 +191,14 @@
                       <span>{{ $recharge->created_at->format('M d') == date('M d') ? 'Today' : $recharge->created_at->format('M d') }} {{ $recharge->created_at->format('h:iA') }} [Amt: {{ number_format($recharge->amount, 2) }}]</span>
                     </div>
                   </div>
+                  @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                   <div class="show-btn">
                     <a href="{{ route('recharge.list') }}">
                       <span>Show</span>
                     </a>
                   </div>
+
+                  @endif
                 </li>
                 @endforeach
                 @if(count($rechargeList) === 0)
