@@ -26,6 +26,7 @@
                     <div class="card">
 
                         <div class="card-body">
+                        <h2 class="mb-3">Filters</h2>
                             <form class="row g-3 needs-validation custom-input" novalidate="">
 
                                 <div class="col-md-3 position-relative">
@@ -78,33 +79,17 @@
                                 <span class="text-success error"> {{ session()->get('success') }} </span>
                             </div>
                             <div class="btn-group">
-                                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-
-                                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                        class="fa-solid fa-share-from-square"></i></button>
-                                <ul class="dropdown-menu dropdown-block">
-                                    <div id="exportOptions">
-                                        <label><input type="checkbox" class="exportField" value="ID" checked> ID</label>
-                                        <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
-                                        <label><input type="checkbox" class="exportField" value="Price" checked> Price</label>
-                                        <label><input type="checkbox" class="exportField" value="Create Time" checked> Create Time</label>
-                                    </div>
-                                    <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
-                                    <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
-                                    <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
-                                    <!-- <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li> -->
-                                </ul>
-                                <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i></a>
                                 <form action="{{ route('lazada.upload') }}" method="POST" class="d-flex ms-2" enctype="multipart/form-data">
                                     @csrf
                                     <input type="file" class="form-control me-2" accept=".csv" name="csv_file" required>
                                     <button type="submit" class="btn btn-primary">Upload</button>
                                 </form>
+                                <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i>Add Products</a>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
-                                <table class="display" id="basic-1">
+                                <table class="display nowrap" id="myTable">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -113,6 +98,7 @@
                                             <th>Image</th>
                                             <th>Create Time</th>
                                             <th>Operate</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -148,9 +134,6 @@
                                     </tbody>
                                     <!-- Pagination Links -->
                                 </table>
-                                <div class="pagination">
-                                {{ $products->links() }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -161,156 +144,54 @@
         <!-- Container-fluid Ends-->
     </div>
     @include('admin.partials.footer')
-    <script>
-        function getSelectedFields() {
-            let selectedFields = [];
-            document.querySelectorAll(".exportField:checked").forEach(checkbox => {
-                selectedFields.push(checkbox.value);
-            });
-            return selectedFields;
-        }
-
-        function filterTableBySelectedFields(table) {
-            let selectedFields = getSelectedFields();
-            let headers = table.querySelectorAll("thead tr th");
-            let columnsToKeep = [];
-
-            headers.forEach((th, index) => {
-                if (selectedFields.includes(th.innerText.trim())) {
-                    columnsToKeep.push(index);
-                }
-            });
-
-            let rows = table.rows;
-            for (let row of rows) {
-                let cells = row.cells;
-                for (let i = cells.length - 1; i >= 0; i--) {
-                    if (!columnsToKeep.includes(i)) {
-                        row.deleteCell(i);
-                    }
-                }
-            }
-        }
-
-        function exportToExcel(tableID, filename = 'Lazada_List') {
-            let table = document.getElementById(tableID);
-            filterTableBySelectedFields(table);
-            let ws = XLSX.utils.table_to_sheet(table);
-            let wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${filename}.xlsx`);
-        }
-
-        function exportToCSV(tableID, filename = 'Lazada_List') {
-            let table = document.getElementById(tableID);
-            filterTableBySelectedFields(table);
-            let ws = XLSX.utils.table_to_sheet(table);
-            let csv = XLSX.utils.sheet_to_csv(ws);
-            let blob = new Blob([csv], {
-                type: 'text/csv'
-            });
-            let link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${filename}.csv`;
-            link.click();
-        }
-
-        function exportToPDF(tableID, filename = 'Lazada_List') {
-            const {
-                jsPDF
-            } = window.jspdf;
-            let doc = new jsPDF();
-            let table = document.getElementById(tableID);
-            filterTableBySelectedFields(table);
-
-            let rows = [];
-            let headers = [];
-
-            table.querySelectorAll("thead tr th").forEach(th => headers.push(th.innerText));
-            table.querySelectorAll("tbody tr").forEach(tr => {
-                let rowData = [];
-                tr.querySelectorAll("td").forEach(td => rowData.push(td.innerText));
-                rows.push(rowData);
-            });
-
-            doc.autoTable({
-                head: [headers],
-                body: rows,
-                theme: 'grid'
-            });
-            doc.save(`${filename}.pdf`);
-        }
-
-        function importCSV() {
-            let input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.csv';
-            input.onchange = function(event) {
-                let file = event.target.files[0];
-                let reader = new FileReader();
-
-                reader.onload = function(e) {
-                    let data = e.target.result;
-                    let workbook = XLSX.read(data, {
-                        type: 'binary'
-                    });
-                    let sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    let jsonData = XLSX.utils.sheet_to_json(sheet);
-
-                    console.log("Parsed CSV Data:", jsonData);
-                };
-                reader.readAsBinaryString(file);
-            };
-            input.click();
-        }
-
-        $(document).on('click', '.deleteProduct', function(event) {
-            event.preventDefault();
-            let productId = $(this).data('id');
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "{{ route('lazada.delete') }}",
-                        type: "POST",
-                        data: {
-                            id: productId,
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            console.log(response);
-                            if (response.status === 'success') {
-                                Swal.fire(
-                                    "Deleted!",
-                                    `Product has been deleted.`,
-                                    "success"
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    "Error!",
-                                    `${response.message}`,
-                                    "error"
-                                );
-                            }
-                        },
-                        error: function(xhr) {
+<script>
+    $(document).on('click', '.deleteProduct', function(event) {
+        event.preventDefault();
+        let productId = $(this).data('id');
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('lazada.delete') }}",
+                    type: "POST",
+                    data: {
+                        id: productId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.status === 'success') {
+                            Swal.fire(
+                                "Deleted!",
+                                `Product has been deleted.`,
+                                "success"
+                            ).then(() => {
+                                location.reload();
+                            });
+                        } else {
                             Swal.fire(
                                 "Error!",
-                                "Something went wrong. Please try again.",
+                                `${response.message}`,
                                 "error"
                             );
                         }
-                    });
-                }
-            });
+                    },
+                    error: function(xhr) {
+                        Swal.fire(
+                            "Error!",
+                            "Something went wrong. Please try again.",
+                            "error"
+                        );
+                    }
+                });
+            }
         });
-    </script>
+    });
+</script>

@@ -32,17 +32,19 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/animate.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/select2.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/dropzone.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/datatables.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/owlcarousel.css') }}">
   <!-- Plugins css Ends-->
   <!-- Bootstrap css-->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/bootstrap.css') }}">
+  <!-- Data Table css-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
   <!-- App css-->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/style.css') }}">
   <link id="color" rel="stylesheet" href="{{ asset('assets/admin/css/color-1.css') }}" media="screen">
   <!-- Responsive css-->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/responsive.css') }}">
-
 </head>
 
 <body>
@@ -67,11 +69,13 @@
         <form class="col-sm-4 form-inline search-full d-none d-xl-block" action="#" method="get"></form>
         <div class="nav-right col-xl-8 col-lg-12 col-auto pull-right right-header p-0">
           <ul class="nav-menus">
+            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
             <li>
               <a class="badge badge-success mb-1" onclick="$('#invitationCodeModal').modal('show');">
                 <span class="label">Create Invitation Code</span>
               </a>
             </li>
+            @endif
             <li>
               <a class="badge @if($pendingRechargeRequest === 0)badge-success @else badge-danger @endif mb-1" href="{{ route('recharge.list') }}">
                 <span class="lable">Recharge {{ $pendingRechargeRequest }}</span>
@@ -121,8 +125,8 @@
               <div class="d-flex align-items-center profile-media">
                 <img class="b-r-25" src="{{ asset('assets/admin/images/dashboard/profile.png') }}" alt="">
                 <div class="flex-grow-1 user">
-                  <span>{{ Auth::user()->name }}</span>
-                  <p class="mb-0 font-nunito">{{ Auth::user()->user_type }}</p>
+                  <span>{{ Auth::guard('admin')->user()->name }}</span>
+                  <p class="mb-0 font-nunito">{{ Auth::guard('admin')->user()->user_type }}</p>
                 </div>
               </div>
               <ul class="profile-dropdown onhover-show-div">
@@ -133,7 +137,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{{ route('logout') }}">
+                  <a href="{{ route('admin.logout') }}">
                     <i data-feather="log-in"></i>
                     <span>Log Out</span>
                   </a>
@@ -151,7 +155,7 @@
                         </svg>
                     </div>
                     <div class="ProfileCard-details">
-                        <div class="ProfileCard-realName">{{auth()->user()->name}}</div>
+                        <div class="ProfileCard-realName">{{Auth::guard('admin')->user()->name}}</div>
                     </div>
                 </div>
             </script>

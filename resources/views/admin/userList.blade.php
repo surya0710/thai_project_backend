@@ -20,6 +20,7 @@
           <div class="card">
 
             <div class="card-body">
+            <h2 class="mb-3">Filters</h2>
               <form class="row g-3 needs-validation custom-input" novalidate="" method="post" id="userForm">
 
                 <div class="col-md-3 position-relative">
@@ -86,48 +87,13 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
-
-              <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" onclick="" class="btn btn-primary" type="button">
-                  <i class="fa-solid fa-rotate"></i>
-                </button>
-                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-share-from-square"></i></button>
-                <ul class="dropdown-menu dropdown-block">
-                  <div id="exportOptions">
-                    <label><input type="checkbox" class="exportField" value="ID" checked> ID</label>
-                    <label><input type="checkbox" class="exportField" value="User ID" checked> User ID</label>
-                    <label><input type="checkbox" class="exportField" value="Invitation Code" checked> Invitation Code</label>
-                    <label><input type="checkbox" class="exportField" value="Username" checked> Username</label>
-                    <label><input type="checkbox" class="exportField" value="Name" checked> Name</label>
-                    <label><input type="checkbox" class="exportField" value="Phone" checked> Phone</label>
-                    <label><input type="checkbox" class="exportField" value="Email" checked> Email</label>
-                    <label><input type="checkbox" class="exportField" value="Login Time" checked> Login Time</label>
-                    <label><input type="checkbox" class="exportField" value="Registration Time" checked> Registration Time</label>
-                    <label><input type="checkbox" class="exportField" value="Number of Orders" checked> Number of Orders</label>
-                    <label><input type="checkbox" class="exportField" value="Money" checked> Money</label>
-                    <label><input type="checkbox" class="exportField" value="Credit Permission" checked> Credit Permission</label>
-                    <label><input type="checkbox" class="exportField" value="Country" checked> Country</label>
-
-                  </div>
-
-                </ul>
-                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                    class="fa-solid fa-share-from-square"></i></button>
-                <ul class="dropdown-menu dropdown-block">
-
-
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToExcel('basic-1')">Excel</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToCSV('basic-1')">CSV</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="exportToPDF('basic-1')">PDF</a></li>
-                  <li><a class="dropdown-item" href="javascript:;" onclick="importCSV()">Import CSV</a></li>
-                </ul>
-              </div>
+              @if(Auth::guard('admin')->user()->user_type !== 'Worker')
               <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
+              @endif
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table class="display dataTable" id="basic-1" role="grid" aria-describedby="basic-1_info">
+                <table table class="display nowrap" id="myTable">
                   <thead>
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>
@@ -141,9 +107,13 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
+                      @endif
                       <th><span class="f-light f-w-600"></span>Country</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
+                      @endif
                       <th><span class="f-light f-w-600"></span>Action</span></th>
                     </tr>
                   </thead>
@@ -161,14 +131,16 @@
                       <td>{{ $user->created_at }}</td>
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
-                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1"
+                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" class="user-{{ $user->id }}"
                           {{ $user->credit_permission == 1 ? 'checked' : '' }}>
-                        <label for="checkboxInput" class="toggleSwitch">
+                        <label for="checkboxInput" data-user-id="{{ $user->id }}" onclick="updateCreditPermission({{ $user->id }})" class="toggleSwitch">
                         </label>
                       </td>
+                      @endif
                       <td>{{ $user->country }}</td>
-
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         @if($user->is_blocked == 1)
                         <button class="badge badge-success mb-1" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
@@ -182,14 +154,17 @@
                         </button>
                         @endif
                       </td>
+                      @endif
                       <td>
                         <ul class="action">
                           <li class="edit">
                             <a href="{{ route('user.view', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
+                          @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                           <li class="edit">
                             <a href="{{ route('user.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
+                          @endif
                         </ul>
                       </td>
                     </tr>
@@ -214,47 +189,46 @@
   @include('admin.partials.footer')
 </div>
 <script>
-  jQuery(document).ready(function() {
-    $("#checkboxInput").change(function() {
-      let isChecked = $(this).is(":checked") ? 1 : 0;
-      let userID = $(this).data('user-id');
-      let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
-      $.ajax({
-        url: url,
-        type: "POST",
-        data: {
-          _token: "{{ csrf_token() }}",
-          credit_permission: isChecked
-        },
-        success: function(response) {
-          if (response.status === 'success') {
-            Swal.fire(
-              "Updated!",
-              `Credit Permission Updated`,
-              "success"
-            );
-          } else {
-            Swal.fire(
-              "Error!",
-              `${response.message}`,
-              "error"
-            );
-          }
-        },
-        error: function(xhr) {
+  function updateCreditPermission(userID) {
+    let isChecked = $('.user-' + userID).is(":checked") ? 1 : 0;
+    console.log(isChecked);
+    let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {
+        _token: "{{ csrf_token() }}",
+        credit_permission: isChecked,
+      },
+      success: function(response) {
+        if (response.status === 'success') {
+          Swal.fire(
+            "Updated!",
+            `Credit Permission Updated`,
+            "success"
+          );
+        } else {
           Swal.fire(
             "Error!",
-            "Something went wrong. Please try again.",
+            `${response.message}`,
             "error"
           );
-        },
-        error: function(xhr) {
-          console.error("Error:", xhr);
-          alert("Failed to update credit permission!");
         }
-      });
+      },
+      error: function(xhr) {
+        Swal.fire(
+          "Error!",
+          "Something went wrong. Please try again.",
+          "error"
+        );
+      },
+      error: function(xhr) {
+        console.error("Error:", xhr);
+        alert("Failed to update credit permission!");
+      }
     });
-  });
+  }
+
   function getSelectedFields() {
     let selectedFields = [];
     document.querySelectorAll(".exportField:checked").forEach(checkbox => {

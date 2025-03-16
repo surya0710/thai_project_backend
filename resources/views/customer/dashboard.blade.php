@@ -76,9 +76,9 @@
    </div>
    <div class="content-left">
       <a href="profile.html" class="avt">
-         <img src="{{ asset('assets/images/avt/avt2.jpg') }}" alt="avatar">
+         <img src="{{ asset('assets/images/avt/avt1.jpg') }}" alt="avatar">
       </a>
-      <h5>Hello, {{ Auth::user()->name }}!</h5>
+      <h5>Hello, {{ Auth::guard('customer')->user()->name }}!</h5>
    </div>
    <div class="right">
       <div id='google_translate_element' class="skiptranslate goog-te-gadget" dir="ltr" style="">
@@ -106,7 +106,7 @@
    <div class="tf-container">
       <div class="upper-main-btn mt-24 justify-content-between align-items-end">
          <div class="">
-            <h3>USD {{ Auth::user()->total_amount }}</h3>
+            <h3>USD {{ Auth::guard('customer')->user()->total_amount }}</h3>
             <p class="meta-item">Available Balance</p>
          </div>
          <div class="d-flex mt-3">
@@ -117,15 +117,15 @@
       <div class="content">
          <div class="home-main-btn mt-10 align-items-center gap-16">
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::user()->revenue_generated}}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated}}</div>
                <p class=" text-white-5 desc-val-drop">Revenue(USD)</p>
             </button>
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::user()->revenue_generated}}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated}}</div>
                <p class=" text-white-5 desc-val-drop">Frozen(USD)</p>
             </button>
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::user()->total_amount }}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount }}</div>
                <p class=" text-white-5 desc-val-drop">Total(USD)</p>
             </button>
          </div>

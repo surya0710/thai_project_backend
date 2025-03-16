@@ -19,6 +19,7 @@
           <div class="card">
 
             <div class="card-body">
+              <h2 class="mb-3">Filters</h2>
               <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip09">Status</label>
@@ -49,12 +50,9 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
-              <div class="btn-group">
-                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-              </div>
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
-                  <table class="display" id="basic-1">
+                  <table table class="display nowrap" id="myTable">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -66,7 +64,9 @@
                         <th>Created At</th>
                         <th>Status</th>
                         <th>Approved By</th>
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                         <th>Action</th>
+                        @endif
                       </tr>
                     </thead>
                     <tbody>
@@ -81,14 +81,15 @@
                         <td>{{ $recharge->created_at }}</td>
                         <td>
                           @if($recharge->status == 0)
-                            Pending
+                          Pending
                           @elseif($recharge->status == 1)
-                            Approved
+                          Approved
                           @elseif($recharge->status == 2)
-                            Rejected
+                          Rejected
                           @endif
                         </td>
                         <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                         <td>
                           @if($recharge->status == 0)
                           <ul class="action">
@@ -101,6 +102,7 @@
                           </ul>
                           @endif
                         </td>
+                        @endif
                       </tr>
                       @endforeach
                     </tbody>
@@ -112,51 +114,50 @@
         </div>
       </div>
     </div>
-  @include('admin.partials.footer')
-  <script>
-    jQuery(document).ready(function () {
-      $('.rechargeStatus').on("click", function (event) {
-        event.preventDefault();
+    @include('admin.partials.footer')
+    <script>
+      jQuery(document).ready(function() {
+        $('.rechargeStatus').on("click", function(event) {
+          event.preventDefault();
 
-        var id = $(this).data("id");
-        var action = $(this).data("event");
+          var id = $(this).data("id");
+          var action = $(this).data("event");
 
-        Swal.fire({
-          title: "Are you sure?",
-          text: "You want to " + action + " this transaction",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: `Yes, ${action} it!`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-              url: "{{ route('admin.rechargeStatus') }}",
-              type: "POST",
-              data: {
-                id: id,
-                event: action,
-                _token: "{{ csrf_token() }}",
-              },
-              success: function (response) {
-                console.log(response);
-                if (response.status === "success") {
-                  Swal.fire("Success!", `Transaction has been ${action}.`, "success").then(() => {
-                    location.reload();
-                  });
-                } else {
-                  Swal.fire("Error!", response.message, "error");
-                }
-              },
-              error: function (xhr, status, error) {
-                console.log(error);
-                Swal.fire("Error!", "Something went wrong. Please try again.", "error");
-              },
-            });
-          }
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You want to " + action + " this transaction",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: `Yes, ${action} it!`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url: "{{ route('admin.rechargeStatus') }}",
+                type: "POST",
+                data: {
+                  id: id,
+                  event: action,
+                  _token: "{{ csrf_token() }}",
+                },
+                success: function(response) {
+                  console.log(response);
+                  if (response.status === "success") {
+                    Swal.fire("Success!", `Transaction has been ${action}.`, "success").then(() => {
+                      location.reload();
+                    });
+                  } else {
+                    Swal.fire("Error!", response.message, "error");
+                  }
+                },
+                error: function(xhr, status, error) {
+                  console.log(error);
+                  Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                },
+              });
+            }
+          });
         });
       });
-    });
-  </script>
-  
+    </script>

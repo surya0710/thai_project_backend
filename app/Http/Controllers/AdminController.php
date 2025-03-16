@@ -33,7 +33,7 @@ class AdminController extends Controller
             return redirect('admin/')->with(['error' => 'Invalid credentials']);
         };
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+        if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])){
             return redirect()->route('dashboard');
         }else{
             return redirect('admin/')->with(['error' => 'Invalid credentials']);
@@ -52,14 +52,8 @@ class AdminController extends Controller
     }
 
     public function logout(){
-        if(auth::user()->role == 'admin'){
-            Auth::logout();
-            return redirect('admin/');
-        }
-        else{
-            Auth::logout();
-            return redirect('/');
-        }
+        Auth::guard('admin')->logout();
+        return redirect('admin/');
     }
 
 }

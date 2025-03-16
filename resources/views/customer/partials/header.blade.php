@@ -23,7 +23,7 @@
          <div class="logo-img">
             <img src="{{ asset('assets/images/logo/paytmicon-png.png') }}" alt="logo">
          </div>
-         <div class="spinner-circle lg success">
+         <!-- <div class="spinner-circle lg success">
             <span class="spinner-circle1 spinner-child"></span>
             <span class="spinner-circle2 spinner-child"></span>
             <span class="spinner-circle3 spinner-child"></span>
@@ -33,6 +33,6 @@
             <span class="spinner-circle7 spinner-child"></span>
             <span class="spinner-circle8 spinner-child"></span>
             <span class="spinner-circle9 spinner-child"></span>
-         </div>
+         </div> -->
       </div>
       <!-- /preload -->

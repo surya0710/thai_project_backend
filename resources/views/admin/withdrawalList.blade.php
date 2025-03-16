@@ -21,6 +21,7 @@
                     <div class="card">
 
                         <div class="card-body">
+                            <h2 class="mb-3">Filters</h2>
                             <form class="row g-3 needs-validation custom-input" novalidate="">
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip01">User Id</label>
@@ -81,26 +82,10 @@
                             <div class="tab-content" id="topline-tabContent">
                                 <div class="tab-pane fade show active" id="topline-top-user" role="tabpanel" aria-labelledby="topline-top-user-tab">
                                     <div class="card">
-                                        <div class="card-header pb-0 card-no-border">
-                                            <div class="btn-group">
-
-                                                <button style="padding: 3px 10px 0px 13px; margin-right: 4px;" class="btn btn-primary " type="button"><i class="fa-solid fa-rotate"></i></button>
-
-                                                <button style="padding: 4px;" class=" dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i
-                                                        class="fa-solid fa-share-from-square"></i></button>
-                                                <ul class="dropdown-menu dropdown-block">
-                                                    <li><a class="dropdown-item" href="#">JSON</a></li>
-                                                    <li><a class="dropdown-item" href="#">XML</a></li>
-                                                    <li><a class="dropdown-item" href="#">CSV</a></li>
-                                                    <li><a class="dropdown-item" href="#">TXT</a></li>
-                                                    <li><a class="dropdown-item" href="#">MS-Word</a></li>
-                                                    <li><a class="dropdown-item" href="#">MS-Excel</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <!-- <div class="card-header pb-0 card-no-border" style="height: 50px;"></div> -->
                                         <div class="card-body">
                                             <div class="table-responsive custom-scrollbar">
-                                                <table class="display" id="basic-1">
+                                                <table table class="display nowrap" id="myTable">
                                                     <thead>
                                                         <tr>
                                                             <th>ID</th>
@@ -117,16 +102,16 @@
                                                     <tbody>
                                                         @foreach($withdrawalList as $withdrawal)
                                                         <tr>
-                                                            <td>{{  $loop->index + 1}}</td>
-                                                            <td>{{  $withdrawal->user['username']}}</td>
-                                                            <td>${{  $withdrawal->amount}}</td>
+                                                            <td>{{ $loop->index + 1}}</td>
+                                                            <td>{{ $withdrawal->user['username']}}</td>
+                                                            <td>${{ $withdrawal->amount}}</td>
                                                             <td>
                                                                 @if($withdrawal->status === 0)
-                                                                    Pending
+                                                                Pending
                                                                 @elseif($withdrawal->status === 1)
-                                                                    Complete
+                                                                Complete
                                                                 @elseif($withdrawal->status === 2)
-                                                                    Rejected
+                                                                Rejected
                                                                 @endif
                                                             </td>
                                                             <td>{{ $withdrawal->bankDetails['bank_name'] }}</td>
@@ -138,6 +123,7 @@
                                                                     <li class="edit">
                                                                         <a href="{{ route('withdrawal.view', ['withdrawal_id' => $withdrawal->id]) }}"><i class="fa-solid fa-eye"></i></a>
                                                                     </li>
+                                                                    @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                                                     @if($withdrawal->status === 0)
                                                                     <li class="view me-2">
                                                                         <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>
@@ -145,6 +131,7 @@
                                                                     <li class="view">
                                                                         <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="reject" class="btn btn-danger rechargeStatus">Reject</button>
                                                                     </li>
+                                                                    @endif
                                                                     @endif
                                                                 </ul>
                                                             </td>
@@ -167,8 +154,8 @@
     @include('admin.partials.footer')
     @include('admin.partials.popup')
     <script>
-        jQuery(document).ready(function () {
-            $('.rechargeStatus').on("click", function (event) {
+        jQuery(document).ready(function() {
+            $('.rechargeStatus').on("click", function(event) {
                 event.preventDefault();
 
                 var id = $(this).data("id");
@@ -177,40 +164,40 @@
                 var action = $(this).data("event");
 
                 Swal.fire({
-                title: "Are you sure?",
-                text: "You want to " + action + " this transaction of " + amount + " to " + user,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: `Yes, ${action} it!`,
+                    title: "Are you sure?",
+                    text: "You want to " + action + " this transaction of " + amount + " to " + user,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: `Yes, ${action} it!`,
                 }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                    url: "{{ route('admin.withdrawalStatus') }}",
-                    type: "POST",
-                    data: {
-                        id: id,
-                        event: action,
-                        amount: amount,
-                        _token: "{{ csrf_token() }}",
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status === "success") {
-                        Swal.fire("Success!", `Transaction of $ ${amount} has been ${action} successfully to ${user}`).then(() => {
-                            location.reload();
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('admin.withdrawalStatus') }}",
+                            type: "POST",
+                            data: {
+                                id: id,
+                                event: action,
+                                amount: amount,
+                                _token: "{{ csrf_token() }}",
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                if (response.status === "success") {
+                                    Swal.fire("Success!", `Transaction of $ ${amount} has been ${action} successfully to ${user}`).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire("Error!", response.message, "error");
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.log(error);
+                                Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                            },
                         });
-                        } else {
-                        Swal.fire("Error!", response.message, "error");
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(error);
-                        Swal.fire("Error!", "Something went wrong. Please try again.", "error");
-                    },
-                    });
-                }
+                    }
                 });
             });
         });

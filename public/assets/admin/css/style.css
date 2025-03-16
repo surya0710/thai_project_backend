@@ -19457,17 +19457,24 @@ div.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
 }
 
 div.dataTables_wrapper .dataTables_length {
-    margin-bottom: 26px
+    margin-bottom: 26px;
+    width: 20%;
 }
 
 div.dataTables_wrapper .dataTables_length label {
-    display: none !important
+    display: block !important
+}
+
+div.dataTables_wrapper .dataTables_length select{
+    border-color: #000000!important;
+    padding: 0 5px!important;
+    width: 50px!important;
 }
 
 div.dataTables_wrapper div.dataTables_filter {
     position: absolute;
     right: 53px;
-    top: 17px
+    top: 35px
 }
 
 @media (max-width:575px) {
