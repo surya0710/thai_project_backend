@@ -65,7 +65,7 @@ class OrderManagermentController extends Controller
         $taskHistory->badge = $user->badge;
         if($taskHistory->save()){
             $user->revenue_generated += $taskHistory->earned_amount;
-            $user->total_amount += $taskHistory->product_amount;
+            $user->total_amount += $taskHistory->earned_amount;
             $user->update();
         };
         return redirect()->route('customer.automaticOrder');
