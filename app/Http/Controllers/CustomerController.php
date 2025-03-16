@@ -26,18 +26,54 @@ class CustomerController extends Controller
         $userData = User::find(Auth::guard('customer')->user()->id);
         $tasksPrice = generateTaskPrices($userData->badge);
         
-        $tasks = collect();
+        $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2 ], $tasksPrice['regular_tasks']);
 
-        foreach ($tasksPrice['regular_tasks'] as $taskPrice) {
-            $tasks = $tasks->merge(Products::where('price', $taskPrice)->with('taskStatus')->get());
-        }
+        // Fetch distinct products for regular tasks
+        $tasks = Products::where(function ($query) use ($taskPriceRanges) {
+            foreach ($taskPriceRanges as $range) {
+                $query->orWhereBetween('price', $range);
+            }
+        })
+        ->whereNotNull('id')
+        ->with('taskStatus')
+        ->distinct()
+        ->limit(29)
+        ->get();
 
-        $luckyTask = Products::where('price', $tasksPrice['lucky_task'])->with('taskStatus')->first();
+        // Fetch the lucky task ensuring uniqueness
+        $luckyTask = Products::whereBetween('price', [$tasksPrice['lucky_task'] - 2, $tasksPrice['lucky_task'] ])
+            ->whereNotIn('id', $tasks->pluck('id')->toArray())
+            ->with('taskStatus')
+            ->first();
 
+        // Ensure lucky task is added if found
         if ($luckyTask) {
-            $tasks->splice(26, 0, [$luckyTask]);
+            $tasks->splice(27, 0, [$luckyTask]); // Insert at position 26
+        } else {
+            // If lucky task wasn't found, try fetching another valid task
+            $alternativeLuckyTask = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
+                ->orderByRaw('RAND()')
+                ->with('taskStatus')
+                ->first();
+            
+            if ($alternativeLuckyTask) {
+                $tasks->splice(27, 0, [$alternativeLuckyTask]);
+            }
         }
-        return view('customer.tasks', compact('userData'));
+
+        // Ensure total tasks = 30
+        if ($tasks->count() < 30) {
+            $remaining = 30 - $tasks->count();
+            $extraTasks = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
+                ->with('taskStatus')
+                ->limit($remaining)
+                ->get();
+            $tasks = $tasks->merge($extraTasks);
+        }
+
+        $totalTaskPrice = $tasks->sum('price');
+
+        return view('customer.tasks', compact('userData', 'tasks'));
     }
 
     public function revenueRecord(){
