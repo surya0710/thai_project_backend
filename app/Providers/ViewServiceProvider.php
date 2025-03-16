@@ -8,6 +8,8 @@ use App\Models\RechargeRequest;
 use App\Models\Withdraw;
 use App\Models\User;
 use App\Models\Products;
+use App\Models\TasksHistory;
+use Illuminate\Support\Facades\Auth;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -35,7 +37,6 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('adminUsersCount', $adminUsersCount);
             $view->with('customerUsersCount', $customerUsersCount);
             $view->with('productsCount', $productsCount);
-            
         });
     }
 }

@@ -28,13 +28,13 @@
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Today</div>
-                            <span class="body-4 text-black-5 fw-5">0 USD </span>
+                            <span class="body-4 text-black-5 fw-5">{{ $todayEarned }} USD </span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Number of order recevied</div>
-                            <span class="body-4 text-black-5 fw-5">0 /30 </span>
+                            <span class="body-4 text-black-5 fw-5">{{ $taskCount }} /30 </span>
                         </a>
                     </li>
                 </ul>
@@ -65,10 +65,10 @@
                 <li class="mt-16 pb-8 line-bt2">
                     <a href="" class="box-inbox-item">
                         <div class="avatar avt-32 avt-status">
-                            <img src="{{ asset($tasks[0]->image_path) }}" alt="avatar">
+                            <img src="{{ asset($task->image_path) }}" alt="avatar">
                         </div>
                         <div class="content">
-                            <div class="desc">{{ $tasks[0]->name }}</div>
+                            <div class="desc">{{ $task->name }}</div>
                             <div class="title"><span class="desc">USD</span> <span class="desc">x1</span></div>
                         </div>
                     </a>
@@ -76,20 +76,23 @@
                 <li class="mt-20 ">
                     <a href="" class="wd-file-message line-bt">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
-                        <span class="body-4 text-black-5 fw-5">USD  {{ $tasks[0]->price }}</span>
+                        <span class="body-4 text-black-5 fw-5">USD  {{ $task->price }}</span>
                     </a>
                 </li>
                 <li class="mt-20 line-bt">
                     <a href="" class="wd-file-message">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
-                        <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($tasks[0]->price, $userData->badge)}}</span>
+                        <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($task->price, $userData->badge)}}</span>
                     </a>
                 </li>
                 
             </ul>
         </div>
         <div class="mt-24">
-            <button type="submit" class="mt-35 tf-btn primary">Submit</button>
+            <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id]) }}" method="post">
+                @csrf
+                <button type="submit" class="mt-35 tf-btn primary">Submit</button>
+            </form>
         </div>
         @else
         <div class="mt-14 content-message">

@@ -82,3 +82,36 @@ use App\Models\Products;
             ];
         }
     }
+
+    if(!function_exists('getNextTaskPrice')){
+        function getNextTaskPrice($userRevenue, $tasksCompleted, $isLuckyDraw = false) {
+            $totalReward = 15;
+            $totalTasks = 30;
+            
+            // Remaining reward to reach $15
+            $remainingReward = $totalReward - $userRevenue;
+            
+            // Remaining tasks
+            $remainingTasks = $totalTasks - $tasksCompleted;
+
+            if ($remainingTasks <= 0) {
+                return null; // All tasks completed
+            }
+
+            // If it's a lucky draw task, use 5% reward calculation
+            if ($isLuckyDraw) {
+                $price = $remainingReward / 0.05;
+            } else {
+                // Regular task price calculation (reserving one lucky draw)
+                $price = $remainingReward / (0.03 * ($remainingTasks - 1) + 0.05);
+            }
+
+            // Randomize within a small range
+            $priceVariation = rand(-50, 50) / 100;
+            $nextTaskPrice = max(10, $price + $priceVariation);
+
+            return number_format($nextTaskPrice, 2);
+        }
+    }
+    
+    
