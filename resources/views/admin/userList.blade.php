@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="col-6 mt-5">
-                  <button class="btn btn-primary" name="user_create" type="submit">Filter</button>
+                  <button class="btn btn-primary" name="user_create" type="submit">Submit</button>
                   <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
                 </div>
 
@@ -133,11 +133,19 @@
                       <td>{{ $user->total_amount }}</td>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
-                        <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" class="user-{{ $user->id }}"
-                          {{ $user->credit_permission == 1 ? 'checked' : '' }}>
-                        <label for="checkboxInput" data-user-id="{{ $user->id }}" onclick="updateCreditPermission({{ $user->id }})" class="toggleSwitch">
-                        </label>
+
+                        <div class="form-check form-switch">
+                          <select name="credit_permission" id="" onchange="updateCreditPermission({{ $user->id }})">>
+                            <option value="0" {{ $user->credit_permission == 0 ? 'selected' : '' }}>Denied </option>
+                            <option value="1" {{ $user->credit_permission == 1 ? 'selected' : '' }}>Access</option>
+                          </select>
+                        
+                        </div>
                       </td>
+                        <!-- <input type="checkbox" class="form-check-input" id="toggleSwitch-{{ $user->id }}" data-user-id="{{ $user->id }}"
+                            {{ $user->credit_permission == 1 ? 'checked' : '' }}
+                            onchange="updateCreditPermission({{ $user->id }})">
+                          <label class="form-check-label" for="toggleSwitch-{{ $user->id }}"></label> -->
                       @endif
                       <td>{{ $user->country }}</td>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
