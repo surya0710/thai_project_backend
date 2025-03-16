@@ -3,6 +3,7 @@
    <!-- Page Sidebar Ends-->
    @include('admin.partials.sidenav')
     <!-- Page Sidebar Ends-->
+    @if(Auth::guard('admin')->user()->user_type !== 'Worker')
     <div class="page-body">
         <div class="container-fluid">
             <div class="page-title">
@@ -115,6 +116,20 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
+    @else
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title text-center">
+                <div class="row">
+                    <div class="col-12 box-col-3">
+                        <h3> Unauthorised Access</h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @include('admin.partials.footer')
 <script>
    function handleDelete(event, element){

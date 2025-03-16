@@ -18,16 +18,12 @@
                   const invitationCode = document.querySelector('#invitation_code');
                   
                   generateCode.addEventListener('click', () => {
-                      const alphaNum = '0123456789abcdefghijklmnopqrstuvwxyz';
+                      const alphaNum = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
                       let code = '';
-                      for (let i = 0; i < 10; i++) {
-                          if (i % 2 === 0) {
-                              code += alphaNum[Math.floor(Math.random() * 10)];
-                          } else {
-                              code += alphaNum[Math.floor(Math.random() * 26) + 10];
-                          }
+                      for (let i = 0; i < 6; i++) {
+                          code += alphaNum[Math.floor(Math.random() * alphaNum.length)];
                       }
-                      invitationCode.value = code;
+                      invitationCode.value = code.toUpperCase();
                   });
                 </script>
             </div>
