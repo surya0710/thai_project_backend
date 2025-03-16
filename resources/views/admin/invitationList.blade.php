@@ -38,11 +38,21 @@
                 @csrf
                 <div class="col-md-3 position-relative">
                   <label class="form-label">Invitation Code</label>
-                  <input class="form-control" id="invite_code" type="text" name="invite_code" placeholder="Invitation Code" required="">
+                  <input class="form-control" id="invite_code" type="text" name="invite_code" placeholder="Invitation Code">
                   <span class="error">
                     @if ($errors->has('invite_code'))
                     {{ $errors->first('invite_code') }}
                     @endif
+                  </span>
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label">Create By</label>
+                  <select name="create_by" id="" class="form-control">
+                    <option value="admin1">admin1</option>
+                    <option value="admin2">admin2</option>
+                  </select>
+                  <span class="error">
+
                   </span>
                 </div>
                 <div class="col-6 mt-5">
@@ -68,13 +78,16 @@
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table table class="display nowrap" id="myTable">
+              
+
+
+                <table id="example" class="table table-striped" style="width:100%">
                   <thead>
                     <tr>
-                      <th><span class="f-light f-w-600"></span>ID</span></th>
-                      <th><span class="f-light f-w-600"></span>Invitation Code</span></th>
-                      <th><span class="f-light f-w-600"></span>Create By</span></th>
-                      <th><span class="f-light f-w-600"></span>Used By</th>
+                      <th>ID</th>
+                      <th>Invitation Code</th>
+                      <th>Create By</th>
+                      <th>Used By</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -87,6 +100,14 @@
                     </tr>
                     @endforeach
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>ID</th>
+                      <th>Invitation Code</th>
+                      <th>Create By</th>
+                      <th>Used By</th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>

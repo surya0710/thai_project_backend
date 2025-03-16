@@ -20,7 +20,7 @@
           <div class="card">
 
             <div class="card-body">
-            <h2 class="mb-3">Filters</h2>
+              <h2 class="mb-3">Filters</h2>
               <form class="row g-3 needs-validation custom-input" novalidate="" method="post" id="userForm">
 
                 <div class="col-md-3 position-relative">
@@ -93,7 +93,10 @@
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-                <table table class="display nowrap" id="myTable">
+               
+
+
+                <table id="example" class="table table-striped" style="width:100%">
                   <thead>
                     <tr>
                       <th><span class="f-light f-w-600"></span>ID</span></th>
@@ -139,13 +142,9 @@
                             <option value="0" {{ $user->credit_permission == 0 ? 'selected' : '' }}>Denied </option>
                             <option value="1" {{ $user->credit_permission == 1 ? 'selected' : '' }}>Access</option>
                           </select>
-                        
+
                         </div>
                       </td>
-                        <!-- <input type="checkbox" class="form-check-input" id="toggleSwitch-{{ $user->id }}" data-user-id="{{ $user->id }}"
-                            {{ $user->credit_permission == 1 ? 'checked' : '' }}
-                            onchange="updateCreditPermission({{ $user->id }})">
-                          <label class="form-check-label" for="toggleSwitch-{{ $user->id }}"></label> -->
                       @endif
                       <td>{{ $user->country }}</td>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
@@ -183,6 +182,29 @@
                     </tr>
                     @endif
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th><span class="f-light f-w-600"></span>ID</span></th>
+                      <th><span class="f-light f-w-600"></span>User ID</span></th>
+                      <th><span class="f-light f-w-600"></span>Invitation Code</span></th>
+                      <th><span class="f-light f-w-600"></span>Username</span></th>
+                      <th><span class="f-light f-w-600"></span>Name</span></th>
+                      <th><span class="f-light f-w-600"></span>Phone</span></th>
+                      <th><span class="f-light f-w-600"></span>Email</span></th>
+                      <th><span class="f-light f-w-600"></span>Login Time</span></th>
+                      <th><span class="f-light f-w-600"></span>Created At</span></th>
+                      <th><span class="f-light f-w-600"></span>No of Orders</span></th>
+                      <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
+                      @endif
+                      <th><span class="f-light f-w-600"></span>Country</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <th><span class="f-light f-w-600"></span>Operate</span></th>
+                      @endif
+                      <th><span class="f-light f-w-600"></span>Action</span></th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>

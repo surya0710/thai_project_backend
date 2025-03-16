@@ -1,6 +1,7 @@
 @include('admin.partials.header')
+
 <style>
-    .pagination svg{
+    .pagination svg {
         width: 15px
     }
 </style>
@@ -26,7 +27,7 @@
                     <div class="card">
 
                         <div class="card-body">
-                        <h2 class="mb-3">Filters</h2>
+                            <h2 class="mb-3">Filters</h2>
                             <form class="row g-3 needs-validation custom-input" novalidate="">
 
                                 <div class="col-md-3 position-relative">
@@ -89,7 +90,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
-                                <table class="display nowrap" id="myTable">
+                                <table id="example" class="table table-striped" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -132,7 +133,17 @@
                                         </tr>
                                         @endforeach
                                     </tbody>
-                                    <!-- Pagination Links -->
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Image</th>
+                                            <th>Create Time</th>
+                                            <th>Operate</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -144,54 +155,54 @@
         <!-- Container-fluid Ends-->
     </div>
     @include('admin.partials.footer')
-<script>
-    $(document).on('click', '.deleteProduct', function(event) {
-        event.preventDefault();
-        let productId = $(this).data('id');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('lazada.delete') }}",
-                    type: "POST",
-                    data: {
-                        id: productId,
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status === 'success') {
-                            Swal.fire(
-                                "Deleted!",
-                                `Product has been deleted.`,
-                                "success"
-                            ).then(() => {
-                                location.reload();
-                            });
-                        } else {
+    <script>
+        $(document).on('click', '.deleteProduct', function(event) {
+            event.preventDefault();
+            let productId = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('lazada.delete') }}",
+                        type: "POST",
+                        data: {
+                            id: productId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status === 'success') {
+                                Swal.fire(
+                                    "Deleted!",
+                                    `Product has been deleted.`,
+                                    "success"
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "Error!",
+                                    `${response.message}`,
+                                    "error"
+                                );
+                            }
+                        },
+                        error: function(xhr) {
                             Swal.fire(
                                 "Error!",
-                                `${response.message}`,
+                                "Something went wrong. Please try again.",
                                 "error"
                             );
                         }
-                    },
-                    error: function(xhr) {
-                        Swal.fire(
-                            "Error!",
-                            "Something went wrong. Please try again.",
-                            "error"
-                        );
-                    }
-                });
-            }
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>

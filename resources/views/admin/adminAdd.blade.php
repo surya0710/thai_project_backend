@@ -1,8 +1,8 @@
 @include('admin.partials.header')
 <div class="page-body-wrapper">
-   <!-- Page Sidebar Ends-->
-   @include('admin.partials.sidenav')
-   
+    <!-- Page Sidebar Ends-->
+    @include('admin.partials.sidenav')
+    @if(Auth::guard('admin')->user()->user_type !== 'Worker')
     <!-- Page Sidebar Ends-->
     <div class="page-body">
         <div class="container-fluid">
@@ -34,7 +34,7 @@
                                 <div class="row">
                                     <span class="text-danger error">
                                         @if (session()->has('error'))
-                                            {{ session()->get('error') }}
+                                        {{ session()->get('error') }}
                                         @endif
                                     </span>
                                 </div>
@@ -49,7 +49,7 @@
                                         </select>
                                         <span class="error text-danger">
                                             @error('user_type')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -59,7 +59,7 @@
                                             required="" value="{{ old('username') }}">
                                         <span class="error text-danger">
                                             @error('username')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -68,7 +68,7 @@
                                         <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name" required="" value="{{ old('name') }}">
                                         <span class="error text-danger">
                                             @error('name')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -77,7 +77,7 @@
                                         <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone" required="" value="{{ old('phone') }}">
                                         <span class="error text-danger">
                                             @error('phone')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -86,7 +86,7 @@
                                         <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email" required="" value="{{ old('email') }}">
                                         <span class="error text-danger">
                                             @error('email')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -95,7 +95,7 @@
                                         <input class="form-control" id="validationTooltip06" name="password" type="password" placeholder="Password" required="" value="{{ old('password') }}">
                                         <span class="error text-danger">
                                             @error('password')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -113,4 +113,18 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
-@include('admin.partials.footer')
+    @else
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title text-center">
+                <div class="row">
+                    <div class="col-12 box-col-3">
+                        <h3> Unauthorised Access</h3>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    @include('admin.partials.footer')

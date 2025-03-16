@@ -51,9 +51,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+    <script>new DataTable('#example');</script>
     <script>
       $(document).ready(function() {
-        let table = $('#myTable').DataTable({
+        let table = $('#example').DataTable({
             dom: 'lBfrtip', // Removed 'l' from the dom string to hide the length menu
             lengthMenu: [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "All"]],
             pageLength: 10,
@@ -66,19 +69,19 @@
         });
 
         // Column Search Filters
-        $('#myTable tfoot th').each(function () {
-            let title = $(this).text();
-            $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
-        });
+        // $('#example tfoot th').each(function () {
+        //     let title = $(this).text();
+        //     $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
+        // });
 
-        table.columns().every(function () {
-            let that = this;
-            $('input', this.footer()).on('keyup change', function () {
-                if (that.search() !== this.value) {
-                    that.search(this.value).draw();
-                }
-            });
-        });
+        // table.columns().every(function () {
+        //     let that = this;
+        //     $('input', this.footer()).on('keyup change', function () {
+        //         if (that.search() !== this.value) {
+        //             that.search(this.value).draw();
+        //         }
+        //     });
+        // });
       });
     </script>
   </body>

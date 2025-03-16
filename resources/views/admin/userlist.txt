@@ -1,0 +1,87 @@
+ <table table class="display nowrap" id="myTable">
+                  <thead>
+                    <tr>
+                      <th><span class="f-light f-w-600"></span>ID</span></th>
+                      <th><span class="f-light f-w-600"></span>User ID</span></th>
+                      <th><span class="f-light f-w-600"></span>Invitation Code</span></th>
+                      <th><span class="f-light f-w-600"></span>Username</span></th>
+                      <th><span class="f-light f-w-600"></span>Name</span></th>
+                      <th><span class="f-light f-w-600"></span>Phone</span></th>
+                      <th><span class="f-light f-w-600"></span>Email</span></th>
+                      <th><span class="f-light f-w-600"></span>Login Time</span></th>
+                      <th><span class="f-light f-w-600"></span>Created At</span></th>
+                      <th><span class="f-light f-w-600"></span>No of Orders</span></th>
+                      <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
+                      @endif
+                      <th><span class="f-light f-w-600"></span>Country</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <th><span class="f-light f-w-600"></span>Operate</span></th>
+                      @endif
+                      <th><span class="f-light f-w-600"></span>Action</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($users as $user)
+                    <tr>
+                      <td>{{ $loop->index + 1 }}</td>
+                      <td>{{ $user->uuid }}</td>
+                      <td>{{ $user->invitation_code }}</td>
+                      <td>{{ $user->username }}</td>
+                      <td>{{ $user->name }}</td>
+                      <td>{{ $user->phone }}</td>
+                      <td>{{ $user->email }}</td>
+                      <td>{{ $user->lastLogin['created_at'] ?? 'N/A' }}</td>
+                      <td>{{ $user->created_at }}</td>
+                      <td>60</td>
+                      <td>{{ $user->total_amount }}</td>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <td>
+
+                        <div class="form-check form-switch">
+                          <select name="credit_permission_{{ $user->id }}" id="" onchange="updateCreditPermission({{ $user->id }}, this)">>
+                            <option value="0" {{ $user->credit_permission == 0 ? 'selected' : '' }}>Denied </option>
+                            <option value="1" {{ $user->credit_permission == 1 ? 'selected' : '' }}>Access</option>
+                          </select>
+
+                        </div>
+                      </td>
+                      @endif
+                      <td>{{ $user->country }}</td>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      <td>
+                        @if($user->is_blocked == 1)
+                        <button class="badge badge-success mb-1" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                          <i class="fa-solid fa-bars"></i>
+                          <span class="lable">Allow transactions</span>
+                        </button>
+                        @else
+                        <button class="badge badge-primary mb-1" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                          <i class="fa-solid fa-bars"></i>
+                          <span class="lable">Prohibition of transactions</span>
+                        </button>
+                        @endif
+                      </td>
+                      @endif
+                      <td>
+                        <ul class="action">
+                          <li class="edit">
+                            <a href="{{ route('user.view', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
+                          </li>
+                          @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                          <li class="edit">
+                            <a href="{{ route('user.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
+                          </li>
+                          @endif
+                        </ul>
+                      </td>
+                    </tr>
+                    @endforeach
+                    @if($users->count() == 0)
+                    <tr>
+                      <td colspan="15" class="text-center">No data found</td>
+                    </tr>
+                    @endif
+                  </tbody>
+                </table>
