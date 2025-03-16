@@ -235,7 +235,7 @@
                             </svg>
                         </div>
                         <div class="font-title-btn text-black-2 title">
-                            Recharge & Withdraw Recored
+                            Recharge & Withdraw Record
                         </div>
                         <div class="box-icon w-20">
                             <i class="icon-arr-r fs-12"></i>
