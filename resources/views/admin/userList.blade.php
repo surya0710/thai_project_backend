@@ -137,12 +137,12 @@
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         @if($user->is_blocked == 1)
-                        <button class="badge badge-success mb-1" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-success mb-1 userStatus" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Allow transactions</span>
                         </button>
                         @else
-                        <button class="badge badge-primary mb-1" id="credit_permission" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-primary mb-1 userStatus" id="credit_permission" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Prohibition of transactions</span>
                         </button>
@@ -246,7 +246,7 @@
   }
   
   $(document).ready(function () {
-    $('.badge').on('click', function () {
+    $('.userStatus').on('click', function () {
         var data = $(this).data();
         let url = `{{ route('user.status') }}`;
 
