@@ -16,7 +16,6 @@ class Products extends Model
         'url',
         'price',
         'image_path',
-        'description',
     ];
 
     public function taskStatus(){

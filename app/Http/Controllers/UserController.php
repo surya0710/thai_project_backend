@@ -352,7 +352,6 @@ class UserController extends Controller
             'url' => 'required|string',
             'price' => 'required|numeric',
             'image' => $request->has('image') ? 'required|image|mimes:jpeg,png,jpg,gif,svg' : 'nullable',
-            'description' => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -370,7 +369,6 @@ class UserController extends Controller
         $product->url = $request->url;
         $product->price = $request->price;
         $product->image_path = $request->has('image') ? 'uploads/products/'.$imageName : $product->image_path;
-        $product->description = $request->description;
 
         if($product->save()){
             return redirect()->route('lazada.list')->with('success', 'Product Updated Successfully');
@@ -417,7 +415,6 @@ class UserController extends Controller
             'url' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpeg,png,jpg',
-            'description' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -435,7 +432,6 @@ class UserController extends Controller
                 'name' => $request->name,
                 'url' => $request->url,
                 'price' => $request->price,
-                'description' => $request->description,
                 'image_path' => $imageName,
             ]);
             $product->created_at = now();
