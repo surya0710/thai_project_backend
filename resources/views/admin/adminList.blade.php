@@ -18,11 +18,11 @@
             <div class="col-sm-12">
                <div class="card">
                   <div class="card-body">
-                  <h2 class="mb-3">Filters</h2>
+                     <h2 class="mb-3">Filters</h2>
                      <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip09">Admin User Type</label>
-                           <select class="form-select" id="validationTooltip09" name="user_type" required="">
+                           <select class="form-select" id="validationTooltip09" name="user_type">
                               <option selected="" disabled="" value="">Choose...</option>
                               <option value="Boss">Boss</option>
                               <option value="Manager">Manager</option>
@@ -31,23 +31,19 @@
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip02">Admin User ID</label>
-                           <input class="form-control" id="validationTooltip02" name="admin_user_id" type="text" placeholder="Admin User ID"
-                              required="">
+                           <input class="form-control" id="validationTooltip02" name="admin_user_id" type="text" placeholder="Admin User ID">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip03">Name</label>
-                           <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name"
-                              required="">
+                           <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip04">Phone</label>
-                           <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone"
-                              required="">
+                           <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip05">Email</label>
-                           <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email"
-                              required="">
+                           <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email">
                         </div>
                         <div class="col-6 mt-5">
                            <button class="btn btn-primary" type="submit" name="admin_create">Filter</button>
@@ -75,7 +71,8 @@
                   </div>
                   <div class="card-body">
                      <div class="table-responsive custom-scrollbar">
-                        <table table class="display nowrap" id="myTable">
+                    
+                        <table id="example" class="table table-striped" style="width:100%">
                            <thead>
                               <tr>
                                  <th>ID</th>
@@ -88,7 +85,6 @@
                                  @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                  <th>Action</th>
                                  @endif
-
                               </tr>
                            </thead>
                            <tbody>
@@ -115,6 +111,20 @@
                               </tr>
                               @endforeach
                            </tbody>
+                           <tfoot>
+                              <tr>
+                                 <th>ID</th>
+                                 <th>Admin User ID</th>
+                                 <th>Admin User Type</th>
+                                 <th>Name</th>
+                                 <th>Email</th>
+                                 <th>Phone</th>
+
+                                 @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                                 <th>Action</th>
+                                 @endif
+                              </tr>
+                           </tfoot>
                         </table>
                      </div>
                   </div>

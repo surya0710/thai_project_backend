@@ -1,0 +1,55 @@
+  <table table class="display nowrap" id="myTable">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Name</th>
+                        <th>Recharge Proof</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Approved By</th>
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        <th>Action</th>
+                        @endif
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach($rechargeList as $recharge)
+                      <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $recharge->amount }}</td>
+                        <td>{{ $recharge->user['username'] ?? 'N/A' }}</td>
+                        <td>{{ $recharge->user['phone'] ?? 'N/A' }}</td>
+                        <td>{{ $recharge->user['name'] ?? 'N/A' }}</td>
+                        <td><a href="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></a></td>
+                        <td>{{ $recharge->created_at }}</td>
+                        <td>
+                          @if($recharge->status == 0)
+                          Pending
+                          @elseif($recharge->status == 1)
+                          Approved
+                          @elseif($recharge->status == 2)
+                          Rejected
+                          @endif
+                        </td>
+                        <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        <td>
+                          @if($recharge->status == 0)
+                          <ul class="action">
+                            <li class="view me-2">
+                              <button type="button" data-id="{{ $recharge->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>
+                            </li>
+                            <li class="view">
+                              <button type="button" data-id="{{ $recharge->id }}" data-event="reject" class="btn btn-danger rechargeStatus">Reject</button>
+                            </li>
+                          </ul>
+                          @endif
+                        </td>
+                        @endif
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>

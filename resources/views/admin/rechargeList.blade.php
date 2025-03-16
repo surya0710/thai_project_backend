@@ -52,7 +52,8 @@
             <div class="card-header pb-0 card-no-border">
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
-                  <table table class="display nowrap" id="myTable">
+                
+                  <table id="example" class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -106,6 +107,22 @@
                       </tr>
                       @endforeach
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Username</th>
+                        <th>Phone</th>
+                        <th>Name</th>
+                        <th>Recharge Proof</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Approved By</th>
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        <th>Action</th>
+                        @endif
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>

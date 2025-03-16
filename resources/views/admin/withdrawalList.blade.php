@@ -23,34 +23,23 @@
                         <div class="card-body">
                             <h2 class="mb-3">Filters</h2>
                             <form class="row g-3 needs-validation custom-input" novalidate="">
-                                <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="validationTooltip01">User Id</label>
-                                    <input class="form-control" id="validationTooltip01" type="text" placeholder="User Id"
-                                        required="">
-                                </div>
+
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip02">Username</label>
-                                    <input class="form-control" id="validationTooltip02" type="text" placeholder="Username"
-                                        required="">
+                                    <input class="form-control" id="validationTooltip02" type="text" placeholder="Username">
                                 </div>
-                                <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="validationTooltip03">Invitation code</label>
-                                    <input class="form-control" id="validationTooltip03" type="text" placeholder="Invitation code"
-                                        required="">
-                                </div>
+
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip04">Amount</label>
-                                    <input class="form-control" id="validationTooltip04" type="text" placeholder="Amount"
-                                        required="">
+                                    <input class="form-control" id="validationTooltip04" type="text" placeholder="Amount">
                                 </div>
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip05">Bank Name</label>
-                                    <input class="form-control" id="validationTooltip05" type="text" placeholder="Bank Name"
-                                        required="">
+                                    <input class="form-control" id="validationTooltip05" type="text" placeholder="Bank Name">
                                 </div>
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip09">Status</label>
-                                    <select class="form-select" id="validationTooltip09" required="">
+                                    <select class="form-select" id="validationTooltip09">
                                         <option selected="" disabled="" value="">Choose...</option>
                                         <option value="Complete">Complete </option>
                                         <option value="Pending">Pending </option>
@@ -85,7 +74,8 @@
                                         <!-- <div class="card-header pb-0 card-no-border" style="height: 50px;"></div> -->
                                         <div class="card-body">
                                             <div class="table-responsive custom-scrollbar">
-                                                <table table class="display nowrap" id="myTable">
+                                              
+                                                <table id="example" class="table table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>ID</th>
@@ -138,6 +128,19 @@
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Username</th>
+                                                            <th>Amount</th>
+                                                            <th>Status</th>
+                                                            <th>Bank Name</th>
+                                                            <th>Createtime</th>
+                                                            <th>Transfertime</th>
+                                                            <th>Managed By</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>

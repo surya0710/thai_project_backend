@@ -17,6 +17,76 @@
     <link rel="apple-touch-icon-precomposed" href="{{  asset('assets/images/logo/paytm-favicon.png')}}" />
 
     <title>Login</title>
+    <style>
+    body>.skiptranslate,
+    .goog-logo-link,
+    .gskiptranslate,
+    .goog-te-gadget span,
+    .goog-te-banner-frame,
+    #goog-gt-tt,
+    .goog-te-balloon-frame,
+    div#goog-gt- {
+        display: none !important;
+    }
+
+    .goog-te-gadget {
+        color: transparent !important;
+        font-size: 0px;
+    }
+
+    .goog-text-highlight {
+        background: none !important;
+        box-shadow: none !important;
+    }
+
+    #google_translate_element select {
+        background: #0a3c55;
+        color: #fff4e4;
+        border: none;
+        font-weight: bold;
+        border-radius: 3px;
+        padding: 8px 12px
+    }
+
+    .language-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Style for select box */
+    .language-select {
+        appearance: none;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 110px;
+        background: white;
+    }
+
+    /* Dropdown container with flag */
+    .language-select-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    /* Flag icons */
+    .flag-icon {
+        width: 24px;
+        height: 16px;
+    }
+
+    /* Hide Google Translate Banner */
+    .goog-te-banner-frame {
+        display: none !important;
+    }
+    .goog-te-combo{
+        display: none;
+    }
+</style>
 </head>
 
 <body>
@@ -30,6 +100,27 @@
     <!-- /preload -->
     <div class="header fixed-top line-bt">
         <h5>Login</h5>  
+        <div class="right">
+            <div id='google_translate_element' class="skiptranslate goog-te-gadget" dir="ltr" style="">
+                <div class="language-wrapper">
+                    <div class="language-select-container">
+                    <img id="selected-flag" src="https://flagcdn.com/w40/us.png" class="flag-icon" alt="Flag">
+                    <select id="language-selector" class="language-select" onchange="changeLanguage()">
+                        <option value="en" data-flag="https://flagcdn.com/w40/us.png">English</option>
+                        <option value="hi" data-flag="https://flagcdn.com/w40/in.png">Hindi</option>
+                        <option value="ja" data-flag="https://flagcdn.com/w40/jp.png">Japanese</option>
+                        <option value="ko" data-flag="https://flagcdn.com/w40/kr.png">Korean</option>
+                        <option value="my" data-flag="https://flagcdn.com/w40/mm.png">Burmese</option>
+                        <option value="th" data-flag="https://flagcdn.com/w40/th.png">Thai</option>
+                        <option value="ru" data-flag="https://flagcdn.com/w40/ru.png">Russian</option>
+                        <option value="ms" data-flag="https://flagcdn.com/w40/sg.png">Singapore</option>
+                        <option value="ar" data-flag="https://flagcdn.com/w40/sa.png">Arabic</option>
+                        <option value="ur" data-flag="https://flagcdn.com/w40/pk.png">Urdu</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div> 
 
 
@@ -82,5 +173,34 @@
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script>
+        function changeLanguage() {
+            var selectBox = document.getElementById("language-selector");
+            var selectedOption = selectBox.options[selectBox.selectedIndex];
+            var selectedFlag = selectedOption.getAttribute("data-flag");
+
+            document.getElementById("selected-flag").src = selectedFlag;
+
+            var googleTranslateFrame = document.querySelector(".goog-te-combo");
+            if (googleTranslateFrame) {
+                googleTranslateFrame.value = selectedOption.value;
+                googleTranslateFrame.dispatchEvent(new Event("change"));
+            } else {
+                console.warn("Google Translate not loaded");
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                { pageLanguage: 'en', 
+                autoDisplay: 'false',
+                includedLanguages: 'en,hi,ja,ko,my,th,ru,ms,ar,ur' },
+                'google_translate_element'
+            );
+        }
+    </script>
 </body>
 </html>
