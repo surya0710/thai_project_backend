@@ -82,23 +82,6 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="mb-3">
-                                            <label>Country</label>
-                                            <select class="form-select" name="country" required @if($type === 'view') readonly @endif>
-                                                <option selected="" disabled="" value="">Choose...</option>
-                                                <option value="U.S" @if($user->country == 'U.S') selected @endif>U.S </option>
-                                                <option value="Thailand" @if($user->country == 'Thailand') selected @endif>Thailand </option>
-                                                <option value="India" @if($user->country == 'India') selected @endif>India </option>
-                                                <option value="U.K" @if($user->country == 'U.K') selected @endif>U.K</option>
-                                            </select>
-                                        </div>
-                                        <span class="error text-danger">
-                                            @error('country')
-                                                {{ $message }}
-                                            @enderror
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
                                             <label>Badge</label>
                                             <input class="form-control" type="text" placeholder="Badge" name="badge" 
                                             value="{{  $user->badge, old('badge') }}" required @if($type === 'view') readonly @endif>
@@ -123,8 +106,8 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Revenue Generated</label>
-                                            <input class="form-control" type="number" placeholder="Revenue Amount" name="revenue_generated" 
-                                            value="{{  old('revenue_generated', $user->revenue_generated)}}" required @if($type === 'view') readonly @endif>
+                                            <input class="form-control" type="number" step="0.01" placeholder="Revenue Amount" name="revenue_generated" 
+                                            value="{{  old('revenue_generated', number_format($user->revenue_generated, 2, '.', ''))}}" required @if($type === 'view') readonly @endif>
                                         </div>
                                         <span class="error text-danger">
                                             @error('revenue_generated')
@@ -135,8 +118,8 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Total Amount</label>
-                                            <input class="form-control" type="number" placeholder="Total Amount" name="total_amount" 
-                                            value="{{  old('total_amount', $user->total_amount)}}" required @if($type === 'view') readonly @endif>
+                                            <input class="form-control" type="number" step="0.01" placeholder="Total Amount" name="total_amount" 
+                                            value="{{ old('total_amount', number_format($user->total_amount, 2, '.', '')) }}" pattern="^\d+(\.\d{1,2})?$" required @if($type === 'view') readonly @endif>
                                         </div>
                                         <span class="error text-danger">
                                             @error('total_amount')

@@ -12,7 +12,7 @@
                 <div class="home-main-btn mt-10 align-items-center gap-16">
                     <button class="content d-block">
                         <p class=" text-white-5 desc-val-drop">Total Revenue</p>
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated }}</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ $userData->revenue_generated }}</div>
                     </button>
                     <button class="content d-block">
                         <p class=" text-white-5 desc-val-drop">Today's Revenue</p>

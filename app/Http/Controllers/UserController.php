@@ -233,7 +233,6 @@ class UserController extends Controller
         $FormData = $request->all();
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'country' => 'required|string',
             'badge' => 'required|string',
             'revenue_generated' => 'required',
             'total_amount' => 'required',
@@ -245,7 +244,6 @@ class UserController extends Controller
 
         $user = User::find($userID);
         $user->name = $request->name;
-        $user->country = $request->country;
         $user->badge = $request->badge;
         $user->revenue_generated = $request->revenue_generated;
         $user->total_amount = $request->total_amount;

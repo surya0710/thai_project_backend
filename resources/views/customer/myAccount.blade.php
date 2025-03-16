@@ -102,11 +102,11 @@
             <div class="upper-main-btn mt-24 justify-content-between align-items-end">
                 <div class="">
                     <p class="">KRISHHOP UID</p>
-                    <h3>{{ Auth::guard('customer')->user()->uuid }}</h3>
+                    <h3>{{ $userData->uuid }}</h3>
                 </div>
                 <div class=" mt-3">
                     <p class="">INVITATION CODE</p>
-                    <h3>{{ Auth::guard('customer')->user()->invitation_code }}</h3>
+                    <h3>{{ $userData->invitation_code }}</h3>
                 </div>
             </div>
             <div class="box-profile">
@@ -114,18 +114,18 @@
                     <img src="{{ asset('assets/images/avt/avt1.jpg') }}" alt="img">
                 </div>
                 <div class="content text-center">
-                    <h5>USER NAME - {{  Auth::guard('customer')->user()->username }}</h5>
-                    <p class="mt-4 body-4 text-black-4">LEVEL - {{  Auth::guard('customer')->user()->badge }}</p>
+                    <h5>USER NAME - {{  $userData->username }}</h5>
+                    <p class="mt-4 body-4 text-black-4">LEVEL - {{  $userData->badge }}</p>
                 </div>
             </div>
             <div class="content">
                 <div class="home-main-btn mt-10 align-items-center gap-16">
                     <button class="btnd content d-block">
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{  Auth::guard('customer')->user()->revenue_generated}} USD</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{  $userData->revenue_generated}} USD</div>
                         <p class="body-2 text-gery-5 desc-val-drop">Total Revenue</p>
                     </button>
                     <button class="btnd content d-block">
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount - Auth::guard('customer')->user()->frozen_amount }} USD</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ number_format($userData->total_amount - $userData->frozen_amount, 2) }} USD</div>
                         <p class="body-2 text-white-5 desc-val-drop">Account Amount</p>
                     </button>
                 </div>

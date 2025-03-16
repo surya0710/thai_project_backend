@@ -23,7 +23,7 @@
                         </span>
                         <fieldset class="mt-26 input-line">
                             <label>Recharge Amount</label>
-                            <input type="number" placeholder="0.00" name="amount" class="form-control" value="{{  old('amount')}}" required>
+                            <input type="number" step="0.01" placeholder="0.00" name="amount" class="form-control" value="{{  old('amount')}}" required>
                         </fieldset>
                         <span class="text-danger error">
                             @if ($errors->has('amount'))

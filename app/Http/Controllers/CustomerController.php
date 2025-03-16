@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Hash;
 class CustomerController extends Controller
 {
     public function dashboard(){
-        return view('customer.dashboard');
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        return view('customer.dashboard', compact('userData'));
     }
 
     public function tasks()
@@ -34,11 +35,13 @@ class CustomerController extends Controller
     }
 
     public function revenueRecord(){
-        return view('customer.revenueRecord');
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        return view('customer.revenueRecord', compact('userData'));
     }
 
     public function myAccount(){
-        return view('customer.myAccount');
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        return view('customer.myAccount', compact('userData'));
     }
 
     public function recharge(){
@@ -105,8 +108,9 @@ class CustomerController extends Controller
     }
 
     public function withdrawal(){
+        $userData = User::find(Auth::guard('customer')->user()->id);
         $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->first();
-        return view('customer.withdrawal')->with('bankDetails', $bankDetails);
+        return view('customer.withdrawal', compact('userData'))->with('bankDetails', $bankDetails);
     }
 
     public function withdrawalSubmit(Request $request){
