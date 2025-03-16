@@ -62,8 +62,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');
         Route::post('invite-code', 'App\Http\Controllers\InvitationController@storeInviteCode')->name('invitation.store');
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
-        Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.block');
-        Route::post('/unblock-user', 'App\Http\Controllers\UserController@unblockUser')->name('user.unblock');
+        Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.status');
         Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('admin.logout');
     });
 });

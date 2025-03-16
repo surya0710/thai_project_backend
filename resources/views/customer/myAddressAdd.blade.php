@@ -22,7 +22,7 @@
                         @csrf
                         <fieldset class="mt-20 input-line">
                             <label>Contact name</label>
-                            <input type="text" placeholder="" name="contact_name" value="{{ $address->contact_name ?? old('contact_name') }}" required class="form-control">
+                            <input type="text" placeholder="" name="contact_name" value="{{ $address->contact_name ?? $userData->name }}" required class="form-control">
                             <span class="error text-danger">
                                 @error('contact_name')
                                     {{ $message }}
@@ -32,7 +32,7 @@
                         
                         <fieldset class="mt-26 input-line">
                             <label>Mobile Number</label>
-                            <input type="number" placeholder="" name="contact_number" value="{{ $address->contact_number ?? old('contact_number') }}" required class="form-control">
+                            <input type="number" placeholder="" name="contact_number" value="{{ $address->contact_number ?? $userData->phone }}" required class="form-control">
                             <span class="error text-danger">
                                 @error('contact_number')
                                     {{ $message }}

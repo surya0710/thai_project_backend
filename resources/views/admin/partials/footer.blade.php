@@ -56,32 +56,17 @@
     <script>new DataTable('#example');</script>
     <script>
       $(document).ready(function() {
-        let table = $('#example').DataTable({
+        let table = $('#example1').DataTable({
             dom: 'lBfrtip', // Removed 'l' from the dom string to hide the length menu
             lengthMenu: [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "All"]],
             pageLength: 10,
             buttons: [
-                { extend: 'copy'},
-                { extend: 'csv'},
-                { extend: 'excel'},
-                { extend: 'print'}
+                { extend: 'copy', className: 'btn btn-outline-secondary buttons-copy' },
+                { extend: 'csv', className: 'btn btn-outline-secondary buttons-csv' },
+                { extend: 'excel', className: 'btn btn-outline-secondary buttons-excel' },
+                { extend: 'print', className: 'btn btn-outline-secondary buttons-print' }
             ]
         });
-
-        // Column Search Filters
-        // $('#example tfoot th').each(function () {
-        //     let title = $(this).text();
-        //     $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Search ' + title + '" />');
-        // });
-
-        // table.columns().every(function () {
-        //     let that = this;
-        //     $('input', this.footer()).on('keyup change', function () {
-        //         if (that.search() !== this.value) {
-        //             that.search(this.value).draw();
-        //         }
-        //     });
-        // });
       });
     </script>
   </body>

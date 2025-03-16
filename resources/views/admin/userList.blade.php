@@ -53,17 +53,6 @@
                   <input class="form-control" id="validationTooltip03" type="text" name="login_date" placeholder="Login Date"
                     required="">
                 </div>
-                <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip09">Country</label>
-                  <select class="form-select" id="validationTooltip09" name="country" required="">
-                    <option selected="" disabled="" value="">Choose...</option>
-                    <option value="U.S">U.S </option>
-                    <option value="Thailand">Thailand </option>
-                    <option value="India">India </option>
-                    <option value="U.K">U.K</option>
-                  </select>
-
-                </div>
                 <div class="col-6 mt-5">
                   <button class="btn btn-primary" name="user_create" type="submit">Submit</button>
                   <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
@@ -113,7 +102,6 @@
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
-                      <th><span class="f-light f-w-600"></span>Country</span></th>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
                       @endif
@@ -146,7 +134,6 @@
                         </div>
                       </td>
                       @endif
-                      <td>{{ $user->country }}</td>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         @if($user->is_blocked == 1)
@@ -155,7 +142,7 @@
                           <span class="lable">Allow transactions</span>
                         </button>
                         @else
-                        <button class="badge badge-primary mb-1" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-primary mb-1" id="credit_permission" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Prohibition of transactions</span>
                         </button>
@@ -198,7 +185,6 @@
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
-                      <th><span class="f-light f-w-600"></span>Country</span></th>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
                       @endif
@@ -258,4 +244,42 @@
       }
     });
   }
+  
+  $(document).ready(function () {
+    $('.badge').on('click', function () {
+        var data = $(this).data();
+        let url = `{{ route('user.status') }}`;
+
+        Swal.fire({
+            title: `Are you sure you want to ${data.event} ${data.name}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, do it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: data.id,
+                        event: data.event,
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            location.reload();
+                        } else {
+                            Swal.fire("Error!", response.message, "error");
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                    }
+                });
+            }
+        });
+    });
+  });
 </script>

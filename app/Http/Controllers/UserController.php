@@ -592,6 +592,7 @@ class UserController extends Controller
     public function blockUser(Request $request){
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:users,id',
+            'event' => 'required|string|in:block,unblock',
         ]);
 
         if($validator->fails()){
@@ -604,7 +605,7 @@ class UserController extends Controller
         $user = User::where('id', $request->id)->where('user_type', 'Customer')->first();
 
         if($user){
-            $user->is_blocked = 1;
+            $request->event == 'block' ? $user->is_blocked = 1 : $user->is_blocked = 0;
             $user->blocked_by = Auth::guard('admin')->user()->id;
             if($user->save()){
                 return response()->json([

@@ -100,6 +100,12 @@ class CustomerController extends Controller
             return redirect('/recharge')->withErrors($validator)->withInput();
         }
 
+        $userData = User::find(Auth::guard('customer')->user()->id);
+
+        if($userData->is_blocked == 1){
+            return redirect('/recharge')->with('error', 'You are not allowed to do any transactions');
+        }
+
         $image = $request->file('image');
         $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('uploads/recharge'), $imageName);
@@ -168,9 +174,15 @@ class CustomerController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        $userData = User::find(Auth::guard('customer')->user()->id);
+
+        if($userData->is_blocked == 1){
+            return redirect()->back()->with('error', 'You are not allowed to do any transactions');
+        }
         
-        $totalAmount = Auth::guard('customer')->user()->total_amount;
-        $freezedAmount = Auth::guard('customer')->user()->frozen_amount;
+        $totalAmount = $userData->total_amount;
+        $freezedAmount = $userData->frozen_amount;
 
         if (($totalAmount - $freezedAmount) < $request->amount) {
             return redirect()->back()->with('error', 'Insufficient balance');
@@ -178,14 +190,14 @@ class CustomerController extends Controller
     
         $pin = $request->input('digit-2') . $request->input('digit-3') . $request->input('digit-4') . $request->input('digit-5');
     
-        if (Hash::check($request->password, Auth::guard('customer')->user()->password) && Hash::check($pin, Auth::guard('customer')->user()->transaction_password)) {
+        if (Hash::check($request->password, $userData->password) && Hash::check($pin, $userData->transaction_password)) {
             $withdraw = Withdraw::create([
-                'user_id' => Auth::guard('customer')->user()->id,
+                'user_id' => $userData->id,
                 'amount' => $request->amount,
                 'created_at' => now(),
             ]);
 
-            $user = User::find(Auth::guard('customer')->user()->id);
+            $user = User::find($userData->id);
             $user->frozen_amount = $request->amount;
             $user->update();
     
@@ -216,8 +228,9 @@ class CustomerController extends Controller
     }
 
     public function myAddressAdd(){
+        $userData = User::find(Auth::guard('customer')->user()->id);
         $address = UserAddress::where('user_id', Auth::guard('customer')->user()->id)->first();
-        return view('customer.myAddressAdd')->with(['address' => $address]);
+        return view('customer.myAddressAdd', compact('userData'))->with(['address' => $address]);
     }
 
     public function myAddressStore(Request $request)
