@@ -51,7 +51,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Url</label>
                                             <input class="form-control" type="text" placeholder="Url*" name="url" value="{{ old('url') }}">
@@ -61,7 +61,7 @@
                                                 @enderror
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Price</label>
@@ -85,7 +85,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <!-- <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Content</label>
                                             <textarea class="form-control" type="text" placeholder="Description" name="description" required>{{  old('content')}}</textarea>
@@ -95,7 +95,7 @@
                                                 @enderror
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <div class="row">
                                     <div class="col">
