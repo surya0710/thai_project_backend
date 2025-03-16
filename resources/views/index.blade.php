@@ -136,8 +136,8 @@
                     @endif
                 </p>
                 <fieldset class="input-icon mt-20">
-                    <span class="icon icon-mail"></span>
-                    <input type="text" placeholder="Enter one user name" name="username" class="form-control">
+                    <span class="icon icon-user"></span>
+                    <input type="text" placeholder="Enter Username" name="username" class="form-control">
                     <div class="text-danger">
                         @error('email')
                             {{ $message }}
@@ -147,7 +147,7 @@
                 <fieldset class="mt-16 input-icon">
                     <div class="box-view-hide">
                         <span class="icon icon-lock"></span>
-                        <input type="password" placeholder="Enter login password" name="password" class="form-control password-field">
+                        <input type="password" placeholder="Enter Login Password" name="password" class="form-control password-field">
                         <div class="show-pass">
                             <span class="icon-pass icon-view"></span>
                             <span class="icon-pass icon-hide"></span>

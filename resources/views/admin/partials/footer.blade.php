@@ -2,7 +2,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6 p-0 footer-copyright">
-                <p class="mb-0">Copyright 2025 © Rahul Gupta</p>
+                <p class="mb-0">Copyright © 2017 - 2025</p>
               </div>
             </div>
           </div>
