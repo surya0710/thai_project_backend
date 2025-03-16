@@ -55,7 +55,7 @@
 
                     <fieldset class="mt-20 input-line">
                         <label>Branch Name</label>
-                        <input type="text" placeholder="Enter Branch Name" class="form-control" name="branch_name" required value="{{ $bankDetails->bank_branch ?? '' }}">
+                        <input type="text" placeholder="Enter Branch Name" class="form-control" name="branch_name" value="{{ $bankDetails->bank_branch ?? '' }}">
                         <span class="text-danger">
                             @error('branch_name')
                                 {{ $message }}

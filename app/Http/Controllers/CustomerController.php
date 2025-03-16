@@ -146,7 +146,6 @@ class CustomerController extends Controller
             'bank_name' => 'required|string',
             'account_number' => 'required|numeric',
             'account_holder_name' => 'required|string',
-            'branch_name' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -158,7 +157,7 @@ class CustomerController extends Controller
             'bank_name' => $request->bank_name,
             'account_number' => $request->account_number,
             'account_holder_name' => $request->account_holder_name,
-            'bank_branch' => $request->branch_name,
+            'bank_branch' => $request->branch_name ?? '',
             'created_at' => now(),
         ]);
 
