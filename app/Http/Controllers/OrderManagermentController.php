@@ -14,19 +14,42 @@ class OrderManagermentController extends Controller
     {
         $userData = User::find(Auth::guard('customer')->user()->id);
         $userTasks = TasksHistory::where('user_id', $userData->id)->get();
+    
+        $tasksCompleted = $userTasks->count();
         $revenueEarned = $userTasks->sum('earned_amount');
-        $tasksCompleted = count($userTasks);
-        $taskPrice = getNextTaskPrice(count($userTasks), $revenueEarned);
-        $isLuckyDraw = ($tasksCompleted == 26); // Adjust based on your logic
+
+        // Get IDs of already assigned tasks to avoid repetition
+        $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+
+        // Determine if the next task is a lucky draw task
+        $isLuckyDraw = ($tasksCompleted == 26); // Adjust if needed
 
         // Get the next task price dynamically
         $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted, $isLuckyDraw);
-        // Fetch a suitable product in a small price range
+
+        // Fetch a task that hasn't been assigned yet
         $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])
-            ->orderByRaw('RAND()') // Random selection to ensure variation
+            ->whereNotIn('id', $completedTaskIds) // Exclude already assigned tasks
+            ->whereNotNull('id')
+            ->orderByRaw('RAND()')
             ->first();
-        $taskCount = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->count();
-        $todayEarned = TasksHistory::where('user_id', $userData->id)->where('created_at', '>=', now()->startOfDay())->sum('earned_amount');
+
+        // Fallback: If no task found in the price range, fetch any unused product
+        if (!$task) {
+            $task = Products::whereNotIn('id', $completedTaskIds)
+                ->orderByRaw('RAND()')
+                ->first();
+        }
+
+        // Get task count and today's earnings
+        $taskCount = TasksHistory::where('user_id', $userData->id)
+            ->where('badge', $userData->badge)
+            ->count();
+
+        $todayEarned = TasksHistory::where('user_id', $userData->id)
+            ->where('created_at', '>=', now()->startOfDay())
+            ->sum('earned_amount');
+
         return view('customer.automaticOrder', compact('userData', 'task', 'taskCount', 'todayEarned'));
     }
 

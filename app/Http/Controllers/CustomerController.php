@@ -11,6 +11,7 @@ use App\Models\Withdraw;
 use App\Models\UserAddress;
 use App\Models\User;
 use App\Models\Products;
+use App\Models\TasksHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,43 +26,59 @@ class CustomerController extends Controller
     {
         $userData = User::find(Auth::guard('customer')->user()->id);
         $tasksPrice = generateTaskPrices($userData->badge);
-        
-        $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2 ], $tasksPrice['regular_tasks']);
+        $userTasks = TasksHistory::where('user_id', $userData->id)->get();
+        $tasksCompleted = count($userTasks);
+        $tasksToFetch = max(0, 29 - $tasksCompleted); // Ensure it's not negative
 
-        // Fetch distinct products for regular tasks
-        $tasks = Products::where(function ($query) use ($taskPriceRanges) {
+        // Get completed task IDs to avoid duplicates
+        $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+
+        // Fetch completed tasks
+        $completedTasks = Products::whereIn('id', $completedTaskIds)
+            ->with('taskStatus')
+            ->get();
+
+        // Define task price ranges for selection
+        $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
+
+        // Fetch new tasks, ensuring no duplicates with completed tasks
+        $newTasks = Products::where(function ($query) use ($taskPriceRanges) {
             foreach ($taskPriceRanges as $range) {
                 $query->orWhereBetween('price', $range);
             }
         })
         ->whereNotNull('id')
+        ->whereNotIn('id', $completedTaskIds) // Exclude completed tasks
         ->with('taskStatus')
         ->distinct()
-        ->limit(29)
+        ->limit($tasksToFetch)
         ->get();
 
+        // Merge completed tasks with newly fetched tasks
+        $tasks = $completedTasks->merge($newTasks);
+
         // Fetch the lucky task ensuring uniqueness
-        $luckyTask = Products::whereBetween('price', [$tasksPrice['lucky_task'] - 2, $tasksPrice['lucky_task'] ])
-            ->whereNotIn('id', $tasks->pluck('id')->toArray())
+        $luckyTask = Products::whereBetween('price', [$tasksPrice['lucky_task'] - 2, $tasksPrice['lucky_task']])
+            ->whereNotIn('id', $tasks->pluck('id')->toArray()) // Exclude already selected tasks
             ->with('taskStatus')
             ->first();
 
-        // Ensure lucky task is added if found
+        // Insert lucky task at position 26
         if ($luckyTask) {
-            $tasks->splice(27, 0, [$luckyTask]); // Insert at position 26
+            $tasks->splice(26, 0, [$luckyTask]);
         } else {
-            // If lucky task wasn't found, try fetching another valid task
+            // Fetch alternative lucky task if not found
             $alternativeLuckyTask = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
                 ->orderByRaw('RAND()')
                 ->with('taskStatus')
                 ->first();
             
             if ($alternativeLuckyTask) {
-                $tasks->splice(27, 0, [$alternativeLuckyTask]);
+                $tasks->splice(26, 0, [$alternativeLuckyTask]);
             }
         }
 
-        // Ensure total tasks = 30
+        // Ensure exactly 30 tasks
         if ($tasks->count() < 30) {
             $remaining = 30 - $tasks->count();
             $extraTasks = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
@@ -70,8 +87,6 @@ class CustomerController extends Controller
                 ->get();
             $tasks = $tasks->merge($extraTasks);
         }
-
-        $totalTaskPrice = $tasks->sum('price');
 
         return view('customer.tasks', compact('userData', 'tasks'));
     }
