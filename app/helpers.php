@@ -52,69 +52,33 @@ use App\Models\Products;
         }
     }
 
-    if(!function_exists('calculateRequiredTaskAmount')){
-        function calculateRequiredTaskAmount($minEarnings, $maxEarnings) {
-            // Select an S (special task amount) dynamically
-            $possibleSValues = Products::orderByDesc('price')->take(10)->pluck('price')->toArray();
-        
-            foreach ($possibleSValues as $S) {
-                // Calculate X for min and max earnings
-                $minX = ($minEarnings - (0.05 * $S)) / 0.03 + $S;
-                $maxX = ($maxEarnings - (0.05 * $S)) / 0.03 + $S;
-        
-                // Find a valid X range
-                $tasksTotalAmount = Products::whereBetween('price', [$minX, $maxX])->sum('price');
-        
-                if ($tasksTotalAmount >= $minX && $tasksTotalAmount <= $maxX) {
-                    return [$S, $tasksTotalAmount];
+    if(!function_exists('generateTaskPrices')) {
+        function generateTaskPrices($badge){
+            if($badge == 'VIP0'){
+                $totalReward = 15;
+                $regularTasks = 29;
+                $luckyTask = 1;
+                $luckyTaskPrice = rand(15, 25); // Adjust range as needed
+                $remainingReward = $totalReward - (0.05 * $luckyTaskPrice);
+                $regularTaskPrices = [];
+                $remainingPercentage = 0.03 * $regularTasks;
+                $averageRegularTaskPrice = $remainingReward / $remainingPercentage;
+                for ($i = 0; $i < $regularTasks; $i++) {
+                    // Slightly randomize each regular task price around the average
+                    $variation = rand(-100, 100) / 100; // Small variation
+                    $price = max(10, $averageRegularTaskPrice + $variation); // Ensure positive value
+                    $regularTaskPrices[] = round($price, 2);
                 }
+                
+                // Adjust last task price to perfectly balance the total
+                $adjustedTotalReward = array_sum($regularTaskPrices) * 0.03 + ($luckyTaskPrice * 0.05);
+                $difference = $totalReward - $adjustedTotalReward;
+                $regularTaskPrices[array_rand($regularTaskPrices)] += round($difference / 0.03, 2);
             }
-            return [null, null]; // If no valid range found
-        }        
-    }
 
-    if(!function_exists('getTasksForUser')){
-        function getTasksForUser($userId, $minEarnings = 13, $maxEarnings = 15) {
-            [$specialTaskAmount, $totalAmount] = calculateRequiredTaskAmount($minEarnings, $maxEarnings);
-        
-            if (is_null($specialTaskAmount)) {
-                return response()->json(['message' => 'No suitable task combination found.'], 400);
-            }
-        
-            // Fetch tasks that sum up to the calculated total amount
-            $tasks = Products::where('user_id', $userId)
-                        ->orderByDesc('price')
-                        ->take(30)
-                        ->get();
-            
-                        print_r($tasks);
-                        exit;
-        
-            $totalEarnings = 0;
-            $selectedTasks = [];
-        
-            // Assign 5% to the special task
-            $specialTask = $tasks->where('price', $specialTaskAmount)->first();
-            $specialTask->reward = 5;
-            $specialTask->earned = ($specialTask->price * 5) / 100;
-            $totalEarnings += $specialTask->earned;
-            $selectedTasks[] = $specialTask;
-        
-            // Assign 3% to remaining tasks until reaching the total amount
-            foreach ($tasks as $task) {
-                if ($task->id !== $specialTask->id) {
-                    $task->reward = 3;
-                    $task->earned = ($task->price * 3) / 100;
-                    $totalEarnings += $task->earned;
-                    $selectedTasks[] = $task;
-                }
-        
-                // Stop when we reach the total amount
-                if ($totalEarnings >= $minEarnings && $totalEarnings <= $maxEarnings) {
-                    break;
-                }
-            }
-        
-            return $selectedTasks;
-        }        
+            return [
+                'regular_tasks' => $regularTaskPrices,
+                'lucky_task' => round($luckyTaskPrice, 2)
+            ];
+        }
     }

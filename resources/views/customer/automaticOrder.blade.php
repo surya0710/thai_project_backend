@@ -16,13 +16,13 @@
                     <li class="mt-20 ">
                         <a href="" class="wd-file-message line-bt">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Available Balance</div>
-                            <span class="body-4 text-black-5 fw-5">{{ Auth::user()->total_amount }} USD</span>
+                            <span class="body-4 text-black-5 fw-5">{{ $userData->total_amount }} USD</span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Historical Commission</div>
-                            <span class="body-4 text-black-5 fw-5">{{  Auth::user()->revenue_generated }} </span>
+                            <span class="body-4 text-black-5 fw-5">{{  $userData->revenue_generated }} </span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
@@ -34,7 +34,7 @@
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Number of order recevied</div>
-                            <span class="body-4 text-black-5 fw-5">{{ ordersCount(Auth::user()->badge) }} /30 </span>
+                            <span class="body-4 text-black-5 fw-5">0 /30 </span>
                         </a>
                     </li>
                 </ul>
@@ -59,36 +59,49 @@
         <span class="icon-close2 icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
     </div>
     <div class="offcanvas-body pb-32">
+        @if($userData->badge == 'VIP0' && $userData->total_amount >= 30)
         <div class="mt-14 content-message">
             <ul class="mt-24">
                 <li class="mt-16 pb-8 line-bt2">
                     <a href="" class="box-inbox-item">
                         <div class="avatar avt-32 avt-status">
-                            <img src="{{ $tasks->image_path }}" alt="avatar">
+                            <img src="" alt="avatar">
                         </div>
                         <div class="content">
-                            <div class="desc">{{ $tasks->name }}</div>
-                            <div class="title"><span class="desc">USD</span> {{ $tasks->price }} <span class="desc">x1</span></div>
+                            <div class="desc"></div>
+                            <div class="title"><span class="desc">USD</span> <span class="desc">x1</span></div>
                         </div>
                     </a>
                 </li>
                 <li class="mt-20 ">
                     <a href="" class="wd-file-message line-bt">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
-                        <span class="body-4 text-black-5 fw-5">USD {{ $tasks->price }} </span>
+                        <span class="body-4 text-black-5 fw-5">USD  </span>
                     </a>
                 </li>
                 <li class="mt-20 line-bt">
                     <a href="" class="wd-file-message">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
-                        <span class="body-4 text-black-5 fw-5">USD {{ getCPSCalculation($tasks->price, Auth::user()->badge) }} </span>
+                        <span class="body-4 text-black-5 fw-5">USD </span>
                     </a>
                 </li>
                 
             </ul>
         </div>
         <div class="mt-24">
-            <a href="" class="mt-35 tf-btn primary">Submit</a>
+            <button type="submit" class="mt-35 tf-btn primary">Submit</button>
         </div>
+        @else
+        <div class="mt-14 content-message">
+            <ul class="mt-24">
+                <li class="mt-16 line-bt2" style="padding: 15px 0;">
+                    <p class="font-bold text-center">Insufficient balance, Kindly recharge with minimum USD 30 to play.</p>
+                </li>
+            </ul>
+        </div>
+        <div class="mt-24">
+            <a href="{{ route('customer.recharge') }}" class="mt-35 tf-btn primary">Recharge</a>
+        </div>
+        @endif
     </div>
 </div>

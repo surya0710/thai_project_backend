@@ -23,15 +23,21 @@ class CustomerController extends Controller
 
     public function tasks()
     {
-   
-        $userId = Auth::guard('customer')->id();
-        $userBadge = Auth::guard('customer')->user()->badge;
-        $minEarnings = 13;
-        $maxEarnings = 15;
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        $tasksPrice = generateTaskPrices($userData->badge);
+        
+        $tasks = collect();
 
-        $tasks = getTasksForUser($userId, $minEarnings, $maxEarnings);
+        foreach ($tasksPrice['regular_tasks'] as $taskPrice) {
+            $tasks = $tasks->merge(Products::where('price', $taskPrice)->with('taskStatus')->get());
+        }
 
-        return view('customer.tasks', compact('tasks'));
+        $luckyTask = Products::where('price', $tasksPrice['lucky_task'])->with('taskStatus')->first();
+
+        if ($luckyTask) {
+            $tasks->splice(26, 0, [$luckyTask]);
+        }
+        return view('customer.tasks', compact('userData'));
     }
 
     public function revenueRecord(){
