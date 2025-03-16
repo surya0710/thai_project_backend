@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <div class="text-end"><button type="submit" name="product_create" class="btn btn-success me-3">Save Changes</button><a class="btn btn-danger" href="add-lazada-product-library.php">Cancel</a></div>
+                                        <div class="text-end"><button type="submit" name="product_create" class="btn btn-success me-3">Save Changes</button><a class="btn btn-danger" href="{{ route('lazada.list') }}">Cancel</a></div>
                                     </div>
                                 </div>
                             </form>
