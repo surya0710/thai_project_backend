@@ -82,7 +82,10 @@
                                                     class="desc">x1</span></div>
                                         </div>
                                         <div class="text-right tag-status type-1">
-                                            Pending
+                                        @if($task->taskStatus !== null)
+                                            {{ 'Completed' }}
+                                            @else {{ 'Pending' }}
+                                        @endif
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -120,7 +123,10 @@
                                                     class="desc">x1</span></div>
                                         </div>
                                         <div class="text-right tag-status type-1">
-                                            Pending
+                                        @if($task->taskStatus !== null)
+                                            {{ 'Completed' }}
+                                            @else {{ 'Pending' }}
+                                        @endif
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
