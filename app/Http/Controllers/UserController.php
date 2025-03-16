@@ -571,7 +571,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $userID = Auth::guard('admin')->user()->id;
-        $user = User::find();
+        $user = User::find($userID);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
