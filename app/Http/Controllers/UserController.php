@@ -506,7 +506,7 @@ class UserController extends Controller
     }
 
     public function withdrawalList(){
-        $withdrawalList = Withdraw::with('user', 'handledBy', 'bankDetails')->orderBy('status', 'ASC')->orderBy('created_at', 'ASC')->get();
+        $withdrawalList = Withdraw::with('user', 'handledBy', 'bankDetails')->orderBy('id', 'DESC')->get();
         return view('admin.withdrawalList')->with(['withdrawalList' => $withdrawalList, 'active' => 'withdrawalList']);
     }
 
@@ -542,6 +542,7 @@ class UserController extends Controller
             if($event == 'approve'){
                 $user = User::find($withdraw->user_id);
                 $user->total_amount = $user->total_amount - $amount;
+                $user->frozen_amount = $user->frozen_amount - $amount;
                 $user->updated_at = now();
                 $user->save();
             }

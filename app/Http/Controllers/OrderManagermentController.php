@@ -14,14 +14,12 @@ class OrderManagermentController extends Controller
         $userBadge = Auth::guard('customer')->user()->badge;
 
         // Calculate average product price
-        $averageProductPrice = calculateAverageProductPrice($userBadge);
+        $userId = auth()->id();
+    
+        $minEarnings = 13;
+        $maxEarnings = 15;
 
-        // Fetch a product that the user has NOT completed
-        $tasks = Products::whereDoesntHave('checkTaskCompletion', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-        ->whereBetween('price', [$averageProductPrice - 2, $averageProductPrice + 2]) // Get products around the average price
-        ->first(); // Fetch only one task
+        $tasks = getTasksForUser($userId, $minEarnings, $maxEarnings);
 
         return view('customer.automaticOrder', compact('tasks'));
     }

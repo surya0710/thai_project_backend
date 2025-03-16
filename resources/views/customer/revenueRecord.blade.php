@@ -12,15 +12,15 @@
                 <div class="home-main-btn mt-10 align-items-center gap-16">
                     <button class="content d-block">
                         <p class=" text-white-5 desc-val-drop">Total Revenue</p>
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">4327.143</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated }}</div>
                     </button>
                     <button class="content d-block">
                         <p class=" text-white-5 desc-val-drop">Today's Revenue</p>
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">8</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">0.00</div>
                     </button>
                     <button class="content d-block">
                         <p class=" text-white-5 desc-val-drop">Yesterday's Revenue</p>
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">87.123</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">0.00</div>
                     </button>
                    
                 </div>

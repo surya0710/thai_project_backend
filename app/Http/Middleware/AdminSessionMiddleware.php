@@ -10,11 +10,16 @@ class AdminSessionMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role !== 'admin') {
-            return redirect('/'); // Redirect non-admin users
+        config(['session.cookie' => 'admin_session']);
+
+        if (!Auth::guard('admin')->check()) {
+            if ($request->routeIs('loginView')) {
+                return $next($request);
+            }
+
+            return redirect()->route('loginView');
         }
 
-        config(['session.cookie' => 'admin_session']);
         return $next($request);
     }
 }

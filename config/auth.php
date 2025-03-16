@@ -36,7 +36,7 @@ return [
     */
 
     'guards' => [
-        'web' => [ // Default Laravel guard (keep this)
+        'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -50,7 +50,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],  
+    ],
 
     /*
     |--------------------------------------------------------------------------

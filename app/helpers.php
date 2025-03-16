@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Products;
+
     if(!function_exists('getCPSCalculation')) {
         function getCPSCalculation($price, $badge){
             if($badge == 'VIP0'){
@@ -50,45 +52,69 @@
         }
     }
 
-    if(!function_exists('calculateAverageProductPrice')){
-        function calculateAverageProductPrice($badge){
-            $tasksWith3Percent = 29;
-            $tasksWith8Percent = 1;
+    if(!function_exists('calculateRequiredTaskAmount')){
+        function calculateRequiredTaskAmount($minEarnings, $maxEarnings) {
+            // Select an S (special task amount) dynamically
+            $possibleSValues = Products::orderByDesc('price')->take(10)->pluck('price')->toArray();
+        
+            foreach ($possibleSValues as $S) {
+                // Calculate X for min and max earnings
+                $minX = ($minEarnings - (0.05 * $S)) / 0.03 + $S;
+                $maxX = ($maxEarnings - (0.05 * $S)) / 0.03 + $S;
+        
+                // Find a valid X range
+                $tasksTotalAmount = Products::whereBetween('price', [$minX, $maxX])->sum('price');
+        
+                if ($tasksTotalAmount >= $minX && $tasksTotalAmount <= $maxX) {
+                    return [$S, $tasksTotalAmount];
+                }
+            }
+            return [null, null]; // If no valid range found
+        }        
+    }
 
-            if($badge == 'VIP0'){
-                $totalEarnings = 30;
-                $percentage = 3;
+    if(!function_exists('getTasksForUser')){
+        function getTasksForUser($userId, $minEarnings = 13, $maxEarnings = 15) {
+            [$specialTaskAmount, $totalAmount] = calculateRequiredTaskAmount($minEarnings, $maxEarnings);
+        
+            if (is_null($specialTaskAmount)) {
+                return response()->json(['message' => 'No suitable task combination found.'], 400);
             }
-            elseif($badge == 'VIP1'){
-                $totalEarnings = 201;
-                $percentage = 3;
+        
+            // Fetch tasks that sum up to the calculated total amount
+            $tasks = Products::where('user_id', $userId)
+                        ->orderByDesc('price')
+                        ->take(30)
+                        ->get();
+            
+                        print_r($tasks);
+                        exit;
+        
+            $totalEarnings = 0;
+            $selectedTasks = [];
+        
+            // Assign 5% to the special task
+            $specialTask = $tasks->where('price', $specialTaskAmount)->first();
+            $specialTask->reward = 5;
+            $specialTask->earned = ($specialTask->price * 5) / 100;
+            $totalEarnings += $specialTask->earned;
+            $selectedTasks[] = $specialTask;
+        
+            // Assign 3% to remaining tasks until reaching the total amount
+            foreach ($tasks as $task) {
+                if ($task->id !== $specialTask->id) {
+                    $task->reward = 3;
+                    $task->earned = ($task->price * 3) / 100;
+                    $totalEarnings += $task->earned;
+                    $selectedTasks[] = $task;
+                }
+        
+                // Stop when we reach the total amount
+                if ($totalEarnings >= $minEarnings && $totalEarnings <= $maxEarnings) {
+                    break;
+                }
             }
-            elseif($badge == 'VIP2'){
-                $totalEarnings = 501;
-                $percentage = 4;
-            }
-            elseif($badge == 'VIP3'){
-                $totalEarnings = 1000;
-                $percentage = 5;
-            }
-            elseif($badge == 'VIP4'){
-                $totalEarnings = 2000;
-                $percentage = 7;
-            }
-            else{
-                $totalEarnings = 5000;
-                $percentage = 10;
-            }
-
-            $luckyDrawPercentage = 8;
-
-            // Total commission percentage calculation
-            $totalCommissionPercentage = ($percentage * 0.03) + ($luckyDrawPercentage * 0.08);
-
-            // Calculate the required average product amount
-            $averageProductAmount = $totalEarnings / $totalCommissionPercentage;
-
-            // Display the result
-            return number_format($averageProductAmount, 2, '.', '');
-        }
+        
+            return $selectedTasks;
+        }        
     }

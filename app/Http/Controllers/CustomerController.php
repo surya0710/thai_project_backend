@@ -22,20 +22,13 @@ class CustomerController extends Controller
 
     public function tasks()
     {
-        
+   
+        $userId = Auth::guard('customer')->id();
         $userBadge = Auth::guard('customer')->user()->badge;
-        $tasks = collect(); // Default empty collection in case user is not VIP0
-        $averageProductPrice = calculateAverageProductPrice($userBadge);
-        if ($userBadge === 'VIP0') {
-            $tasks = Products::with('taskStatus')->where(function($query) use ($averageProductPrice) {
-                $query->where('price', '<', $averageProductPrice)->orWhere('price', '=', $averageProductPrice + 2);
-            })->take(30)->get();
-        }
-        elseif($userBadge === 'VIP1'){
-            $tasks = Products::with('taskStatus')->where(function($query) use ($averageProductPrice) {
-                $query->where('price', '<', $averageProductPrice)->orWhere('price', '=', $averageProductPrice + 2);
-            })->take(30)->get();
-        }
+        $minEarnings = 13;
+        $maxEarnings = 15;
+
+        $tasks = getTasksForUser($userId, $minEarnings, $maxEarnings);
 
         return view('customer.tasks', compact('tasks'));
     }
@@ -129,8 +122,11 @@ class CustomerController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-    
-        if (Auth::guard('customer')->user()->total_amount < $request->amount) {
+        
+        $totalAmount = Auth::guard('customer')->user()->total_amount;
+        $freezedAmount = Auth::guard('customer')->user()->frozen_amount;
+
+        if (($totalAmount - $freezedAmount) < $request->amount) {
             return redirect()->back()->with('error', 'Insufficient balance');
         }
     
@@ -142,6 +138,10 @@ class CustomerController extends Controller
                 'amount' => $request->amount,
                 'created_at' => now(),
             ]);
+
+            $user = User::find(Auth::guard('customer')->user()->id);
+            $user->frozen_amount = $request->amount;
+            $user->update();
     
             if ($withdraw) {
                 return redirect()->back()->with('success', 'Withdrawal request submitted successfully!');

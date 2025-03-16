@@ -117,15 +117,15 @@
       <div class="content">
          <div class="home-main-btn mt-10 align-items-center gap-16">
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated}}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated }}</div>
                <p class=" text-white-5 desc-val-drop">Revenue(USD)</p>
             </button>
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->revenue_generated}}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->frozen_amount }}</div>
                <p class=" text-white-5 desc-val-drop">Frozen(USD)</p>
             </button>
             <button class="btnd content d-block">
-               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount }}</div>
+               <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount - Auth::guard('customer')->user()->frozen_amount }}</div>
                <p class=" text-white-5 desc-val-drop">Total(USD)</p>
             </button>
          </div>

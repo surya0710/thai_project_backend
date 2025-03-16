@@ -10,11 +10,16 @@ class CustomerSessionMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role !== 'customer') {
-            return redirect('/'); // Redirect non-customer users
+        config(['session.cookie' => 'customer_session']);
+
+        if (!Auth::guard('customer')->check()) {
+            if ($request->routeIs('index')) {
+                return $next($request);
+            }
+
+            return redirect()->route('index');
         }
 
-        config(['session.cookie' => 'customer_session']);
         return $next($request);
     }
 }

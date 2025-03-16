@@ -125,7 +125,7 @@
                         <p class="body-2 text-gery-5 desc-val-drop">Total Revenue</p>
                     </button>
                     <button class="btnd content d-block">
-                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount }} USD</div>
+                        <div class="body-4 text-white-2 fw-bold text-val-drop">{{ Auth::guard('customer')->user()->total_amount - Auth::guard('customer')->user()->frozen_amount }} USD</div>
                         <p class="body-2 text-white-5 desc-val-drop">Account Amount</p>
                     </button>
                 </div>
