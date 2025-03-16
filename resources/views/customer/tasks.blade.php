@@ -125,6 +125,18 @@
                                             <p class="text-caption-2 text-black-4">Total Order Amount</p>
                                             <p class="text-caption-2 text-black-4">CPS</p>
 
+<<<<<<< HEAD
+                                </div>
+                                <div class="d-flex justify-content-around">
+                                    <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
+                                    <div class="font-title-btn fw-7 text-black-2">USD {{ getCPSCalculation($task->price, Auth::user()->badge) }}</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    @endif
+                    @endforeach
+=======
                                         </div>
                                         <div class="d-flex justify-content-around">
                                             <div class="font-title-btn fw-7 text-black-2">USD {{ $task->price }}</div>
@@ -136,8 +148,10 @@
                             @endif
                         @endforeach
                     </div>
+>>>>>>> 550f34c588a498f8f48e4976a79e261058637ab6
                 </div>
             </div>
         </div>
     </div>
+</div>
 @include('customer.partials.footer')

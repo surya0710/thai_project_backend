@@ -18,7 +18,7 @@
             <div class="col-sm-12">
                <div class="card">
                   <div class="card-body">
-                     <h3 class="mb-2">Admin Filters</h3>
+                  <h2 class="mb-3">Filters</h2>
                      <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip09">Admin User Type</label>
@@ -67,9 +67,11 @@
                      <div class="row">
                         <span class="text-success error"> {{ session()->get('success') }} </span>
                      </div>
+                     @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                      <div class="btn-group">
                         <a class="btn btn-primary mx-auto " href="{{ route('admin.add') }}"><i class="fa-solid fa-plus"></i></a>
                      </div>
+                     @endif
                   </div>
                   <div class="card-body">
                      <div class="table-responsive custom-scrollbar">
@@ -82,7 +84,11 @@
                                  <th>Name</th>
                                  <th>Email</th>
                                  <th>Phone</th>
+
+                                 @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                  <th>Action</th>
+                                 @endif
+
                               </tr>
                            </thead>
                            <tbody>
@@ -94,6 +100,7 @@
                                  <td>{{ $user->name }}</td>
                                  <td>{{ $user->email }}</td>
                                  <td>{{ $user->phone }}</td>
+                                 @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                  <td>
                                     <ul class="action">
                                        <li class="edit">
@@ -104,6 +111,7 @@
                                        </li>
                                     </ul>
                                  </td>
+                                 @endif
                               </tr>
                               @endforeach
                            </tbody>

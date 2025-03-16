@@ -20,7 +20,7 @@
           <div class="card">
 
             <div class="card-body">
-              <h3 class="mb-2">User Filters</h3>
+            <h2 class="mb-3">Filters</h2>
               <form class="row g-3 needs-validation custom-input" novalidate="" method="post" id="userForm">
 
                 <div class="col-md-3 position-relative">
@@ -87,7 +87,9 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
+              @if(Auth::guard('admin')->user()->user_type !== 'Worker')
               <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
+              @endif
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
@@ -105,9 +107,13 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
+                      @endif
                       <th><span class="f-light f-w-600"></span>Country</span></th>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <th><span class="f-light f-w-600"></span>Operate</span></th>
+                      @endif
                       <th><span class="f-light f-w-600"></span>Action</span></th>
                     </tr>
                   </thead>
@@ -125,14 +131,16 @@
                       <td>{{ $user->created_at }}</td>
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         <input type="checkbox" name="credit_permission" data-user-id="{{ $user->id }}" id="checkboxInput" value="1" class="user-{{ $user->id }}"
                           {{ $user->credit_permission == 1 ? 'checked' : '' }}>
                         <label for="checkboxInput" data-user-id="{{ $user->id }}" onclick="updateCreditPermission({{ $user->id }})" class="toggleSwitch">
                         </label>
                       </td>
+                      @endif
                       <td>{{ $user->country }}</td>
-
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         @if($user->is_blocked == 1)
                         <button class="badge badge-success mb-1" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
@@ -146,14 +154,17 @@
                         </button>
                         @endif
                       </td>
+                      @endif
                       <td>
                         <ul class="action">
                           <li class="edit">
                             <a href="{{ route('user.view', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
+                          @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                           <li class="edit">
                             <a href="{{ route('user.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
+                          @endif
                         </ul>
                       </td>
                     </tr>
@@ -179,7 +190,7 @@
 </div>
 <script>
   function updateCreditPermission(userID) {
-    let isChecked = $('.user-'+userID).is(":checked") ? 1 : 0;
+    let isChecked = $('.user-' + userID).is(":checked") ? 1 : 0;
     console.log(isChecked);
     let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
     $.ajax({

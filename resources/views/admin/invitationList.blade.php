@@ -19,6 +19,7 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-body">
+              <h2 class="mb-3">Filters</h2>
               <div class="row">
                 @if(session()->has('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -40,7 +41,7 @@
                   <input class="form-control" id="invite_code" type="text" name="invite_code" placeholder="Invitation Code" required="">
                   <span class="error">
                     @if ($errors->has('invite_code'))
-                        {{ $errors->first('invite_code') }}
+                    {{ $errors->first('invite_code') }}
                     @endif
                   </span>
                 </div>
@@ -59,10 +60,11 @@
         <div class="col-sm-12">
           <div class="card">
             <div class="card-header pb-0 card-no-border">
-
+              @if(Auth::guard('admin')->user()->user_type !== 'Worker')
               <div class="btn-group">
                 <a class="btn btn-primary mx-auto " data-bs-toggle="modal" data-bs-target=".bd-example-modal-sm-title1"><i class="fa-solid fa-plus"></i></a>
               </div>
+              @endif
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
@@ -139,17 +141,17 @@
       }
     });
   });
-  
+
   $('.generate-code-form').click(function() {
-      const alphaNum = '0123456789abcdefghijklmnopqrstuvwxyz';
-      let code = '';
-      for (let i = 0; i < 10; i++) {
-          if (i % 2 === 0) {
-              code += alphaNum[Math.floor(Math.random() * 10)];
-          } else {
-              code += alphaNum[Math.floor(Math.random() * 26) + 10];
-          }
+    const alphaNum = '0123456789abcdefghijklmnopqrstuvwxyz';
+    let code = '';
+    for (let i = 0; i < 10; i++) {
+      if (i % 2 === 0) {
+        code += alphaNum[Math.floor(Math.random() * 10)];
+      } else {
+        code += alphaNum[Math.floor(Math.random() * 26) + 10];
       }
-      $('#invite_code').val(code);
+    }
+    $('#invite_code').val(code);
   });
 </script>

@@ -37,7 +37,7 @@
   <!-- Bootstrap css-->
   <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/css/vendors/bootstrap.css') }}">
   <!-- Data Table css-->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">    
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
   <!-- App css-->
@@ -69,11 +69,13 @@
         <form class="col-sm-4 form-inline search-full d-none d-xl-block" action="#" method="get"></form>
         <div class="nav-right col-xl-8 col-lg-12 col-auto pull-right right-header p-0">
           <ul class="nav-menus">
+            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
             <li>
               <a class="badge badge-success mb-1" onclick="$('#invitationCodeModal').modal('show');">
                 <span class="label">Create Invitation Code</span>
               </a>
             </li>
+            @endif
             <li>
               <a class="badge @if($pendingRechargeRequest === 0)badge-success @else badge-danger @endif mb-1" href="{{ route('recharge.list') }}">
                 <span class="lable">Recharge {{ $pendingRechargeRequest }}</span>

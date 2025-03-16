@@ -2,6 +2,7 @@
 <div class="page-body-wrapper">
    <!-- Page Sidebar Ends-->
    @include('admin.partials.sidenav')
+   
     <!-- Page Sidebar Ends-->
     <div class="page-body">
         <div class="container-fluid">
