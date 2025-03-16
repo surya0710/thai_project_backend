@@ -65,10 +65,10 @@
                 <li class="mt-16 pb-8 line-bt2">
                     <a href="" class="box-inbox-item">
                         <div class="avatar avt-32 avt-status">
-                            <img src="" alt="avatar">
+                            <img src="{{ asset($tasks[0]->image_path) }}" alt="avatar">
                         </div>
                         <div class="content">
-                            <div class="desc"></div>
+                            <div class="desc">{{ $tasks[0]->name }}</div>
                             <div class="title"><span class="desc">USD</span> <span class="desc">x1</span></div>
                         </div>
                     </a>
@@ -76,13 +76,13 @@
                 <li class="mt-20 ">
                     <a href="" class="wd-file-message line-bt">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
-                        <span class="body-4 text-black-5 fw-5">USD  </span>
+                        <span class="body-4 text-black-5 fw-5">USD  {{ $tasks[0]->price }}</span>
                     </a>
                 </li>
                 <li class="mt-20 line-bt">
                     <a href="" class="wd-file-message">
                         <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
-                        <span class="body-4 text-black-5 fw-5">USD </span>
+                        <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($tasks[0]->price, $userData->badge)}}</span>
                     </a>
                 </li>
                 

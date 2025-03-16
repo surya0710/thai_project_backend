@@ -27,7 +27,8 @@
                     <div class="tab-pane fade active show" id="allTask" role="tabpanel">
                         @foreach($tasks as $task)
                         <ul class="mt-20">
-                            <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
+                            <li class="mt-16 pb-8 line-bt2">
+                                <div class="box-inbox-item">
                                     <div class="avatar avt-32 avt-status">
                                         <img src="{{ asset($task->image_path) }}" alt="avatar">
                                     </div>
@@ -46,7 +47,7 @@
                                             @else {{ 'Pending' }}
                                         @endif
                                     </div>
-                                </a>
+                                </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex justify-content-around">
                                         <p class="text-caption-2 text-black-4">Total Order Amount</p>
@@ -66,7 +67,8 @@
                         @foreach($tasks as $task)
                             @if($task->taskStatus == null)
                             <ul class="mt-20">
-                                <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
+                                <li class="mt-16 pb-8 line-bt2">
+                                    <div class="box-inbox-item">
                                         <div class="avatar avt-32 avt-status">
                                             <img src="{{ asset($task->image_path) }}" alt="avatar">
                                         </div>
@@ -82,7 +84,7 @@
                                         <div class="text-right tag-status type-1">
                                             Pending
                                         </div>
-                                    </a>
+                                    </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-around">
                                             <p class="text-caption-2 text-black-4">Total Order Amount</p>
@@ -103,7 +105,8 @@
                         @foreach($tasks as $task)
                             @if($task->taskStatus != null)
                             <ul class="mt-20">
-                                <li class="mt-16 pb-8 line-bt2"><a href="" class="box-inbox-item">
+                                <li class="mt-16 pb-8 line-bt2">
+                                    <div class="box-inbox-item">
                                         <div class="avatar avt-32 avt-status">
                                             <img src="{{ asset($task->image_path) }}" alt="avatar">
                                         </div>
@@ -119,7 +122,7 @@
                                         <div class="text-right tag-status type-1">
                                             Pending
                                         </div>
-                                    </a>
+                                    </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-around">
                                             <p class="text-caption-2 text-black-4">Total Order Amount</p>
