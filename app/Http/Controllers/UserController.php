@@ -349,7 +349,6 @@ class UserController extends Controller
     public function lazadaUpdate(Request $request, $productID){
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'url' => 'required|string',
             'price' => 'required|numeric',
             'image' => $request->has('image') ? 'required|image|mimes:jpeg,png,jpg,gif,svg' : 'nullable',
         ]);
@@ -363,10 +362,11 @@ class UserController extends Controller
             $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imageName);
         }
+        $url = Str::slug($request->name, '-');
 
         $product = Products::find($productID);
         $product->name = $request->name;
-        $product->url = $request->url;
+        $product->url = $url;
         $product->price = $request->price;
         $product->image_path = $request->has('image') ? 'uploads/products/'.$imageName : $product->image_path;
 
@@ -412,7 +412,6 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'url' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpeg,png,jpg',
         ]);
@@ -422,6 +421,7 @@ class UserController extends Controller
         }
 
         try {
+            $url = Str::slug($request->name, '-');
             $image = $request->file('image');
             $imageName = Str::random(32) . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/products'), $imageName);
@@ -430,9 +430,9 @@ class UserController extends Controller
             $product = new Products();
             $product->fill([
                 'name' => $request->name,
-                'url' => $request->url,
+                'url' => $url,
                 'price' => $request->price,
-                'image_path' => $imageName,
+                'image_path' => 'uploads/products/' . $imageName,
             ]);
             $product->created_at = now();
             $product->save();
