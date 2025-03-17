@@ -27,8 +27,9 @@ class CustomerController extends Controller
     {
         $userData = User::find(Auth::guard('customer')->user()->id);
         $tasksPrice = generateTaskPrices($userData->badge);
-        $userTasks = TasksHistory::where('user_id', $userData->id)->get();
+        $userTasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->get();
         $tasksCompleted = count($userTasks);
+
         $tasksToFetch = max(0, 29 - $tasksCompleted); // Ensure it's not negative
 
         // Get completed task IDs to avoid duplicates
@@ -39,7 +40,7 @@ class CustomerController extends Controller
             ->with('taskStatus')
             ->get();
 
-        // Define task price ranges for selection
+        // Calculate task price ranges
         $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
 
         // Fetch new tasks, ensuring no duplicates with completed tasks
@@ -87,6 +88,9 @@ class CustomerController extends Controller
                 ->limit($remaining)
                 ->get();
             $tasks = $tasks->merge($extraTasks);
+        }
+        if($tasksCompleted == 30){
+            $tasks = $completedTasks;
         }
 
         return view('customer.tasks', compact('userData', 'tasks'));
