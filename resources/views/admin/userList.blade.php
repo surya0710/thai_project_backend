@@ -148,12 +148,12 @@
                           <span class="lable">Prohibition of transactions</span>
                         </button>
                         @endif
-                        <button class="badge badge-danger mb-1 " onclick="$('#setLuckyDraw').modal('show');" id="set_lucky_draw" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-danger mb-1 " onclick="setLuckyDraw({{ $user->id }}, '{{ $user->badge }}')" id="set_lucky_draw" data-event="block">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Set Lucky Draw</span>
                         </button>
                         @elseif(Auth::guard('admin')->user()->user_type == 'Manager')
-                        <button class="badge badge-danger mb-1 " onclick="$('#setLuckyDraw').modal('show');" id="set_lucky_draw" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-danger mb-1 " onclick="setLuckyDraw({{ $user->id }}, '{{ $user->badge }}')" id="set_lucky_draw" data-event="block">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Set Lucky Draw</span>
                         </button>
