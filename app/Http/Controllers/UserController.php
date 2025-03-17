@@ -8,6 +8,7 @@ use App\Models\Products;
 use App\Models\RechargeRequest;
 use App\Models\Withdraw;
 use App\Models\InviteCode;
+use App\Models\LuckyDraw;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -733,5 +734,34 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    public function setLuckyDraw(Request $request){
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'for_badge' => 'required|string',
+            'show_at' => 'required',
+            'exceeding_amount' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $setTask = LuckyDraw::create([
+            'user_id' => $request->user_id,
+            'set_by' => Auth::guard('admin')->user()->id,
+            'show_at' => $request->show_at,
+            'for_badge' => $request->for_badge,
+            'exceeding_amount' => $request->exceeding_amount,
+            'created_at' => now()
+        ]);
+
+        if($setTask){
+            return redirect()->back()->with('success', 'Task Set Successfully');
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 }

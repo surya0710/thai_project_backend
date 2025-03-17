@@ -120,7 +120,7 @@
                       <td>{{ $user->email }}</td>
                       <td>{{ $user->lastLogin['created_at'] ?? 'N/A' }}</td>
                       <td>{{ $user->created_at }}</td>
-                      <td>60</td>
+                      <td>{{ taskCountForUser($user->id, $user->badge) }}</td>
                       <td>{{ $user->total_amount }}</td>
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
@@ -147,7 +147,7 @@
                           <span class="lable">Prohibition of transactions</span>
                         </button>
                         @endif
-                        <button class="badge badge-danger mb-1 " onclick="$('#setLuckyDraw').modal('show');" id="set_lucky_draw" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                        <button class="badge badge-danger mb-1 " onclick="setLuckyDraw({{ $user->id }}, '{{ $user->badge }}')">
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Set Lucky Draw</span>
                         </button>
@@ -215,11 +215,13 @@
         <h4 class="modal-title" id="mySmallModalLabel">Set Lucky Draw</h4>
         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="{{ route('invitation.store') }}" class="theme-form" method="post">
+      <form action="{{ route('admin.setLuckyDraw') }}" class="theme-form" method="post">
         @csrf
         <div class="modal-body dark-modal">
-          <label for="invitation_code" class="form-label">Show task at which level</label>
-          <select name="" id="" class="form-control">
+          <input type="hidden" name="user_id" id="user_id" value="" required>
+          <input type="text" class="form-control mb-3" name="for_badge" required id="userLevel" readonly>
+          <label for="show_at" class="form-label">Show task at which level</label>
+          <select name="show_at" id="show_at" class="form-control" required>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -251,10 +253,9 @@
             <option value="29">29</option>
             <option value="30">30</option>
           </select>
-          <label for="task_price" class="form-label mt-3">Task Price</label>
-          <input type="text" class="form-control" name="task_price" id="task_price">
+          <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
+          <input type="text" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
           <button class="mt-3 btn btn-success" type="submit">Save</button>
-         
         </div>
       </form>
     </div>
@@ -300,7 +301,14 @@
       });
     }
 
+    function setLuckyDraw(userID, badge){
+      $('#user_id').val(userID);
+      $('#userLevel').val(badge);
+      $('#setLuckyDraw').modal('show');
+    }
+
     $(document).ready(function() {
+      
       $('.userStatus').on('click', function() {
         var data = $(this).data();
         let url = `{{ route('user.status') }}`;

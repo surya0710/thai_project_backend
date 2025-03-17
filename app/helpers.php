@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Products;
+use App\Models\TasksHistory;
 
     if(!function_exists('getCPSCalculation')) {
         function getCPSCalculation($price, $badge, $taskType = 'normal'){
@@ -111,6 +112,13 @@ use App\Models\Products;
             $nextTaskPrice = max(10, $price + $priceVariation);
 
             return number_format($nextTaskPrice, 2);
+        }
+    }
+
+    if(!function_exists('taskCountForUser')) {
+        function taskCountForUser($userID, $badge){
+            $count = TasksHistory::where('user_id', $userID)->where('badge', $badge)->count();
+            return $count;
         }
     }
     
