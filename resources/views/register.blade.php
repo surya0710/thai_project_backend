@@ -226,6 +226,7 @@
             </p>
         </div>
     </div>
+    <p class="text-center">Copyright © 2017 - 2025</p>
     <script type="text/javascript" src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
