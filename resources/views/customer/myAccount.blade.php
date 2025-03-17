@@ -373,7 +373,6 @@
                     </li>
                 </ul>
             </div>
-            <script src='//fw-cdn.com/12542621/4940638.js' chat='true'></script>
         </div>
     </div>
     <!-- personal info -->

@@ -81,7 +81,7 @@ class CustomerController extends Controller
         }
 
         // Ensure exactly 30 tasks
-        if ($tasks->count() < 30) {
+        if ($tasks->count() <= 30) {
             $remaining = 30 - $tasks->count();
             $extraTasks = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
                 ->with('taskStatus')

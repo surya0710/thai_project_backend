@@ -70,4 +70,3 @@
     <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
 </body>
 </html>
-<script src='//fw-cdn.com/12542621/4940638.js' chat='true'></script>
