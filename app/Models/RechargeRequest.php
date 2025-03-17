@@ -10,6 +10,7 @@ class RechargeRequest extends Model
     use HasFactory;
 
     protected $table = 'recharge_request';
+    
     protected $fillable = [
         'user_id',
         'amount',
