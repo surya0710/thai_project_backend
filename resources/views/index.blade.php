@@ -162,7 +162,7 @@
                 <button class="mt-48 tf-btn primary">Login</button>
                 <div class="mt-16 d-flex justify-content-between">
                     <a href="{{ route('register') }}" class="h8 text-primary fw-5">Register Account</a>
-                    <a href="{{ route('forgetPassword') }}" class="h8 text-primary fw-5">Forgot Password?</a>
+                    <a href="https://tawk.to/chat/67d6d1cf4a42471910b3005f/1imfi74uc" target="_blank" class="h8 text-primary fw-5">Forgot Password?</a>
                 </div>
             </form>
            

@@ -173,9 +173,9 @@
                         </div>
                     </a>
                 </li>
-                <li class="list-view-item style-1 line-bt" data-bs-toggle="offcanvas" data-bs-target="#helpCenter"
-                    aria-controls="offcanvasRight">
-                    <a href="javascript:void(0);" class="gap-20">
+                <!-- <li class="list-view-item style-1 line-bt" data-bs-toggle="offcanvas" data-bs-target="#helpCenter" aria-controls="offcanvasRight"> -->
+                <li class="list-view-item style-1 line-bt">
+                    <a href="https://tawk.to/chat/67d6d1cf4a42471910b3005f/1imfi74uc" target="_blank" class="gap-20">
                         <div class="box-icon w-36 bg-grey-2 radius-12">
                             <i class="icon-star fs-20"></i>
                         </div>

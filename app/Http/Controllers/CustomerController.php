@@ -12,6 +12,7 @@ use App\Models\UserAddress;
 use App\Models\User;
 use App\Models\Products;
 use App\Models\TasksHistory;
+use App\Models\LuckyDraw;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -102,6 +103,11 @@ class CustomerController extends Controller
     }
 
     public function recharge(){
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        $userTasks = TasksHistory::where('user_id', $userData->id)->get();
+
+        $tasksCompleted = $userTasks->count();
+        $luckyDrawTask = LuckyDraw::where('user_id', $userData->id);
         return view('customer.recharge');
     }
 

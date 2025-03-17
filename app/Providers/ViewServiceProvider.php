@@ -34,18 +34,16 @@ class ViewServiceProvider extends ServiceProvider
                 $view->with('todaysRevenue', $todaysRevenue);
                 $view->with('yesterdayrevenue', $yesterdayrevenue);
             }
-            else if(Auth::guard('admin')->check()){
-                $pendingRechargeRequest = RechargeRequest::where('status', 0)->count();
-                $pendingWithrawRequest = Withdraw::where('status', 0)->count();
-                $adminUsersCount = User::where('is_deleted', 0)->where('is_blocked', 0)->where('role', 'admin')->count();
-                $customerUsersCount = User::where('is_deleted', 0)->where('is_blocked', 0)->where('role', 'customer')->count();
-                $productsCount = Products::where('is_deleted', 0)->count();
-                $view->with('pendingWithrawRequest', $pendingWithrawRequest);
-                $view->with('pendingRechargeRequest', $pendingRechargeRequest);
-                $view->with('adminUsersCount', $adminUsersCount);
-                $view->with('customerUsersCount', $customerUsersCount);
-                $view->with('productsCount', $productsCount);
-            }
+            $pendingRechargeRequest = RechargeRequest::where('status', 0)->count();
+            $pendingWithrawRequest = Withdraw::where('status', 0)->count();
+            $adminUsersCount = User::where('is_deleted', 0)->where('is_blocked', 0)->where('role', 'admin')->count();
+            $customerUsersCount = User::where('is_deleted', 0)->where('is_blocked', 0)->where('role', 'customer')->count();
+            $productsCount = Products::where('is_deleted', 0)->count();
+            $view->with('pendingWithrawRequest', $pendingWithrawRequest);
+            $view->with('pendingRechargeRequest', $pendingRechargeRequest);
+            $view->with('adminUsersCount', $adminUsersCount);
+            $view->with('customerUsersCount', $customerUsersCount);
+            $view->with('productsCount', $productsCount);
         });
     }
 }

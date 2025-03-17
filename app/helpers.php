@@ -3,9 +3,14 @@
 use App\Models\Products;
 
     if(!function_exists('getCPSCalculation')) {
-        function getCPSCalculation($price, $badge){
+        function getCPSCalculation($price, $badge, $taskType = 'normal'){
             if($badge == 'VIP0'){
-                $percentage = 3;
+                if($taskType == 'luckyDraw'){
+                    $percentage = 5;
+                }
+                else{
+                    $percentage = 3;
+                }
             }
             elseif($badge == 'VIP1'){
                 $percentage = 3;
@@ -84,7 +89,7 @@ use App\Models\Products;
     }
 
     if(!function_exists('getNextTaskPrice')){
-        function getNextTaskPrice($userRevenue, $tasksCompleted, $isLuckyDraw = false) {
+        function getNextTaskPrice($userRevenue, $tasksCompleted) {
             $totalReward = 15;
             $totalTasks = 30;
             
@@ -99,12 +104,7 @@ use App\Models\Products;
             }
 
             // If it's a lucky draw task, use 5% reward calculation
-            if ($isLuckyDraw) {
-                $price = $remainingReward / 0.05;
-            } else {
-                // Regular task price calculation (reserving one lucky draw)
-                $price = $remainingReward / (0.03 * ($remainingTasks - 1) + 0.05);
-            }
+            $price = $remainingReward / (0.03 * $remainingTasks);
 
             // Randomize within a small range
             $priceVariation = rand(-50, 50) / 100;

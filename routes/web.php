@@ -72,7 +72,7 @@ Route::middleware(['customer'])->group(function () {
     Route::get('/dashboard', 'App\Http\Controllers\CustomerController@dashboard')->name('customer.dashboard');
     Route::get('/tasks', 'App\Http\Controllers\CustomerController@tasks')->name('customer.tasks');
     Route::get('/automatic-order', 'App\Http\Controllers\OrderManagermentController@automaticOrder')->name('customer.automaticOrder');
-    Route::post('/automatic-order/{task_id}', 'App\Http\Controllers\OrderManagermentController@automaticOrderSubmit')->name('customer.automaticOrderSubmit');
+    Route::post('/automatic-order/{task_id},{task_type}', 'App\Http\Controllers\OrderManagermentController@automaticOrderSubmit')->name('customer.automaticOrderSubmit');
     Route::get('/revenue-record', 'App\Http\Controllers\CustomerController@revenueRecord')->name('customer.revenueRecord');
     Route::get('/my-account', 'App\Http\Controllers\CustomerController@myAccount')->name('customer.myAccount');
     Route::get('/recharge', 'App\Http\Controllers\CustomerController@recharge')->name('customer.recharge');
