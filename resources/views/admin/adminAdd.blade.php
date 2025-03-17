@@ -43,8 +43,10 @@
                                         <label class="form-label" for="validationTooltip09">Admin User Type</label>
                                         <select class="form-select" id="validationTooltip09" name="user_type" required="">
                                             <option selected="" disabled="" value="">Choose...</option>
+                                            @if(Auth::guard('admin')->user()->user_type !== 'Manager')
                                             <option value="Boss" {{  old('user_type') == 'Boss' ? 'selected' : ''}}>Boss</option>
                                             <option value="Manager" {{  old('user_type') == 'Boss' ? 'selected' : ''}}>Manager</option>
+                                            @endif
                                             <option value="Worker" {{  old('user_type') == 'Boss' ? 'selected' : ''}}>Worker </option>
                                         </select>
                                         <span class="error text-danger">

@@ -99,7 +99,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
-                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
@@ -122,7 +122,7 @@
                       <td>{{ $user->created_at }}</td>
                       <td>60</td>
                       <td>{{ $user->total_amount }}</td>
-                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <td>
 
                         <div class="form-check form-switch">
@@ -134,8 +134,9 @@
                         </div>
                       </td>
                       @endif
-                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
+                        @if(Auth::guard('admin')->user()->user_type == 'Boss')
+
                         @if($user->is_blocked == 1)
                         <button class="badge badge-success mb-1 userStatus" data-event="unblock" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
                           <i class="fa-solid fa-bars"></i>
@@ -151,14 +152,19 @@
                           <i class="fa-solid fa-bars"></i>
                           <span class="lable">Set Lucky Draw</span>
                         </button>
+                        @elseif(Auth::guard('admin')->user()->user_type == 'Manager')
+                        <button class="badge badge-danger mb-1 " onclick="$('#setLuckyDraw').modal('show');" id="set_lucky_draw" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                          <i class="fa-solid fa-bars"></i>
+                          <span class="lable">Set Lucky Draw</span>
+                        </button>
+                        @endif
                       </td>
-                      @endif
                       <td>
                         <ul class="action">
                           <li class="edit">
                             <a href="{{ route('user.view', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
-                          @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                          @if(Auth::guard('admin')->user()->user_type == 'Boss')
                           <li class="edit">
                             <a href="{{ route('user.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
                           </li>
@@ -186,7 +192,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
-                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                      @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
@@ -254,7 +260,7 @@
           <label for="task_price" class="form-label mt-3">Task Price</label>
           <input type="text" class="form-control" name="task_price" id="task_price">
           <button class="mt-3 btn btn-success" type="submit">Save</button>
-         
+
         </div>
       </form>
     </div>

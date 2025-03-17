@@ -1,7 +1,7 @@
 @include('admin.partials.header')
 <div class="page-body-wrapper">
-   <!-- Page Sidebar Ends-->
-   @include('admin.partials.sidenav')
+    <!-- Page Sidebar Ends-->
+    @include('admin.partials.sidenav')
     <!-- Page Sidebar Ends-->
     @if(Auth::guard('admin')->user()->user_type !== 'Worker')
     <div class="page-body">
@@ -34,7 +34,7 @@
                                 <div class="row">
                                     <span class="text-danger error">
                                         @if (session()->has('error'))
-                                            {{ session()->get('error') }}
+                                        {{ session()->get('error') }}
                                         @endif
                                     </span>
                                 </div>
@@ -43,13 +43,16 @@
                                         <label class="form-label" for="validationTooltip09">Admin User Type</label>
                                         <select class="form-select" id="validationTooltip09" name="user_type" required="">
                                             <option selected="" disabled="" value="">Choose...</option>
+                                            @if(Auth::guard('admin')->user()->user_type !== 'Manager')
                                             <option value="Boss" {{ $user->user_type == 'Boss' ? 'selected' : '' }}>Boss</option>
                                             <option value="Manager" {{ $user->user_type == 'Manager' ? 'selected' : '' }}>Manager</option>
+
+                                            @endif
                                             <option value="Worker" {{ $user->user_type == 'Worker' ? 'selected' : '' }}>Worker </option>
                                         </select>
                                         <span class="error text-danger">
                                             @error('user_type')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -59,37 +62,37 @@
                                             required="" value="{{ $user->username ?? old('username') }}">
                                         <span class="error text-danger">
                                             @error('username')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
                                     <div class="col-md-3 position-relative">
                                         <label class="form-label" for="validationTooltip03">Name</label>
-                                        <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name" required="" 
-                                        value="{{ $user->name ?? old('name') }}">
+                                        <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name" required=""
+                                            value="{{ $user->name ?? old('name') }}">
                                         <span class="error text-danger">
                                             @error('name')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
                                     <div class="col-md-3 position-relative">
                                         <label class="form-label" for="validationTooltip04">Phone</label>
-                                        <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone" required="" 
-                                        value="{{ $user->phone ?? old('phone') }}">
+                                        <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone" required=""
+                                            value="{{ $user->phone ?? old('phone') }}">
                                         <span class="error text-danger">
                                             @error('phone')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
                                     <div class="col-md-3 position-relative">
                                         <label class="form-label" for="validationTooltip05">Email</label>
-                                        <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email" required="" 
-                                        value="{{ $user->email ?? old('email') }}">
+                                        <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email" required=""
+                                            value="{{ $user->email ?? old('email') }}">
                                         <span class="error text-danger">
                                             @error('email')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -98,7 +101,7 @@
                                         <input class="form-control" id="validationTooltip06" name="password" type="password" placeholder="Password">
                                         <span class="error text-danger">
                                             @error('password')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -130,57 +133,57 @@
         </div>
     </div>
     @endif
-@include('admin.partials.footer')
-<script>
-   function handleDelete(event, element){
-      event.preventDefault();
-      const userId = element.getAttribute("data-id");
-      const userName = element.getAttribute("data-name");
+    @include('admin.partials.footer')
+    <script>
+        function handleDelete(event, element) {
+            event.preventDefault();
+            const userId = element.getAttribute("data-id");
+            const userName = element.getAttribute("data-name");
 
-      Swal.fire({
-         title: "Are you sure?",
-         text: `You are about to delete user ${userName}`,
-         icon: "warning",
-         showCancelButton: true,
-         confirmButtonColor: "#d33",
-         cancelButtonColor: "#3085d6",
-         confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-         if (result.isConfirmed) {
-            $.ajax({
-               url: "{{ route('user.delete') }}",
-               type: "POST", 
-               data: {
-                  id: userId,
-                  _token: "{{ csrf_token() }}" 
-               },
-               success: function(response) {
-                  console.log(response);
-                  if (response.status === 'success') {
-                     Swal.fire(
-                        "Deleted!",
-                        `User ${userName} has been deleted.`,
-                        "success"
-                     ).then(() => {
-                        location.reload();
-                     });
-                  } else {
-                     Swal.fire(
-                        "Error!",
-                        `${response.message}`,
-                        "error"
-                     );
-                  }
-               },
-               error: function(xhr) {
-                  Swal.fire(
-                        "Error!",
-                        "Something went wrong. Please try again.",
-                        "error"
-                  );
-               }
+            Swal.fire({
+                title: "Are you sure?",
+                text: `You are about to delete user ${userName}`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('user.delete') }}",
+                        type: "POST",
+                        data: {
+                            id: userId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.status === 'success') {
+                                Swal.fire(
+                                    "Deleted!",
+                                    `User ${userName} has been deleted.`,
+                                    "success"
+                                ).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire(
+                                    "Error!",
+                                    `${response.message}`,
+                                    "error"
+                                );
+                            }
+                        },
+                        error: function(xhr) {
+                            Swal.fire(
+                                "Error!",
+                                "Something went wrong. Please try again.",
+                                "error"
+                            );
+                        }
+                    });
+                }
             });
-         }
-      });
-   }
-</script>
+        }
+    </script>
