@@ -15,7 +15,7 @@ class OrderManagermentController extends Controller
     public function automaticOrder()
     {
         $userData = User::find(Auth::guard('customer')->user()->id);
-        $userTasks = TasksHistory::where('user_id', $userData->id)->get();
+        $userTasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->get();
 
         $tasksCompleted = $userTasks->count();
         $luckyDrawTask = LuckyDraw::where('user_id', $userData->id)
@@ -53,6 +53,10 @@ class OrderManagermentController extends Controller
         $todayEarned = TasksHistory::where('user_id', $userData->id)
             ->where('created_at', '>=', now()->startOfDay())
             ->sum('earned_amount');
+
+        if($tasksCompleted == 30 ){
+            $task = null;
+        }
 
         return view('customer.automaticOrder', compact('userData', 'task', 'taskCount', 'todayEarned', 'luckyDrawTask'));
     }
