@@ -73,7 +73,7 @@ class OrderManagermentController extends Controller
             ->where('show_at', $tasksCompleted + 1)
             ->where('for_badge', $user->badge)
             ->first();
-            if($luckyDrawTask == null){
+            if(isset($luckyDrawTask)){
                 return redirect()->route('customer.automaticOrder');
             }
             $taskPrice = $luckyDrawTask->exceeding_amount;
@@ -92,10 +92,11 @@ class OrderManagermentController extends Controller
             $user->revenue_generated += $taskHistory->earned_amount;
             $user->total_amount += $taskHistory->earned_amount;
             $user->update();
-
-            DB::table('set_lucky_draw')
-            ->where('id', $luckyDrawTask->id)
-            ->update(['status' => 1]);
+            if(isset($luckyDrawTask)){
+                DB::table('set_lucky_draw')
+                ->where('id', $luckyDrawTask->id)
+                ->update(['status' => 1]);
+            }
         };
         return redirect()->route('customer.automaticOrder');
     }
