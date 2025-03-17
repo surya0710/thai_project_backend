@@ -113,7 +113,7 @@
                                                                     <li class="edit">
                                                                         <a href="{{ route('withdrawal.view', ['withdrawal_id' => $withdrawal->id]) }}"><i class="fa-solid fa-eye"></i></a>
                                                                     </li>
-                                                                    @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                                                                    @if(Auth::guard('admin')->user()->user_type == 'Boss')
                                                                     @if($withdrawal->status === 0)
                                                                     <li class="view me-2">
                                                                         <button type="button" data-user="{{ $withdrawal->user['username'] }}" data-amount="{{ $withdrawal->amount }}" data-id="{{ $withdrawal->id }}" data-event="approve" class="btn btn-success rechargeStatus">Approve</button>

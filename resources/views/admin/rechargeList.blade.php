@@ -65,7 +65,7 @@
                         <th>Created At</th>
                         <th>Status</th>
                         <th>Approved By</th>
-                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        @if(Auth::guard('admin')->user()->user_type == 'Boss')
                         <th>Action</th>
                         @endif
                       </tr>
@@ -90,7 +90,7 @@
                           @endif
                         </td>
                         <td>{{ $recharge->approver['username'] ?? 'N/A' }}</td>
-                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        @if(Auth::guard('admin')->user()->user_type == 'Boss')
                         <td>
                           @if($recharge->status == 0)
                           <ul class="action">
@@ -118,7 +118,7 @@
                         <th>Created At</th>
                         <th>Status</th>
                         <th>Approved By</th>
-                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
+                        @if(Auth::guard('admin')->user()->user_type == 'Boss')
                         <th>Action</th>
                         @endif
                       </tr>

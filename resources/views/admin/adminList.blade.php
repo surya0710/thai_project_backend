@@ -71,7 +71,7 @@
                   </div>
                   <div class="card-body">
                      <div class="table-responsive custom-scrollbar">
-                    
+
                         <table id="example" class="table table-striped" style="width:100%">
                            <thead>
                               <tr>
@@ -99,12 +99,21 @@
                                  @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                  <td>
                                     <ul class="action">
+                                       @if(Auth::guard('admin')->user()->user_type == 'Manager' && $user->user_type == 'Worker')
                                        <li class="edit">
                                           <a href="{{ route('admin.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
                                        </li>
                                        <li class="delete">
-                                          <a title="Delete" data-name="{{ $user->name }}" data-id="{{  $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
+                                          <a title="Delete" data-name="{{ $user->name }}" data-id="{{ $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
                                        </li>
+                                       @elseif(Auth::guard('admin')->user()->user_type == 'Boss')
+                                       <li class="edit">
+                                          <a href="{{ route('admin.edit', ['user_id' => $user->id]) }}"><i class="fa-solid fa-pencil"></i></a>
+                                       </li>
+                                       <li class="delete">
+                                          <a title="Delete" data-name="{{ $user->name }}" data-id="{{ $user->id }}" onclick="handleDelete(event, this)"><i class="fa-solid fa-trash"></i></a>
+                                       </li>
+                                       @endif
                                     </ul>
                                  </td>
                                  @endif
