@@ -100,33 +100,38 @@
         </div>
     </div>
     <!-- /preload -->
-    <div class="header fixed-top line-bt">
+    <div class="header fixed-top1 line-bt">
         <h5>Login</h5>
+    </div>
+    <div class="header fixed-top1">
+        <div class="left">
+            <a href="https://tawk.to/chat/67d6d1cf4a42471910b3005f/1imfi74uc" target="_blank"><button class="tf-btn primary btn-sm inline m-1">Service</button></a>
+        </div>
         <div class="right">
             <div id='google_translate_element' class="skiptranslate goog-te-gadget" dir="ltr" style="">
-                <div class="language-wrapper">
-                    <div class="language-select-container">
-                        <img id="selected-flag" src="https://flagcdn.com/w40/us.png" class="flag-icon" alt="Flag">
-                        <select id="language-selector" class="language-select" onchange="changeLanguage()">
-                            <option value="en" data-flag="https://flagcdn.com/w40/us.png">English</option>
-                            <option value="hi" data-flag="https://flagcdn.com/w40/in.png">Hindi</option>
-                            <option value="ja" data-flag="https://flagcdn.com/w40/jp.png">Japanese</option>
-                            <option value="ko" data-flag="https://flagcdn.com/w40/kr.png">Korean</option>
-                            <option value="my" data-flag="https://flagcdn.com/w40/mm.png">Burmese</option>
-                            <option value="th" data-flag="https://flagcdn.com/w40/th.png">Thai</option>
-                            <option value="ru" data-flag="https://flagcdn.com/w40/ru.png">Russian</option>
-                            <option value="ms" data-flag="https://flagcdn.com/w40/sg.png">Singapore</option>
-                            <option value="ar" data-flag="https://flagcdn.com/w40/sa.png">Arabic</option>
-                            <option value="ur" data-flag="https://flagcdn.com/w40/pk.png">Urdu</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
+              <div class="language-wrapper">
+                  <div class="language-select-container">
+                      <img id="selected-flag" src="https://flagcdn.com/w40/us.png" class="flag-icon" alt="Flag">
+                      <select id="language-selector" class="language-select" onchange="changeLanguage()">
+                          <option value="en" data-flag="https://flagcdn.com/w40/us.png">English</option>
+                          <option value="hi" data-flag="https://flagcdn.com/w40/in.png">Hindi</option>
+                          <option value="ja" data-flag="https://flagcdn.com/w40/jp.png">Japanese</option>
+                          <option value="ko" data-flag="https://flagcdn.com/w40/kr.png">Korean</option>
+                          <option value="my" data-flag="https://flagcdn.com/w40/mm.png">Burmese</option>
+                          <option value="th" data-flag="https://flagcdn.com/w40/th.png">Thai</option>
+                          <option value="ru" data-flag="https://flagcdn.com/w40/ru.png">Russian</option>
+                          <option value="ms" data-flag="https://flagcdn.com/w40/sg.png">Singapore</option>
+                          <option value="ar" data-flag="https://flagcdn.com/w40/sa.png">Arabic</option>
+                          <option value="ur" data-flag="https://flagcdn.com/w40/pk.png">Urdu</option>
+                      </select>
+                     
+                  </div>
+              </div>
+          </div>
+        </div> 
     </div>
 
-
-    <div class="app-content style-3 pb-32 signIn-area">
+    <div class="app-content1 style-3 pb-32 signIn-area">
         <div class="tf-container-login">
             <img class="login-css" src="{{ asset('assets/images/logo/paytm-mall-image-3.webp') }}" alt="">
             <form class="mt-24" action="{{ route('userLogin') }}" method="post">

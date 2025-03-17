@@ -1392,6 +1392,9 @@ select {
 .app-content {
   padding: 76px 0px 96px;
 }
+.app-content1 {
+  padding: 25px 0px 96px;
+}
 
 .app-content.style-1 {
   padding-top: 0;
@@ -1651,12 +1654,6 @@ select {
   align-items: center;
 }
 
-.header .left {
-  position: absolute;
-  left: 24px;
-  top: 24px;
-}
-
 .header .left .icon {
   width: 28px;
   height: 28px;
@@ -1667,10 +1664,11 @@ select {
 .header .right {
   position: absolute;
   right: 24px;
-  top: 24px;
+  top: 13px;
   display: flex;
   gap: 16px;
 }
+
 
 .header .right .icon {
   width: 20px;
@@ -1752,6 +1750,7 @@ select {
   right: 0;
   background-color: #fff;
 }
+
 
 .header-profile {
   padding: 10px 20px 10px;
@@ -1877,7 +1876,7 @@ select {
 
 .task-tab {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 4px;
   position: relative;
   z-index: 1;
@@ -1902,6 +1901,39 @@ select {
 }
 
 .task-tab .nav-link.active {
+  background-color: #fff;
+  border-color: #fff;
+  border-radius: 12px;
+  color: #7980ff;
+  font-weight: 700;
+}
+.task-tab-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.task-tab-1 .nav-link {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: rgba(49, 57, 79, 0.6);
+  padding: 12px 0px;
+  text-align: center;
+  border-radius: 12px;
+  margin: 0;
+}
+
+.task-tab-1 .nav-link:hover,
+.task-tab-1 .nav-link:focus {
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 12px;
+}
+
+.task-tab-1 .nav-link.active {
   background-color: #fff;
   border-color: #fff;
   border-radius: 12px;
@@ -3152,7 +3184,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   color: #31394f;
   text-align: center;
   background: rgb(248, 250, 252);
-  border-color: #31394f;
+  border-color: transparent;
 }
 
 .digit-group input:focus {
@@ -9199,6 +9231,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 .upper-main-btn {
   display: flex;
 }
+.upper-main-btn h3{
+  font-size: 17px;
+}
 .login-css{
     width: 400px;
     display: flex;
@@ -9231,7 +9266,62 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   margin: auto;
 }
 
+.left .account{
+  position: relative;
+  left: 450px;
+  bottom: 40px;
+}
+.fixed-top1 {
+  position: relative;
+  top: 0;
+  z-index: 1020;
+  max-width: 1024px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  display: flex;
+}
+.fixed-top2 {
+  position: relative;
+  top: 0;
+  z-index: 1020;
+  max-width: 1024px;
+  margin: 25px auto;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  display: flex;
+}
+.header .left {
+  position: absolute;
+  left: 24px;
+  top: 12px;
+}
+
+@media only screen and (max-width: 350px) {
+  .app-content.style-5 {
+    padding-top: 188px;
+  }
+  
+}
+@media only screen and (max-width: 450px) {
+  .app-content.style-5 {
+    padding-top: 150px;
+  }
+  /* .fixed-top1{
+    flex-wrap: wrap;
+  } */
+  
+}
+@media only screen and (max-width: 768px) {
+  .left .account{
+    left: 40px;
+    bottom: 30px;
+ }
+}
 @media only screen and (max-width: 600px) {
+  
   .home-main-btn {
     flex-wrap: wrap;
   }
@@ -9260,31 +9350,70 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 
 
 body>.skiptranslate,
-.goog-logo-link,
-.gskiptranslate,
-.goog-te-gadget span,
-.goog-te-banner-frame,
-#goog-gt-tt,
-.goog-te-balloon-frame,
-div#goog-gt- {
-  display: none !important;
-}
+  .goog-logo-link,
+  .gskiptranslate,
+  .goog-te-gadget span,
+  .goog-te-banner-frame,
+  #goog-gt-tt,
+  .goog-te-balloon-frame,
+  div#goog-gt- {
+      display: none !important;
+  }
 
-.goog-te-gadget {
-  color: transparent !important;
-  font-size: 0px;
-}
+  .goog-te-gadget {
+      color: transparent !important;
+      font-size: 0px;
+  }
 
-.goog-text-highlight {
-  background: none !important;
-  box-shadow: none !important;
-}
+  .goog-text-highlight {
+      background: none !important;
+      box-shadow: none !important;
+  }
 
-#google_translate_element select {
-  background: #2b1a12;
-  color: #fff4e4;
-  border: none;
-  font-weight: bold;
-  border-radius: 3px;
-  padding: 8px 12px
-}
+  #google_translate_element select {
+      background: #0a3c55;
+      color: #fff4e4;
+      border: none;
+      font-weight: bold;
+      border-radius: 3px;
+      padding: 8px 12px
+  }
+
+  .language-wrapper {
+      position: relative;
+      display: inline-block;
+  }
+
+  /* Style for select box */
+  .language-select {
+      appearance: none;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 110px;
+      background: white;
+  }
+
+  /* Dropdown container with flag */
+  .language-select-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+  }
+
+  /* Flag icons */
+  .flag-icon {
+      width: 24px;
+      height: 16px;
+  }
+
+  /* Hide Google Translate Banner */
+  .goog-te-banner-frame {
+      display: none !important;
+  }
+  .goog-te-combo{
+      display: none;
+  }
