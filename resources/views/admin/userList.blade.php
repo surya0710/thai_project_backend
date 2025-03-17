@@ -82,7 +82,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-               
+
 
 
                 <table id="example" class="table table-striped" style="width:100%">
@@ -147,6 +147,10 @@
                           <span class="lable">Prohibition of transactions</span>
                         </button>
                         @endif
+                        <button class="badge badge-danger mb-1 " onclick="$('#setLuckyDraw').modal('show');" id="set_lucky_draw" data-event="block" data-name="{{ $user->name }}" data-id="{{ $user->id }}">
+                          <i class="fa-solid fa-bars"></i>
+                          <span class="lable">Set Lucky Draw</span>
+                        </button>
                       </td>
                       @endif
                       <td>
@@ -204,82 +208,133 @@
   </div>
   @include('admin.partials.footer')
 </div>
-<script>
-  function updateCreditPermission(userID) {
-    let isChecked = $('select[name="credit_permission_' + userID + '"]').val();
+<div class="modal fade bd-example-modal-sm-title1" id="setLuckyDraw" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="mySmallModalLabel">Set Lucky Draw</h4>
+        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ route('invitation.store') }}" class="theme-form" method="post">
+        @csrf
+        <div class="modal-body dark-modal">
+          <label for="invitation_code" class="form-label">Show task at which level</label>
+          <select name="" id="" class="form-control">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            <option value="21">21</option>
+            <option value="22">22</option>
+            <option value="23">23</option>
+            <option value="24">24</option>
+            <option value="25">25</option>
+            <option value="26">26</option>
+            <option value="27">27</option>
+            <option value="28">28</option>
+            <option value="29">29</option>
+            <option value="30">30</option>
+          </select>
+          <label for="task_price" class="form-label mt-3">Task Price</label>
+          <input type="text" class="form-control" name="task_price" id="task_price">
+          <button class="mt-3 btn btn-success" type="submit">Save</button>
+         
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function updateCreditPermission(userID) {
+      let isChecked = $('select[name="credit_permission_' + userID + '"]').val();
 
-    let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
-    $.ajax({
-      url: url,
-      type: "POST",
-      data: {
-        _token: "{{ csrf_token() }}",
-        credit_permission: isChecked,
-      },
-      success: function(response) {
-        if (response.status === 'success') {
-          Swal.fire(
-            "Updated!",
-            `Credit Permission Updated`,
-            "success"
-          );
-        } else {
+      let url = "{{ route('user.creditPermissionUpdate', ':user_id') }}".replace(':user_id', userID);
+      $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+          _token: "{{ csrf_token() }}",
+          credit_permission: isChecked,
+        },
+        success: function(response) {
+          if (response.status === 'success') {
+            Swal.fire(
+              "Updated!",
+              `Credit Permission Updated`,
+              "success"
+            );
+          } else {
+            Swal.fire(
+              "Error!",
+              `${response.message}`,
+              "error"
+            );
+          }
+        },
+        error: function(xhr) {
           Swal.fire(
             "Error!",
-            `${response.message}`,
+            "Something went wrong. Please try again.",
             "error"
           );
+        },
+        error: function(xhr) {
+          console.error("Error:", xhr);
+          alert("Failed to update credit permission!");
         }
-      },
-      error: function(xhr) {
-        Swal.fire(
-          "Error!",
-          "Something went wrong. Please try again.",
-          "error"
-        );
-      },
-      error: function(xhr) {
-        console.error("Error:", xhr);
-        alert("Failed to update credit permission!");
-      }
-    });
-  }
-  
-  $(document).ready(function () {
-    $('.userStatus').on('click', function () {
+      });
+    }
+
+    $(document).ready(function() {
+      $('.userStatus').on('click', function() {
         var data = $(this).data();
         let url = `{{ route('user.status') }}`;
 
         Swal.fire({
-            title: `Are you sure you want to ${data.event} ${data.name}?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, do it!'
+          title: `Are you sure you want to ${data.event} ${data.name}?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, do it!'
         }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id: data.id,
-                        event: data.event,
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            location.reload();
-                        } else {
-                            Swal.fire("Error!", response.message, "error");
-                        }
-                    },
-                    error: function(xhr) {
-                        Swal.fire("Error!", "Something went wrong. Please try again.", "error");
-                    }
-                });
-            }
+          if (result.isConfirmed) {
+            $.ajax({
+              url: url,
+              type: "POST",
+              data: {
+                _token: "{{ csrf_token() }}",
+                id: data.id,
+                event: data.event,
+              },
+              success: function(response) {
+                if (response.status === 'success') {
+                  location.reload();
+                } else {
+                  Swal.fire("Error!", response.message, "error");
+                }
+              },
+              error: function(xhr) {
+                Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+              }
+            });
+          }
         });
+      });
     });
-  });
-</script>
+  </script>

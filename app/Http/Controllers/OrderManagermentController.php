@@ -73,7 +73,7 @@ class OrderManagermentController extends Controller
             ->where('show_at', $tasksCompleted + 1)
             ->where('for_badge', $user->badge)
             ->first();
-            if(isset($luckyDrawTask)){
+            if(!isset($luckyDrawTask)){
                 return redirect()->route('customer.automaticOrder');
             }
             $taskPrice = $luckyDrawTask->exceeding_amount;
