@@ -99,6 +99,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      <th><span class="f-light f-w-600"></span>View Luckydraw History</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
@@ -122,6 +123,13 @@
                       <td>{{ $user->created_at }}</td>
                       <td>{{ taskCountForUser($user->id, $user->badge) }}</td>
                       <td>{{ $user->total_amount }}</td>
+                      <td>
+                        <ul class="action">
+                          <li class="edit">
+                            <a href="{{ route('luckydraw.list') }}"><i class="fa-solid fa-eye"></i></a>
+                          </li>
+                        </ul>
+                      </td>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <td>
 
@@ -192,6 +200,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      <th><span class="f-light f-w-600"></span>View Luckydraw History</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
@@ -308,14 +317,14 @@
       });
     }
 
-    function setLuckyDraw(userID, badge){
+    function setLuckyDraw(userID, badge) {
       $('#user_id').val(userID);
       $('#userLevel').val(badge);
       $('#setLuckyDraw').modal('show');
     }
 
     $(document).ready(function() {
-      
+
       $('.userStatus').on('click', function() {
         var data = $(this).data();
         let url = `{{ route('user.status') }}`;

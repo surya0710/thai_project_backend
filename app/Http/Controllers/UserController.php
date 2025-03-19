@@ -229,6 +229,7 @@ class UserController extends Controller
         $user = User::find($userID);
         return view('admin.userEdit')->with(['user' => $user, 'type' => 'edit' , 'active' => 'userEdit']);
     }
+    
 
     public function userUpdate(Request $request, $userID){
         $FormData = $request->all();
@@ -339,6 +340,9 @@ class UserController extends Controller
         return view('admin.lazadaList', compact('products'));
     }
 
+    public function luckydrawList(){
+        return view('admin.luckydrawList')->with(['active' => 'luckydrawList']);
+    }
     public function lazadaAdd(){
         return view('admin.lazadaAdd')->with(['active' => 'lazadaAdd']);
     }
