@@ -189,8 +189,6 @@ class UserController extends Controller
         $id = $request->input('id');
         $user = User::find($id);
 
-        
-
         if($user->user_type == 'Boss'){
             return response()->json([
                 'status' => 'failed',
@@ -532,19 +530,28 @@ class UserController extends Controller
             $withdraw->status = 2;
         }
         $withdraw->handled_by = Auth::guard('admin')->user()->id;
+        $user = User::find($withdraw->user_id);
+
+        if($user->total_amount < $amount){
+            $withdraw->status = 2;
+            $withdraw->save();
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Insufficient Balance'
+            ]);
+        }
 
         if($withdraw->save()){
             if($event == 'approve'){
-                $user = User::find($withdraw->user_id);
                 $user->total_amount = $user->total_amount - $amount;
                 $user->frozen_amount = $user->frozen_amount - $amount;
                 $user->updated_at = now();
                 $user->save();
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Withdrawal status updated successfully'
+                ], 200);
             }
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Withdrawal status updated successfully'
-            ], 200);
         }
         
         return response()->json([
