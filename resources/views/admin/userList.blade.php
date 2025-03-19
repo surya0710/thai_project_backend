@@ -264,6 +264,13 @@
           </select>
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
           <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
+          <label for="select_product" class="form-label mt-3">Select Product</label>
+          <input list="products" name="product_id" id="select_product" class="form-control" required>
+          <datalist id="products">
+            @foreach($products as $product)
+            <option value="{{ $product->id }}">{{ $product->name }}</option>
+            @endforeach
+          </datalist>
           <button class="mt-3 btn btn-success" type="submit">Save</button>
         </div>
       </form>

@@ -226,8 +226,8 @@ class UserController extends Controller
 
     public function userList(){
         $users = User::where('user_type', 'Customer')->with('lastLogin')->orderBy('id', 'desc')->get();
-        $products = Products::where('is_deleted' , 0)->all();
-        return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
+        $products = Products::where('is_deleted' , 0)->get();
+        return view('admin.userList')->with(['users' => $users, 'active' => 'userList', 'products' => $products]);
     }
     public function userEdit($userID){
         $user = User::find($userID);
