@@ -20,6 +20,11 @@ class AdminSessionMiddleware
             return redirect()->route('loginView');
         }
 
+        if(Auth::guard('admin')->user()->is_deleted === 1 || Auth::guard('admin')->user()->is_blocked === 1){
+            Auth::guard('admin')->logout();
+            return redirect()->route('loginView');
+        }
+
         return $next($request);
     }
 }

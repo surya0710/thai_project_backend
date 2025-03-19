@@ -25,7 +25,7 @@
 
                     <fieldset class="mt-20 input-line">
                         <label>Bank Name</label>
-                        <input type="text" placeholder="Enter Bank Name" name="bank_name" class="form-control" required value="{{ $bankDetails->bank_name ?? '' }}">
+                        <input type="text" placeholder="Enter Bank Name" name="bank_name" class="form-control" required value="{{ old('bank_name') }}">
                         <span class="text-danger">
                             @error('bank_name')
                                 {{ $message }}
@@ -35,7 +35,7 @@
 
                     <fieldset class="mt-20 input-line">
                         <label>Bank Holder Name</label>
-                        <input type="text" placeholder="Enter Bank Holder Name" name="account_holder_name" required class="form-control" value="{{ $bankDetails->account_holder_name ?? '' }}">
+                        <input type="text" placeholder="Enter Bank Holder Name" name="account_holder_name" required class="form-control" value="{{ old('account_holder_name') }}">
                         <span class="text-danger">
                             @error('account_holder_name')
                                 {{ $message }}
@@ -45,7 +45,7 @@
 
                     <fieldset class="mt-26 input-line">
                         <label>Account Number</label>
-                        <input type="text" placeholder="Enter Account Number" name="account_number" required class="form-control" value="{{ $bankDetails->account_number ?? '' }}">
+                        <input type="text" placeholder="Enter Account Number" name="account_number" required class="form-control" value="{{ old('account_number') }}">
                         <span class="text-danger">
                             @error('account_number')
                                 {{ $message }}
@@ -55,7 +55,7 @@
 
                     <fieldset class="mt-20 input-line">
                         <label>Branch Name</label>
-                        <input type="text" placeholder="Enter Branch Name" class="form-control" name="branch_name" value="{{ $bankDetails->bank_branch ?? '' }}">
+                        <input type="text" placeholder="Enter Branch Name" class="form-control" name="branch_name" value="{{ old('branch_name') }}">
                         <span class="text-danger">
                             @error('branch_name')
                                 {{ $message }}

@@ -269,9 +269,8 @@
             <option value="30">30</option>
           </select>
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
-          <input type="text" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
+          <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
           <button class="mt-3 btn btn-success" type="submit">Save</button>
-
         </div>
       </form>
     </div>

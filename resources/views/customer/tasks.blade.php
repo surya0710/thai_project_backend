@@ -106,7 +106,7 @@
                     </div>
                     <div class="tab-pane fade" id="completed" role="tabpanel">
                         @foreach($tasks as $task)
-                            @if($task->taskStatus != null)
+                            @if($task->taskStatus != null && $task->taskStatus['user_id'] == $userData->id)
                             <ul class="mt-20">
                                 <li class="mt-16 pb-8 line-bt2">
                                     <div class="box-inbox-item">

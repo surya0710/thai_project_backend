@@ -27,7 +27,10 @@ class AdminController extends Controller
             redirect('admin.index')->with(['errors' => $validator->errors()]);
         }
 
-        $User = User::where('email', $request->email)->whereIn('user_type', ['Boss', 'Manager', 'Worker'])->first();
+        $User = User::where('email', $request->email)->whereIn('user_type', ['Boss', 'Manager', 'Worker'])
+        ->where('is_deleted', 0)
+        ->where('is_blocked', 0)
+        ->first();
 
         if($User == null){
             return redirect('admin/')->with(['error' => 'Invalid credentials']);

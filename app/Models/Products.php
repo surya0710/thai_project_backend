@@ -27,4 +27,5 @@ class Products extends Model
         return $this->hasMany(TasksHistory::class, 'product_id', 'id');
     }
 
+
 }
