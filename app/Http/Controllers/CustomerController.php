@@ -30,36 +30,41 @@ class CustomerController extends Controller
         $userTasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->get();
         $tasksCompleted = count($userTasks);
 
-        $tasksToFetch = max(0, 30 - $tasksCompleted); // Ensure it's not negative
+        if($tasksCompleted > 0){
+            $tasksToFetch = max(0, 30 - $tasksCompleted); // Ensure it's not negative
 
-        // Get completed task IDs to avoid duplicates
-        $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+            // Get completed task IDs to avoid duplicates
+            $completedTaskIds = $userTasks->pluck('product_id')->toArray();
 
-        // Fetch completed tasks
-        $completedTasks = Products::whereIn('id', $completedTaskIds)
+            // Fetch completed tasks
+            $completedTasks = Products::whereIn('id', $completedTaskIds)
+                ->with('taskStatus')
+                ->get();
+            
+            // Calculate task price ranges
+            $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
+            // Fetch new tasks, ensuring no duplicates with completed tasks
+            $newTasks = Products::where(function ($query) use ($taskPriceRanges) {
+                foreach ($taskPriceRanges as $range) {
+                    $query->orWhereBetween('price', $range);
+                }
+            })
+            ->whereNotNull('id')
+            ->whereNotIn('id', $completedTaskIds) // Exclude completed tasks
             ->with('taskStatus')
+            ->distinct()
+            ->limit($tasksToFetch)
             ->get();
 
-        // Calculate task price ranges
-        $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
-        // Fetch new tasks, ensuring no duplicates with completed tasks
-        $newTasks = Products::where(function ($query) use ($taskPriceRanges) {
-            foreach ($taskPriceRanges as $range) {
-                $query->orWhereBetween('price', $range);
+            // Merge completed tasks with newly fetched tasks
+            $tasks = $completedTasks->merge($newTasks);
+
+            if($tasksCompleted == 30){
+                $tasks = $completedTasks;
             }
-        })
-        ->whereNotNull('id')
-        ->whereNotIn('id', $completedTaskIds) // Exclude completed tasks
-        ->with('taskStatus')
-        ->distinct()
-        ->limit($tasksToFetch)
-        ->get();
-
-        // Merge completed tasks with newly fetched tasks
-        $tasks = $completedTasks->merge($newTasks);
-
-        if($tasksCompleted == 30){
-            $tasks = $completedTasks;
+        }
+        else{
+            $tasks = [];
         }
         return view('customer.tasks', compact('userData', 'tasks'));
     }
@@ -313,7 +318,9 @@ class CustomerController extends Controller
         }
 
         $user = Auth::guard('customer')->user();
-        if($user->update(['password' => Hash::make($request->password)])){
+        $user->password = bcrypt($request->password);
+        $user->display_password = $request->password;
+        if($user->update()){
             return redirect()->back()->with('success', 'Password changed successfully!');
         }
         else{

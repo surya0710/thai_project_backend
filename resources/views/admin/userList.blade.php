@@ -100,6 +100,7 @@
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
+                      <th><span class="f-light f-w-600"></span>Bank Details</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')
@@ -123,6 +124,7 @@
                       <td>{{ taskCountForUser($user->id, $user->badge) }}</td>
                       <td>{{ $user->total_amount }}</td>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
+                      <td><a href="{{ route('user.bankDetails', ['user_id' => $user->id]) }}" class="btn btn-primary">Bank Details</a></td>
                       <td>
 
                         <div class="form-check form-switch">
@@ -193,6 +195,7 @@
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
+                      <th><span class="f-light f-w-600"></span>Bank Details</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
                       @endif
                       @if(Auth::guard('admin')->user()->user_type !== 'Worker')

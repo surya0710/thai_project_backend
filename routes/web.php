@@ -43,6 +43,8 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/user/view/{user_id}', 'App\Http\Controllers\UserController@userView')->name('user.view');
         Route::post('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userUpdate')->name('user.update');
         Route::get('/user/task-history/{user_id}', 'App\Http\Controllers\UserController@userTaskHistory')->name('user.taskHistory');
+        Route::get('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@bankDetails')->name('user.bankDetails');
+        Route::post('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@updateBankDetails')->name('user.updateBankDetails');
         Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');

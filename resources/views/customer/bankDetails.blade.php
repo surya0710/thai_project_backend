@@ -1,7 +1,7 @@
 @include('customer.partials.header')
     <div class="header fixed-top line-bt">
         <div class="left">
-            <a href="javascript:void(0);" class="icon back-btn"><i class="icon-back"></i></a>
+            <a href="{{ route('customer.bankDetails') }}" class="icon back-btn"><i class="icon-back"></i></a>
         </div>
         <h4>Bank Detail</h4>
     </div>
