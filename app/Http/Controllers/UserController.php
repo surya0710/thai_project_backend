@@ -9,6 +9,7 @@ use App\Models\RechargeRequest;
 use App\Models\Withdraw;
 use App\Models\InviteCode;
 use App\Models\LuckyDraw;
+use App\Models\TasksHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -770,5 +771,10 @@ class UserController extends Controller
         else{
             return redirect()->back()->with('error', 'Something went wrong');
         }
+    }
+
+    public function userTaskHistory($userID){
+        $tasks = TasksHistory::where('user_id', $userID)->with('user')->orderBy('created_at', 'ASC')->get();
+        return view('admin.taskHistory', compact('tasks'));
     }
 }

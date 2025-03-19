@@ -95,7 +95,7 @@
                       <th><span class="f-light f-w-600"></span>Name</span></th>
                       <th><span class="f-light f-w-600"></span>Phone</span></th>
                       <th><span class="f-light f-w-600"></span>Email</span></th>
-                      <th><span class="f-light f-w-600"></span>Login Time</span></th>
+                      <th><span class="f-light f-w-600"></span>Task History</span></th>
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
@@ -118,7 +118,7 @@
                       <td>{{ $user->name }}</td>
                       <td>{{ $user->phone }}</td>
                       <td>{{ $user->email }}</td>
-                      <td>{{ $user->lastLogin['created_at'] ?? 'N/A' }}</td>
+                      <td><a href="{{ route('user.taskHistory', ['user_id' => $user->id]) }}" class="btn btn-primary">Task History</a></td>
                       <td>{{ $user->created_at }}</td>
                       <td>{{ taskCountForUser($user->id, $user->badge) }}</td>
                       <td>{{ $user->total_amount }}</td>
@@ -188,7 +188,7 @@
                       <th><span class="f-light f-w-600"></span>Name</span></th>
                       <th><span class="f-light f-w-600"></span>Phone</span></th>
                       <th><span class="f-light f-w-600"></span>Email</span></th>
-                      <th><span class="f-light f-w-600"></span>Login Time</span></th>
+                      <th><span class="f-light f-w-600"></span>Task History</span></th>
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
