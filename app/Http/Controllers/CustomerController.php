@@ -30,7 +30,7 @@ class CustomerController extends Controller
         $userTasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->get();
         $tasksCompleted = count($userTasks);
 
-        $tasksToFetch = max(0, 29 - $tasksCompleted); // Ensure it's not negative
+        $tasksToFetch = max(0, 30 - $tasksCompleted); // Ensure it's not negative
 
         // Get completed task IDs to avoid duplicates
         $completedTaskIds = $userTasks->pluck('product_id')->toArray();
@@ -42,7 +42,6 @@ class CustomerController extends Controller
 
         // Calculate task price ranges
         $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
-
         // Fetch new tasks, ensuring no duplicates with completed tasks
         $newTasks = Products::where(function ($query) use ($taskPriceRanges) {
             foreach ($taskPriceRanges as $range) {
@@ -59,40 +58,9 @@ class CustomerController extends Controller
         // Merge completed tasks with newly fetched tasks
         $tasks = $completedTasks->merge($newTasks);
 
-        // Fetch the lucky task ensuring uniqueness
-        $luckyTask = Products::whereBetween('price', [$tasksPrice['lucky_task'] - 2, $tasksPrice['lucky_task']])
-            ->whereNotIn('id', $tasks->pluck('id')->toArray()) // Exclude already selected tasks
-            ->with('taskStatus')
-            ->first();
-
-        // Insert lucky task at position 26
-        if ($luckyTask) {
-            $tasks->splice(26, 0, [$luckyTask]);
-        } else {
-            // Fetch alternative lucky task if not found
-            $alternativeLuckyTask = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
-                ->orderByRaw('RAND()')
-                ->with('taskStatus')
-                ->first();
-            
-            if ($alternativeLuckyTask) {
-                $tasks->splice(26, 0, [$alternativeLuckyTask]);
-            }
-        }
-
-        // Ensure exactly 30 tasks
-        if ($tasks->count() <= 30) {
-            $remaining = 30 - $tasks->count();
-            $extraTasks = Products::whereNotIn('id', $tasks->pluck('id')->toArray())
-                ->with('taskStatus')
-                ->limit($remaining)
-                ->get();
-            $tasks = $tasks->merge($extraTasks);
-        }
         if($tasksCompleted == 30){
             $tasks = $completedTasks;
         }
-
         return view('customer.tasks', compact('userData', 'tasks'));
     }
 
@@ -146,9 +114,13 @@ class CustomerController extends Controller
         }
     }
 
+    public function bankDetailsList(){
+        $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->get();
+        return view('customer.bankDetailsList')->with('bankDetails', $bankDetails);
+    }
+
     public function bankDetails(){
-        $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->first();
-        return view('customer.bankDetails')->with('bankDetails', $bankDetails);
+        return view('customer.bankDetails');
     }
 
     public function bankDetailsSubmit(Request $request){
@@ -162,20 +134,26 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $bank = UserBankDetails::create([
-            'user_id' => Auth::guard('customer')->user()->id,
-            'bank_name' => $request->bank_name,
-            'account_number' => $request->account_number,
-            'account_holder_name' => $request->account_holder_name,
-            'bank_branch' => $request->branch_name ?? '',
-            'created_at' => now(),
-        ]);
+        $bankDetail = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)
+            ->where('bank_name', $request->bank_name)
+            ->where('account_number', $request->account_number)
+            ->where('account_holder_name', $request->account_holder_name)
+            ->where('bank_branch', $request->branch_name ?? '')
+            ->first();
 
-        if($bank){
-            return redirect()->back()->with('success', 'Bank details added successfully!');   
+        if(!$bankDetail){
+            $bank = UserBankDetails::create([
+                'user_id' => Auth::guard('customer')->user()->id,
+                'bank_name' => $request->bank_name,
+                'account_number' => $request->account_number,
+                'account_holder_name' => $request->account_holder_name,
+                'bank_branch' => $request->branch_name ?? '',
+                'created_at' => now(),
+            ]);
+            return redirect('/bank-details-list')->with('success', 'Bank details added successfully!');   
         }
         else{
-            return redirect()->back()->with('error', 'Something went wrong');
+            return redirect()->back()->with('error', 'Bank Account already exists!');   
         }
     }
 

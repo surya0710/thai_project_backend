@@ -133,11 +133,13 @@
             <div class="mt-24">
                 @if(isset( $luckyDrawTask ))
                 <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id, 'task_type' => 'luckyDraw']) }}" method="post">
+                    @csrf
+                    <button type="submit" class="mt-35 tf-btn primary">Lucky Draw</button>
                 @else
                 <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id, 'task_type' => 'normal']) }}" method="post">
-                @endif
                     @csrf
-                    <button type="submit" class="mt-35 tf-btn primary">Submit</button>
+                    <button type="submit" class="mt-35 tf-btn primary">Complete Task</button>
+                @endif
                 </form>
             </div>
             

@@ -78,6 +78,7 @@ Route::middleware(['customer'])->group(function () {
     Route::get('/my-account', 'App\Http\Controllers\CustomerController@myAccount')->name('customer.myAccount');
     Route::get('/recharge', 'App\Http\Controllers\CustomerController@recharge')->name('customer.recharge');
     Route::post('/recharge', 'App\Http\Controllers\CustomerController@rechargeSubmit')->name('customer.rechargeSubmit');
+    Route::get('/bank-details-list', 'App\Http\Controllers\CustomerController@bankDetailsList')->name('customer.bankDetailsList');
     Route::get('/bank-details', 'App\Http\Controllers\CustomerController@bankDetails')->name('customer.bankDetails');
     Route::post('/bank-details', 'App\Http\Controllers\CustomerController@bankDetailsSubmit')->name('customer.bankDetailsSubmit');
     Route::get('/withdrawal', 'App\Http\Controllers\CustomerController@withdrawal')->name('customer.withdrawal');
