@@ -26,7 +26,7 @@ class OrderManagermentController extends Controller
 
         $revenueEarned = $userTasks->sum('earned_amount');
 
-        if($luckyDrawTask->exists()){
+        if($luckyDrawTask !== null){
             $task= Products::find($luckyDrawTask->product_id);
             $task->price = $luckyDrawTask->exceeding_amount;
         }
