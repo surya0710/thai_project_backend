@@ -354,7 +354,12 @@
 
                   if (response.count > 0) {
                       response.products.forEach(product => {
-                          suggestionBox.append(`<div class="suggestion-item" data-id="${product.id}">${product.name}</div>`);
+                          suggestionBox.append(`
+                            <div class="suggestion-item" data-id="${product.id}">
+                              <img style="border-radius: 50%; width:50px" src="{{ asset('${product.image_path}') }}" alt="Product Image">
+                              ${product.name} (${product.price})
+                            </div>
+                          `);
                       });
                       suggestionBox.show();
                   } else {
