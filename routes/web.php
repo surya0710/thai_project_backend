@@ -37,11 +37,15 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/admin/edit/{user_id}', 'App\Http\Controllers\UserController@adminUpdate')->name('admin.update');
         Route::post('/admin/delete', 'App\Http\Controllers\UserController@adminDelete')->name('admin.delete');
         Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
+        Route::post('/search/products', 'App\Http\Controllers\ProductsController@search')->name('fetchproducts');
         Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
         Route::post('/set-lucky-draw', 'App\Http\Controllers\UserController@setLuckyDraw')->name('admin.setLuckyDraw');
         Route::get('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userEdit')->name('user.edit');
         Route::get('/user/view/{user_id}', 'App\Http\Controllers\UserController@userView')->name('user.view');
         Route::post('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userUpdate')->name('user.update');
+        Route::get('/user/task-history/{user_id}', 'App\Http\Controllers\UserController@userTaskHistory')->name('user.taskHistory');
+        Route::get('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@bankDetails')->name('user.bankDetails');
+        Route::post('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@updateBankDetails')->name('user.updateBankDetails');
         Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');

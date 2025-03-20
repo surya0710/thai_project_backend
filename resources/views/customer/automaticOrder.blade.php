@@ -147,3 +147,23 @@
         @endif
     </div>
 </div>
+<div class="modal fade" id="modalCenter" style="transform: translateY(25%);">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-16">
+            <div class="modal-header justify-content-center">
+                <h4 class="modal-title fw-6">Lucky Draw</h4>
+            </div>
+            <div class="modal-body fw-5 text-center fs-18">Your Next lucky draw task is here...</div>
+            <div class="d-flex gap-16 mt-20 text-center">
+                <button type="button" data-bs-dismiss="modal" data-bs-toggle="offcanvas" class="tf-btn primary ">Play</button>
+            </div>
+        </div>
+    </div>
+</div>
+@if(isset($luckyDrawTask))
+<script>
+    var modalElement = document.getElementById('modalCenter');
+    var modalInstance = new bootstrap.Modal(modalElement);
+    modalInstance.show();
+</script>
+@endif

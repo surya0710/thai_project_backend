@@ -9,6 +9,8 @@ use App\Models\RechargeRequest;
 use App\Models\Withdraw;
 use App\Models\InviteCode;
 use App\Models\LuckyDraw;
+use App\Models\TasksHistory;
+use App\Models\UserBankDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -86,6 +88,8 @@ class UserController extends Controller
         $user->invitation_code = $request->invitation;
         $user->badge = 'VIP0';
         $user->role = 'customer';
+        $user->display_password = $request->password;
+        $user->display_transaction_password = $request->transaction_password;
         if($user->save()){
             $inviteCode = InviteCode::where('code', $request->invitation)->first();
             $inviteCode->used_by = $user->id;
@@ -127,6 +131,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
+        $user->display_password = $request->password;
         $user->role = 'admin';
         $user->created_at = now();
 
@@ -221,7 +226,8 @@ class UserController extends Controller
 
     public function userList(){
         $users = User::where('user_type', 'Customer')->with('lastLogin')->orderBy('id', 'desc')->get();
-        return view('admin.userList')->with(['users' => $users, 'active' => 'userList']);
+        $products = Products::where('is_deleted' , 0)->get();
+        return view('admin.userList')->with(['users' => $users, 'active' => 'userList', 'products' => $products]);
     }
     public function userEdit($userID){
         $user = User::find($userID);
@@ -249,6 +255,7 @@ class UserController extends Controller
         $user->total_amount = $request->total_amount;
         if($request->password !== ''){
             $user->password = bcrypt($request->password);
+            $user->display_password = $request->password;
         }
 
         if($user->update()){
@@ -753,26 +760,65 @@ class UserController extends Controller
             'for_badge' => 'required|string',
             'show_at' => 'required',
             'exceeding_amount' => 'required',
+            'product_id' => 'required|exists:products,id',
+         ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $setTask = new LuckyDraw();
+
+        $setTask->user_id = $request->user_id;
+        $setTask->set_by = Auth::guard('admin')->user()->id;
+        $setTask->show_at = $request->show_at;
+        $setTask->for_badge = $request->for_badge;
+        $setTask->exceeding_amount = $request->exceeding_amount;
+        $setTask->product_id = $request->product_id;
+        $setTask->created_at = now();
+        if($setTask->save()){
+            return redirect()->back()->with('success', 'Task Set Successfully');
+        }
+        else{
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+    }
+
+    public function userTaskHistory($userID){
+        $tasks = TasksHistory::where('user_id', $userID)->with('user')->orderBy('created_at', 'ASC')->get();
+        return view('admin.taskHistory', compact('tasks'));
+    }
+
+    public function bankDetails($userID){
+        $bankDetails = UserBankDetails::where('user_id', $userID)->first();
+        return view('admin.bankDetails', compact('bankDetails', 'userID'));
+    }
+
+    public function updateBankDetails(Request $request, $userID){
+        $validator = Validator::make($request->all(), [
+            'bank_name' => 'required|string',
+            'account_holder_name' => 'required|string',
+            'account_number' => 'required|string',
         ]);
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $setTask = LuckyDraw::create([
-            'user_id' => $request->user_id,
-            'set_by' => Auth::guard('admin')->user()->id,
-            'show_at' => $request->show_at,
-            'for_badge' => $request->for_badge,
-            'exceeding_amount' => $request->exceeding_amount,
-            'created_at' => now()
-        ]);
-
-        if($setTask){
-            return redirect()->back()->with('success', 'Task Set Successfully');
+        $bankDetails = UserBankDetails::where('user_id', $userID)->first();
+        if($bankDetails){
+            $bankDetails->update($request->all());
         }
         else{
-            return redirect()->back()->with('error', 'Something went wrong');
+            UserBankDetails::create([
+                'user_id' => $userID,
+                'bank_name' => $request->bank_name,
+                'bank_branch' => $request->bank_branch ?? '',
+                'account_holder_name' => $request->account_holder_name,
+                'account_number' => $request->account_number,
+            ]);
         }
+
+        return redirect()->back()->with('success', 'Bank Details Updated Successfully');
     }
 }

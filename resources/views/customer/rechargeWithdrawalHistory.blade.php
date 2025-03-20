@@ -38,7 +38,7 @@
 </style>
     <div class="header fixed-top line-bt">
         <div class="left">
-            <a href="javascript:void(0);" class="icon back-btn"><i class="icon-back"></i></a>
+            <a href="{{ route('customer.myAccount') }}" class="icon back-btn"><i class="icon-back"></i></a>
         </div>
         <h5>Recharge and Withdraw Record</h5>
     </div>

@@ -2,6 +2,7 @@
 
 use App\Models\Products;
 use App\Models\TasksHistory;
+use App\Models\LuckyDraw;
 
     if(!function_exists('getCPSCalculation')) {
         function getCPSCalculation($price, $badge, $taskType = 'normal'){
@@ -119,6 +120,18 @@ use App\Models\TasksHistory;
         function taskCountForUser($userID, $badge){
             $count = TasksHistory::where('user_id', $userID)->where('badge', $badge)->count();
             return $count;
+        }
+    }
+
+    if(!function_exists('checkTaskType')) {
+        function checkTaskType($taskCount, $userID){
+            $LuckyDrawTask = LuckyDraw::where('user_id', $userID)->where('show_at', $taskCount)->first();
+            if(!$LuckyDrawTask){
+                return 'Regular';
+            }
+            else{
+                return 'Lucky Draw';
+            }
         }
     }
     

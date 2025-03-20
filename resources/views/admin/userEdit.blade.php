@@ -101,6 +101,22 @@
                                         </div>
                                         <span class="error text-danger"></span>
                                     </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Password</label>
+                                            <input class="form-control" type="text" placeholder="Password" name="password" 
+                                            value="" >
+                                        </div>
+                                        <span class="error text-danger"></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Transaction PIN</label>
+                                            <input class="form-control" type="text" placeholder="Transaction PIN" name="transaction_pin" 
+                                            value="" >
+                                        </div>
+                                        <span class="error text-danger"></span>
+                                    </div>
                                     @endif
                                     
                                     <div class="col-sm-4">
