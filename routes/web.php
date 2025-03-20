@@ -37,6 +37,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/admin/edit/{user_id}', 'App\Http\Controllers\UserController@adminUpdate')->name('admin.update');
         Route::post('/admin/delete', 'App\Http\Controllers\UserController@adminDelete')->name('admin.delete');
         Route::post('/admin/add', 'App\Http\Controllers\UserController@adminStore')->name('admin.store');
+        Route::post('/search/products', 'App\Http\Controllers\ProductsController@search')->name('fetchproducts');
         Route::get('/user/list', 'App\Http\Controllers\UserController@userList')->name('user.list');
         Route::post('/set-lucky-draw', 'App\Http\Controllers\UserController@setLuckyDraw')->name('admin.setLuckyDraw');
         Route::get('/user/edit/{user_id}', 'App\Http\Controllers\UserController@userEdit')->name('user.edit');

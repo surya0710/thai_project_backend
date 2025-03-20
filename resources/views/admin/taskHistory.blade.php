@@ -36,6 +36,7 @@
                                                             <th>Level</th>
                                                             <th>Task</th>
                                                             <th>Amount</th>
+                                                            <th>Earned Amount</th>
                                                             <th>Type</th>
                                                         </tr>
                                                     </thead>
@@ -47,6 +48,7 @@
                                                             <td>{{ $task->badge }}</td>
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $task->product_amount }}</td>
+                                                            <td>{{ $task->earned_amount }}</td>
                                                             <td>{{ checkTaskType($loop->index + 1, $task->user_id) }}</td>
                                                         </tr>
                                                         @endforeach
@@ -58,6 +60,7 @@
                                                             <th>Level</th>
                                                             <th>Task</th>
                                                             <th>Amount</th>
+                                                            <th>Earned Amount</th>
                                                             <th>Type</th>
                                                         </tr>
                                                     </tfoot>

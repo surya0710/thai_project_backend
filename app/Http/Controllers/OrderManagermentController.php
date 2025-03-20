@@ -23,26 +23,33 @@ class OrderManagermentController extends Controller
         ->where('show_at', $tasksCompleted + 1)
         ->where('for_badge', $userData->badge)
         ->first();
+
         $revenueEarned = $userTasks->sum('earned_amount');
 
-        // Get IDs of already assigned tasks to avoid repetition
-        $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+        if($luckyDrawTask->exists()){
+            $task= Products::find($luckyDrawTask->product_id);
+            $task->price = $luckyDrawTask->exceeding_amount;
+        }
+        else{
+            // Get IDs of already assigned tasks to avoid repetition
+            $completedTaskIds = $userTasks->pluck('product_id')->toArray();
 
-        // Get the next task price dynamically
-        $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted);
+            // Get the next task price dynamically
+            $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted);
 
-        // Fetch a task that hasn't been assigned yet
-        $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])
-            ->whereNotIn('id', $completedTaskIds) // Exclude already assigned tasks
-            ->whereNotNull('id')
-            ->orderByRaw('RAND()')
-            ->first();
-
-        // Fallback: If no task found in the price range, fetch any unused product
-        if (!$task) {
-            $task = Products::whereNotIn('id', $completedTaskIds)
+            // Fetch a task that hasn't been assigned yet
+            $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])
+                ->whereNotIn('id', $completedTaskIds) // Exclude already assigned tasks
+                ->whereNotNull('id')
                 ->orderByRaw('RAND()')
                 ->first();
+
+            // Fallback: If no task found in the price range, fetch any unused product
+            if (!$task) {
+                $task = Products::whereNotIn('id', $completedTaskIds)
+                    ->orderByRaw('RAND()')
+                    ->first();
+            }
         }
 
         // Get task count and today's earnings

@@ -756,22 +756,23 @@ class UserController extends Controller
             'for_badge' => 'required|string',
             'show_at' => 'required',
             'exceeding_amount' => 'required',
-        ]);
+            'product_id' => 'required|exists:products,id',
+         ]);
 
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $setTask = LuckyDraw::create([
-            'user_id' => $request->user_id,
-            'set_by' => Auth::guard('admin')->user()->id,
-            'show_at' => $request->show_at,
-            'for_badge' => $request->for_badge,
-            'exceeding_amount' => $request->exceeding_amount,
-            'created_at' => now()
-        ]);
+        $setTask = new LuckyDraw();
 
-        if($setTask){
+        $setTask->user_id = $request->user_id;
+        $setTask->set_by = Auth::guard('admin')->user()->id;
+        $setTask->show_at = $request->show_at;
+        $setTask->for_badge = $request->for_badge;
+        $setTask->exceeding_amount = $request->exceeding_amount;
+        $setTask->product_id = $request->product_id;
+        $setTask->created_at = now();
+        if($setTask->save()){
             return redirect()->back()->with('success', 'Task Set Successfully');
         }
         else{

@@ -1,4 +1,26 @@
 @include('admin.partials.header')
+<style>
+  .suggestions {
+      position: absolute;
+      width: 100%;
+      background: white;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 150px;
+      overflow-y: auto;
+      z-index: 10;
+      display: none;
+  }
+
+  .suggestions div {
+      padding: 10px;
+      cursor: pointer;
+  }
+
+  .suggestions div:hover {
+      background: #ddd;
+  }
+</style>
 <div class="page-body-wrapper">
   <!-- Page Sidebar Ends-->
   @include('admin.partials.sidenav')
@@ -265,12 +287,11 @@
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
           <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
           <label for="select_product" class="form-label mt-3">Select Product</label>
-          <input list="products" name="product_id" id="select_product" class="form-control" required>
-          <datalist id="products">
-            @foreach($products as $product)
-            <option value="{{ $product->id }}">{{ $product->name }}</option>
-            @endforeach
-          </datalist>
+          <div class="search-container">
+              <input type="text" class="form-control" data-id="" id="searchBox" placeholder="Search..." onkeyup="showSuggestions()">
+              <div class="suggestions" id="suggestionBox"></div>
+          </div>
+          <input type="hidden" name="product_id" id="product_id">
           <button class="mt-3 btn btn-success" type="submit">Save</button>
         </div>
       </form>
@@ -317,11 +338,50 @@
       });
     }
 
+    function showSuggestions() {
+      let name = $('#searchBox').val();
+      if (name.length >= 3) {
+          $.ajax({
+              url: `{{ route('fetchproducts') }}`,
+              type: "POST",
+              data: {
+                  _token: "{{ csrf_token() }}",
+                  name: name,
+              },
+              success: function(response) {
+                  let suggestionBox = $('#suggestionBox');
+                  suggestionBox.html(''); // Clear previous suggestions
+
+                  if (response.count > 0) {
+                      response.products.forEach(product => {
+                          suggestionBox.append(`<div class="suggestion-item" data-id="${product.id}">${product.name}</div>`);
+                      });
+                      suggestionBox.show();
+                  } else {
+                      suggestionBox.hide();
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error:', error);
+              }
+          });
+      }
+    }
+
+    $(document).on('click', '.suggestion-item', function() {
+        let selectedProduct = $(this).text();
+        let id = $(this).data('id');
+        $('#searchBox').val(selectedProduct); // Set value in search box
+        $('#product_id').val(id);  // Store ID in searchBox
+        $('#suggestionBox').hide(); // Hide suggestions after selection
+    });
+
     function setLuckyDraw(userID, badge){
       $('#user_id').val(userID);
       $('#userLevel').val(badge);
       $('#setLuckyDraw').modal('show');
     }
+    
 
     $(document).ready(function() {
       
