@@ -3184,7 +3184,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   color: #31394f;
   text-align: center;
   background: rgb(248, 250, 252);
-  border-color: transparent;
+  border-color: #203468;
 }
 
 .digit-group input:focus {

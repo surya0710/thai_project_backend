@@ -68,41 +68,40 @@
   ------------------------------------------------------------------------------------- */
   var otpInput = function () {
     if ($(".digit-group").length > 0) {
-      $(".digit-group")
-        .find("input")
-        .each(function () {
-          $(this).attr("maxlength", 1);
-          $(this).on("keyup", function (e) {
-            var valNum = $(this).val();
-            var parent = $($(this).parent());
+        $(".digit-group").find("input").each(function () {
+            $(this).attr("maxlength", 1);
+            $(this).on("input", function () {
+                var valNum = $(this).val();
+                var parent = $(this).closest(".digit-group");
 
-            if (e.keyCode === 8 || e.keyCode === 37) {
-              var prev = parent.find("input#" + $(this).data("previous"));
-
-              if (prev.length) {
-                $(prev).select();
-              }
-            } else if (
-              (e.keyCode >= 48 && e.keyCode <= 57) ||
-              (e.keyCode >= 65 && e.keyCode <= 90) ||
-              (e.keyCode >= 96 && e.keyCode <= 105) ||
-              e.keyCode === 39
-            ) {
-              var next = parent.find("input#" + $(this).data("next"));
-              if (!$.isNumeric(valNum)) {
-                $(this).val("");
-                return false;
-              }
-
-              if (next.length) {
-                $(next).select();
-              } else {
-                if (parent.data("autosubmit")) {
-                  parent.submit();
+                // Ensure only numeric input
+                if (!/^\d$/.test(valNum)) {
+                    $(this).val("");
+                    return;
                 }
-              }
-            }
-          });
+
+                var next = parent.find("input#" + $(this).data("next"));
+                if (next.length) {
+                    next.focus();
+                } else {
+                    // Auto-submit only if all inputs are filled
+                    var allFilled = parent.find("input").toArray().every(input => $(input).val().trim() !== "");
+                    if (allFilled && parent.data("autosubmit")) {
+                        parent.submit();
+                    }
+                }
+            });
+
+            $(this).on("keydown", function (e) {
+                var parent = $(this).closest(".digit-group");
+
+                if (e.key === "Backspace" || e.key === "ArrowLeft") {
+                    var prev = parent.find("input#" + $(this).data("previous"));
+                    if (prev.length) {
+                        prev.focus().val(""); // Clear value when navigating back
+                    }
+                }
+            });
         });
     }
   };

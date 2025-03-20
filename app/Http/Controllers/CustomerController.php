@@ -136,7 +136,7 @@ class CustomerController extends Controller
 
         $userData = User::find(Auth::guard('customer')->user()->id);
 
-        if($userData->is_blocked == 1){
+        if($userData->is_blocked == 1 || $userData->credit_permission == 0){
             return redirect('/recharge')->with('error', 'You are not allowed to do any transactions');
         }
 
@@ -220,7 +220,7 @@ class CustomerController extends Controller
 
         $userData = User::find(Auth::guard('customer')->user()->id);
 
-        if($userData->is_blocked == 1){
+        if($userData->is_blocked == 1 || $userData->credit_permission == 0){
             return redirect()->back()->with('error', 'You are not allowed to do any transactions');
         }
         

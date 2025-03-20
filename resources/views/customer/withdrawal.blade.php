@@ -12,11 +12,11 @@
                 <div class="card-body">
                     <form method="post" id="withdrawal-form">
                         @if(session()->has('success'))
-                            <span class="alert alert-success">
+                            <span class="text-success error">
                                 {{ session()->get('success') }}
                             </span>
                         @elseif(session()->has('error'))
-                            <span class="alert alert-danger">
+                            <span class="text-danger error">
                                 {{ session()->get('error') }}
                             </span>
                         @endif

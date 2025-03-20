@@ -102,24 +102,6 @@
                                         <span class="error text-danger"></span>
                                     </div>
                                     @endif
-                                    @if(Auth::guard('admin')->user()->user_type == 'Boss')
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Password</label>
-                                            <input class="form-control" type="text" placeholder="Password" name="password" 
-                                            value="{{ $user->display_password }}" >
-                                        </div>
-                                        <span class="error text-danger"></span>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Transaction PIN</label>
-                                            <input class="form-control" type="text" placeholder="Transaction PIN" name="transaction_pin" 
-                                            value="{{ $user->display_transaction_password }}" >
-                                        </div>
-                                        <span class="error text-danger"></span>
-                                    </div>
-                                    @endif
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Revenue Generated</label>
@@ -148,9 +130,17 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Password</label>
-                                            <input class="form-control" type="password" placeholder="Password" name="password" 
-                                            value="{{  old('password')}}"  @if($type === 'view') readonly @endif>
+                                            <input class="form-control" type="text" placeholder="Password" name="password" 
+                                            value="{{ $user->display_password }}"  @if($type === 'view') readonly @endif>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Transaction PIN</label>
+                                            <input class="form-control" type="text" placeholder="Transaction PIN" name="transaction_pin" 
+                                            value="{{ $user->display_transaction_password }}" >
+                                        </div>
+                                        <span class="error text-danger"></span>
                                     </div>
                                     @endif
                                 </div>
