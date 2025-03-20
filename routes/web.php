@@ -50,6 +50,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
         Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
+        Route::get('/luckydraw/list', 'App\Http\Controllers\UserController@luckydrawList')->name('luckydraw.list');
         Route::get('/lazada/edit/{product_id}', 'App\Http\Controllers\UserController@lazadaEdit')->name('lazada.edit');
         Route::post('/lazada/edit/{product_id}', 'App\Http\Controllers\UserController@lazadaUpdate')->name('lazada.update');
         Route::post('lazada/upload-products', 'App\Http\Controllers\UserController@uploadProducts')->name('lazada.upload');

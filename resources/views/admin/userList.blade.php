@@ -121,6 +121,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      <th><span class="f-light f-w-600"></span>View Luckydraw History</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Bank Details</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
@@ -145,6 +146,13 @@
                       <td>{{ $user->created_at }}</td>
                       <td>{{ taskCountForUser($user->id, $user->badge) }}</td>
                       <td>{{ $user->total_amount }}</td>
+                      <td>
+                        <ul class="action">
+                          <li class="edit">
+                            <a href="{{ route('luckydraw.list') }}"><i class="fa-solid fa-eye"></i></a>
+                          </li>
+                        </ul>
+                      </td>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <td><a href="{{ route('user.bankDetails', ['user_id' => $user->id]) }}" class="btn btn-primary">Bank Details</a></td>
                       <td>
@@ -216,6 +224,7 @@
                       <th><span class="f-light f-w-600"></span>Created At</span></th>
                       <th><span class="f-light f-w-600"></span>No of Orders</span></th>
                       <th><span class="f-light f-w-600"></span>Total Amount</span></th>
+                      <th><span class="f-light f-w-600"></span>View Luckydraw History</span></th>
                       @if(Auth::guard('admin')->user()->user_type == 'Boss')
                       <th><span class="f-light f-w-600"></span>Bank Details</span></th>
                       <th><span class="f-light f-w-600"></span>Credit Permission</span></th>
@@ -338,6 +347,9 @@
       });
     }
 
+<<<<<<< HEAD
+    function setLuckyDraw(userID, badge) {
+=======
     function showSuggestions() {
       let name = $('#searchBox').val();
       if (name.length >= 3) {
@@ -382,6 +394,7 @@
     });
 
     function setLuckyDraw(userID, badge){
+>>>>>>> ce863d6ccf524cd01de18234012e33fb429eb5eb
       $('#user_id').val(userID);
       $('#userLevel').val(badge);
       $('#setLuckyDraw').modal('show');
@@ -389,7 +402,7 @@
     
 
     $(document).ready(function() {
-      
+
       $('.userStatus').on('click', function() {
         var data = $(this).data();
         let url = `{{ route('user.status') }}`;
