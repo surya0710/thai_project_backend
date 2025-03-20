@@ -101,6 +101,8 @@
                                         </div>
                                         <span class="error text-danger"></span>
                                     </div>
+                                    @endif
+                                    @if(Auth::guard('admin')->user()->user_type == 'Boss')
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Password</label>
@@ -118,7 +120,6 @@
                                         <span class="error text-danger"></span>
                                     </div>
                                     @endif
-                                    
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Revenue Generated</label>
