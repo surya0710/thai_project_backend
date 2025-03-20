@@ -347,9 +347,6 @@
       });
     }
 
-<<<<<<< HEAD
-    function setLuckyDraw(userID, badge) {
-=======
     function showSuggestions() {
       let name = $('#searchBox').val();
       if (name.length >= 3) {
@@ -369,7 +366,7 @@
                           suggestionBox.append(`
                             <div class="suggestion-item" data-id="${product.id}">
                               <img style="border-radius: 50%; width:50px" src="{{ asset('${product.image_path}') }}" alt="Product Image">
-                              ${product.name} (${product.price})
+                              <span class="text">${product.name}</span> (${product.price})
                             </div>
                           `);
                       });
@@ -386,7 +383,7 @@
     }
 
     $(document).on('click', '.suggestion-item', function() {
-        let selectedProduct = $(this).text();
+        let selectedProduct = $(this).find('.text').text();
         let id = $(this).data('id');
         $('#searchBox').val(selectedProduct); // Set value in search box
         $('#product_id').val(id);  // Store ID in searchBox
@@ -394,7 +391,6 @@
     });
 
     function setLuckyDraw(userID, badge){
->>>>>>> ce863d6ccf524cd01de18234012e33fb429eb5eb
       $('#user_id').val(userID);
       $('#userLevel').val(badge);
       $('#setLuckyDraw').modal('show');

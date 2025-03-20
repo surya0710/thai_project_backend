@@ -43,57 +43,63 @@ class CustomerController extends Controller
             ->get();
 
         $tasksCompleted = $userTasks->count();
-        $tasksCompleted = $tasksCompleted + $luckyDrawTaskHistory->count();
-        $tasksToFetch = max(0, 30 - $tasksCompleted); // Ensure non-negative value
+        if($tasksCompleted > 0){
+            $tasksCompleted = $tasksCompleted + $luckyDrawTaskHistory->count();
+            $tasksToFetch = max(0, 30 - $tasksCompleted); // Ensure non-negative value
 
-        // Get completed task IDs to avoid duplicates
-        $completedTaskIds = $userTasks->pluck('product_id')->toArray();
-        $luckyDrawTaskIds = $luckyDrawTaskHistory->pluck('product_id')->toArray();
+            // Get completed task IDs to avoid duplicates
+            $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+            $luckyDrawTaskIds = $luckyDrawTaskHistory->pluck('product_id')->toArray();
 
-        // Fetch completed tasks from Products
-        $completedTasks = Products::whereIn('id', $completedTaskIds)->with('taskStatus')->get();
+            $completedTaskIds = array_diff($completedTaskIds, $luckyDrawTaskIds);
+            // Fetch completed tasks from Products
+            $completedTasks = Products::whereIn('id', $completedTaskIds)->with('taskStatus')->get();
 
-        // Prepare lucky draw tasks with correct `exceeding_amount` as price
-        $luckyDrawTasks = collect();
-        foreach ($luckyDrawTaskHistory as $luckyTask) {
-            $product = Products::where('id', $luckyTask->product_id)->with('taskStatus')->first();
-            if ($product) {
-                $product->price = $luckyTask->exceeding_amount; // Override price with exceeding_amount
-                $luckyDrawTasks->push([
-                    'product' => $product,
-                    'show_at' => $luckyTask->show_at
-                ]);
+            // Prepare lucky draw tasks with correct `exceeding_amount` as price
+            $luckyDrawTasks = collect();
+            foreach ($luckyDrawTaskHistory as $luckyTask) {
+                $product = Products::where('id', $luckyTask->product_id)->with('taskStatus')->first();
+                if ($product) {
+                    $product->price = $luckyTask->exceeding_amount; // Override price with exceeding_amount
+                    $luckyDrawTasks->push([
+                        'product' => $product,
+                        'show_at' => $luckyTask->show_at
+                    ]);
+                }
+            }
+
+            // If user completed all 30 tasks, return only completed and lucky draw tasks
+            if ($tasksCompleted == 30) {
+                return view('customer.tasks', compact('userData', 'completedTasks', 'luckyDrawTasks'));
+            }
+
+            // Calculate task price ranges
+            $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
+
+            // Fetch new tasks, ensuring no duplicates with completed tasks
+            $newTasksQuery = Products::whereNotIn('id', $completedTaskIds) // Exclude completed tasks
+                ->where(function ($query) use ($taskPriceRanges) {
+                    foreach ($taskPriceRanges as $range) {
+                        $query->orWhereBetween('price', $range);
+                    }
+                })
+                ->with('taskStatus')
+                ->distinct()
+                ->limit($tasksToFetch);
+
+            $newTasks = $newTasksQuery->get();
+
+            // Merge completed and new tasks
+            $tasks = $completedTasks->merge($newTasks)->values();
+
+            // Insert lucky draw tasks at specified positions
+            foreach ($luckyDrawTasks as $luckyTask) {
+                $position = max(0, min($luckyTask['show_at'] - 1, $tasks->count())); // Ensure within range
+                $tasks->splice($position, 0, [$luckyTask['product']]); // Insert lucky draw task
             }
         }
-
-        // If user completed all 30 tasks, return only completed and lucky draw tasks
-        if ($tasksCompleted == 30) {
-            return view('customer.tasks', compact('userData', 'completedTasks', 'luckyDrawTasks'));
-        }
-
-        // Calculate task price ranges
-        $taskPriceRanges = array_map(fn($price) => [$price - 5, $price - 2], $tasksPrice['regular_tasks']);
-
-        // Fetch new tasks, ensuring no duplicates with completed tasks
-        $newTasksQuery = Products::whereNotIn('id', $completedTaskIds) // Exclude completed tasks
-            ->where(function ($query) use ($taskPriceRanges) {
-                foreach ($taskPriceRanges as $range) {
-                    $query->orWhereBetween('price', $range);
-                }
-            })
-            ->with('taskStatus')
-            ->distinct()
-            ->limit($tasksToFetch);
-
-        $newTasks = $newTasksQuery->get();
-
-        // Merge completed and new tasks
-        $tasks = $completedTasks->merge($newTasks)->values();
-
-        // Insert lucky draw tasks at specified positions
-        foreach ($luckyDrawTasks as $luckyTask) {
-            $position = max(0, min($luckyTask['show_at'] - 1, $tasks->count())); // Ensure within range
-            $tasks->splice($position, 0, [$luckyTask['product']]); // Insert lucky draw task
+        else{
+            $tasks = [];
         }
 
         return view('customer.tasks', compact('userData', 'tasks'));
@@ -373,6 +379,37 @@ class CustomerController extends Controller
         }
         else{
             return redirect()->back()->with('error', 'PIN cannot be the same as the old PIN.');
+        }
+    }
+
+    public function levelUp(){
+        $userData = User::find(Auth::guard('customer')->user()->id);
+        $tasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->count();
+        if($tasks === 30){
+            if($userData->badge == 'VIP0'){
+                $userData->badge = 'VIP1';
+            }
+            elseif($userData->badge == 'VIP1'){
+                $userData->badge = 'VIP2';
+            }
+            elseif($userData->badge == 'VIP2'){
+                $userData->badge = 'VIP3';
+            }
+            elseif($userData->badge == 'VIP3'){
+                $userData->badge = 'VIP4';
+            }
+            elseif($userData->badge == 'VIP4'){
+                $userData->badge = 'VIP5';
+            }
+            if($userData->update()){
+                return redirect()->back();
+            }
+            else{
+                return redirect()->back();
+            }
+        }
+        else{
+            return redirect()->back();
         }
     }
 

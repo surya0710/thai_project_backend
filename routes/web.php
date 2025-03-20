@@ -99,5 +99,6 @@ Route::middleware(['customer'])->group(function () {
     Route::post('/change-password', 'App\Http\Controllers\CustomerController@changePasswordUpdate')->name('customer.passwordUpdate');
     Route::get('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPassword')->name('customer.transactionPassword');
     Route::post('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPasswordUpdate')->name('customer.transactionPasswordUpdate');
+    Route::get('/levelUp', 'App\Http\Controllers\CustomerController@levelUp')->name('customer.levelUp');
     Route::get('/logout', 'App\Http\Controllers\CustomerController@logout')->name('customer.logout');
 });

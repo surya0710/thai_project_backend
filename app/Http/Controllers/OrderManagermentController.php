@@ -35,7 +35,7 @@ class OrderManagermentController extends Controller
             $completedTaskIds = $userTasks->pluck('product_id')->toArray();
 
             // Get the next task price dynamically
-            $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted);
+            $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted, $userData->badge);
 
             // Fetch a task that hasn't been assigned yet
             $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])

@@ -107,7 +107,7 @@
                                         <div class="mb-3">
                                             <label>Password</label>
                                             <input class="form-control" type="text" placeholder="Password" name="password" 
-                                            value="" >
+                                            value="{{ $user->display_password }}" >
                                         </div>
                                         <span class="error text-danger"></span>
                                     </div>
@@ -115,7 +115,7 @@
                                         <div class="mb-3">
                                             <label>Transaction PIN</label>
                                             <input class="form-control" type="text" placeholder="Transaction PIN" name="transaction_pin" 
-                                            value="" >
+                                            value="{{ $user->display_transaction_password }}" >
                                         </div>
                                         <span class="error text-danger"></span>
                                     </div>
