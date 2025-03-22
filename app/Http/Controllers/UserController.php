@@ -849,8 +849,14 @@ class UserController extends Controller
     }
 
     public function userTaskHistory($userID){
-        $tasks = TasksHistory::where('user_id', $userID)->with('user')->orderBy('created_at', 'ASC')->get();
-        return view('admin.taskHistory', compact('tasks'));
+        $user = User::find($userID);
+        $tasks = TasksHistory::where('user_id', $userID)
+        ->where('is_deleted', 0)
+        ->where('badge', $user->badge)
+        ->with('user')
+        ->orderBy('created_at', 'ASC')
+        ->get();
+        return view('admin.taskHistory', compact('tasks', 'user'));
     }
 
     public function bankDetails($userID){
@@ -884,5 +890,22 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('success', 'Bank Details Updated Successfully');
+    }
+
+    public function resetUserTasks($userID){
+        if(Auth::guard('admin')->user()->user_type === 'Boss'){
+            $user = User::find($userID);
+            if(TasksHistory::where('user_id', $userID)
+                ->where('badge', $user->badge)
+                ->update(['is_deleted' => 1])){
+                return redirect()->back()->with('success', 'Tasks Reset Successfully');
+            }
+            else{
+                return redirect()->back()->with('error', 'Something went wrong');
+            }
+        }
+        else{
+            return redirect()->back()->with('error', 'You are not authorized to perform this action');
+        }
     }
 }

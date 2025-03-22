@@ -35,6 +35,7 @@ class CustomerController extends Controller
         // Fetch user's completed tasks and lucky draw tasks
         $userTasks = TasksHistory::where('user_id', $userData->id)
             ->where('badge', $userData->badge)
+            ->where('is_deleted', 0)
             ->get();
         
         $luckyDrawTaskHistory = LuckyDraw::where('user_id', $userData->id)
