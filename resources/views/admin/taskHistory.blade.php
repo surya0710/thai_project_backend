@@ -37,7 +37,6 @@
                                                             <th>Task</th>
                                                             <th>Product Amount</th>
                                                             <th>Earned Amount</th>
-                                                            <th>Type</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -50,7 +49,6 @@
                                                             <td>{{ $count }}</td>
                                                             <td>{{ $task->product_amount }}</td>
                                                             <td>{{ $task->earned_amount }}</td>
-                                                            <td>{{ checkTaskType($loop->index + 1, $task->user_id) }}</td>
                                                         </tr>
                                                         @php  $count--; @endphp
                                                         @endforeach
@@ -63,7 +61,6 @@
                                                             <th>Task</th>
                                                             <th>Product Amount</th>
                                                             <th>Earned Amount</th>
-                                                            <th>Type</th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

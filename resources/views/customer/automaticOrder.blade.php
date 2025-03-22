@@ -101,6 +101,119 @@
     #check {
         animation: transparant 2s;
     }
+
+    /* Modal Animation */
+    .modal-content {
+        transform: scale(0.7);
+        opacity: 0;
+        animation: fadeInScale 0.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes fadeInScale {
+        from {
+            transform: scale(0.7);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Modal Animation */
+    .modal-content {
+        transform: scale(0.7);
+        opacity: 0;
+        animation: fadeInScale 0.5s ease-out 0.5s forwards;
+    }
+
+    @keyframes fadeInScale {
+        from {
+            transform: scale(0.7);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Text Slide-in Animation */
+    .modal-body {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideInText 0.5s ease-out 0.8s forwards;
+    }
+
+    @keyframes slideInText {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Button Bounce Effect */
+    .tf-btn {
+        animation: bounceIn 0.8s ease-in-out 1.2s forwards;
+        opacity: 0;
+    }
+
+    @keyframes bounceIn {
+        0% { transform: scale(0.8); opacity: 0; }
+        50% { transform: scale(1.1); opacity: 0.7; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Confetti Animation */
+    .confetti {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: red;
+        opacity: 0.7;
+        border-radius: 50%;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        from {
+            transform: translateY(0) rotate(0deg);
+        }
+        to {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+
+    /* Confetti Container */
+    .confetti-container {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .confetti-container span {
+        position: absolute;
+        top: -10px;
+        width: 8px;
+        height: 8px;
+        background: hsl(calc(360 * var(--hue)), 100%, 50%);
+        border-radius: 50%;
+        animation: fall linear infinite;
+    }
+
+    /* Random Confetti Placement */
+    .confetti-container span:nth-child(1) { left: 10%; animation-duration: 3s; z-index: 999990;}
+    .confetti-container span:nth-child(2) { left: 30%; animation-duration: 4s; z-index: 999990;}
+    .confetti-container span:nth-child(3) { left: 50%; animation-duration: 5s; z-index: 999990;}
+    .confetti-container span:nth-child(4) { left: 70%; animation-duration: 3.5s; z-index: 999990;}
+    .confetti-container span:nth-child(5) { left: 90%; animation-duration: 4.5s; z-index: 999990;}
 </style>
 <div class="app-content">
         <div class="tf-container">
@@ -153,7 +266,9 @@
                     </div>
                 </li>
             </ul>
-            <a style="color: white;" href="#createProject" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom"><button>Automatic Order</button></a>
+            <a style="color: white;" href="#createProject" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom">
+                <button>Automatic Order</button>
+            </a>
         </div>
     </div>
 @include('customer.partials.footer')
@@ -162,41 +277,19 @@
         <span class="icon-close2 icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
     </div>
     <div class="offcanvas-body pb-32">
-        @if($task === null)
+        @if(checkUserAmountByLevel($userData->badge) > $userData->total_amount)
         <div class="mt-14 content-message">
             <ul class="mt-24">
                 <li class="mt-16 line-bt2" style="padding: 15px 0;">
-                    <p class="font-bold text-center">All Task on this Level are completed</p>
+                    <p class="font-bold text-center">Insufficient balance, Kindly recharge with minimum USD {{ checkUserAmountByLevel($userData->badge) - $userData->total_amount }} to play.</p>
                 </li>
             </ul>
         </div>
         <div class="mt-24">
-            <a href="#" class="mt-35 tf-btn primary">Level Up</a>
+            <a href="{{ route('customer.recharge') }}" class="mt-35 tf-btn primary">Recharge</a>
         </div>
         @else
-            @if(isset($luckyDrawTask) && $luckyDrawTask->exceeding_amount > $userData->total_amount)
-            <div class="mt-14 content-message">
-                <ul class="mt-24">
-                    <li class="mt-16 line-bt2" style="padding: 15px 0;">
-                        <p class="font-bold text-center">Insufficient balance, Kindly recharge with USD {{ $luckyDrawTask->exceeding_amount - $userData->total_amount }} to play Lucky Draw task.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="mt-24">
-                <a href="{{ route('customer.recharge') }}" class="mt-35 tf-btn primary">Recharge</a>
-            </div>
-            @elseif(!isset($luckyDrawTask) && $userData->badge == 'VIP0' && $userData->total_amount < 30)
-            <div class="mt-14 content-message">
-                <ul class="mt-24">
-                    <li class="mt-16 line-bt2" style="padding: 15px 0;">
-                        <p class="font-bold text-center">Insufficient balance, Kindly recharge with minimum USD 30 to play.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="mt-24">
-                <a href="{{ route('customer.recharge') }}" class="mt-35 tf-btn primary">Recharge</a>
-            </div>
-            @else
+            @if(!empty($task))
             <div class="mt-14 content-message">
                 <ul class="mt-24">
                     <li class="mt-16 pb-8 line-bt2">
@@ -226,14 +319,13 @@
                             @endif
                         </a>
                     </li>
-                    
                 </ul>
             </div>
             <div class="mt-24">
                 @if(isset( $luckyDrawTask ))
-                <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id, 'task_type' => 'luckyDraw']) }}" method="post">
+                <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id, 'task_type' => 'luckyDraw']) }}" id="submitTask" method="post">
                     @csrf
-                    <button type="submit" class="mt-35 tf-btn primary">Lucky Draw</button>
+                    <a class="mt-35 tf-btn primary" data-bs-toggle="modal" data-bs-target="#modalBasic">Complete Task</a>
                 @else
                 <form action="{{ route('customer.automaticOrderSubmit', ['task_id' => $task->id, 'task_type' => 'normal']) }}" method="post">
                     @csrf
@@ -241,43 +333,19 @@
                 @endif
                 </form>
             </div>
-            
             @endif
         @endif
     </div>
 </div>
-<div class="modal fade" id="modalCenter" style="transform: translateY(25%);">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content p-16">
-            <div class="modal-header justify-content-center">
-                <h4 class="modal-title fw-6">Lucky Draw</h4>
-            </div>
-            <div class="modal-body fw-5 text-center fs-18">Your Next lucky draw task is here...</div>
-            <div class="d-flex gap-16 mt-20 text-center">
-                <button type="button" data-bs-dismiss="modal" data-bs-toggle="offcanvas" class="tf-btn primary ">Play</button>
-            </div>
-        </div>
-    </div>
-</div>
-@if(isset($luckyDrawTask))
-<script>
-    var modalElement = document.getElementById('modalCenter');
-    var modalInstance = new bootstrap.Modal(modalElement);
-    modalInstance.show();
-</script>
-@endif
 @if($getCurrentLevelTasks  === 30)
 <div class="modal hide" id="modalBasic-task">
     <div class="modal-dialog" role="document">
         <div class="modal-content p-16">
             <div class="modal-header justify-content-center">
-                <h4 class="modal-title fw-6">Congratulations you have completed this level</h4>
+                <h4 class="modal-title fw-6 text-center">Congratulations you have completed all tasks on this level</h4>
             </div>
             <div class="modal-body fw-5 text-center fs-18">
                 <svg id="completion" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 101">
-                    <title>
-                        C1DBEBC0-CF7A-42D3-B615-1AB5DE73C3E9
-                    </title>
                     <g id="configurator">
                         <g id="configurator_completion">
                             <g id="stars">
@@ -311,11 +379,60 @@
                         d="M31.3 64.3c-1.2-1.5-3.4-1.9-4.9-.7-1.5 1.2-1.9 3.4-.7 4.9l7.8 10.4c1.3 1.7 3.8 1.9 5.3.4L71.1 47c1.4-1.4 1.4-3.6 0-5s-3.6-1.4-5 0L36.7 71.5l-5.4-7.2z" />
                 </svg>
             </div>
-            <a href="{{ route('customer.levelUp') }}" class="tf-btn primary">Level UP</a>
+            <a class="tf-btn primary dismiss-modal" data-bs-toggle="modal" data-bs-target="#taskCompleted">Level UP</a>
         </div>
     </div>
 </div>
 <script>
     $('#modalBasic-task').show();
+    $('.dismiss-modal').click(function () {
+        $('#modalBasic-task').hide();
+    });
 </script>
+@endif
+
+@if(isset( $luckyDrawTask ))
+    <div class="modal fade" id="modalBasic" style="display: none;">
+        <div class="confetti-container">
+            <span style="--hue: 0;"></span>
+            <span style="--hue: 0.2;"></span>
+            <span style="--hue: 0.4;"></span>
+            <span style="--hue: 0.6;"></span>
+            <span style="--hue: 0.8;"></span>
+        </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-16">
+                <div class="modal-header justify-content-center">
+                    <h2 class="modal-title fw-6">🎉 Congratulations! 🎉</h2>
+                </div>
+                <div class="modal-body fw-5 text-center fs-18">
+                    <h4>It's a Lucky Draw</h4>
+                    @if($task->price > $userData->total_amount)
+                        <p style="font-size: 12px; margin-top: 10px">Recharge your wallet with minimum USD {{ $task->price - $userData->total_amount }} to avail this task</p>
+                    @endif
+                </div>
+                <div class="d-flex gap-16 mt-20 justify-content-center">
+                    @if($task->price > $userData->total_amount)
+                        <a href="{{ route('customer.recharge') }}" class="tf-btn primary btn btn-primary">Recharge</a>
+                        @else
+                        <button type="submit" form="submitTask" class="tf-btn primary btn btn-primary">Submit</button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+@if($taskCount == 30)
+<div class="modal fade" id="taskCompleted">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-16">
+            <div class="modal-body fw-5 text-center fs-18">
+                <div class="text-center">
+                    <p>To move on to next level, Please recharge with minimum USD {{ checkNextLevelAmount($userData->badge) - $userData->total_amount }}</p>
+                </div>
+            </div>
+            <a href="{{ route('customer.recharge') }}" class="tf-btn primary">Recharge Now</a>
+        </div>
+    </div>
+</div>
 @endif
