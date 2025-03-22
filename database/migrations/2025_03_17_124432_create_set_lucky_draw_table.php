@@ -19,6 +19,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0)->comment('0 = Active, 1 = Inactive');
             $table->string('for_badge');
             $table->decimal('exceeding_amount', 10, 2);
+            $table->foreignId('product_id');
             $table->timestamps();
         });
     }

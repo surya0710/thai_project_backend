@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('set_lucky_draw', function (Blueprint $table) {
-            $table->foreignId('product_id');
+        Schema::table('tasks_history', function (Blueprint $table) {
+            $table->tinyInteger('is_deleted')->default(0)->comment('0 = No, 1 = Yes');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('set_lucky_draw', function (Blueprint $table) {
+        Schema::table('tasks_history', function (Blueprint $table) {
             //
         });
     }

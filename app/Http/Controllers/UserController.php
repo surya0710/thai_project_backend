@@ -345,9 +345,73 @@ class UserController extends Controller
         return view('admin.lazadaList', compact('products'));
     }
 
-    public function luckydrawList(){
-        return view('admin.luckydrawList')->with(['active' => 'luckydrawList']);
+
+    public function luckydrawList($userID){
+        $luckyDrawList = LuckyDraw::where('user_id', $userID)
+        ->orderBy('id', 'desc')
+        ->get();
+        return view('admin.luckydrawList', compact('luckyDrawList'))->with(['active' => 'luckydrawList']);
     }
+
+    public function luckydrawEdit($id){
+        $luckyDraw = LuckyDraw::where('id', $id)->first();
+        return view('admin.luckydrawEdit', compact('luckyDraw'))->with(['active' => 'luckydrawEdit']);
+    }
+
+    public function luckydrawUpdate($id, Request $request){
+        $validator = Validator::make($request->all(), [
+            'show_at' => 'required|numeric',
+            'exceeding_amount' => 'required',
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $luckyDraw = LuckyDraw::where('id', $id)->first();
+
+        $luckyDraw->show_at = $request->show_at;
+        $luckyDraw->exceeding_amount = $request->exceeding_amount;
+        $luckyDraw->product_id = $request->product_id;
+
+        if($luckyDraw->update()){
+            return redirect()->route('luckydraw.list', $luckyDraw->user_id)->with('success', 'Lucky Draw Updated Successfully');
+        }
+        else{
+            return redirect()->route('luckydraw.edit', $luckyDraw->id)->with('error', 'Something went wrong');
+        }
+
+    }
+
+    public function luckydrawDelete(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|exists:set_lucky_draw,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'failed',
+                'message' => $validator->errors()->first()
+            ], 422);
+        }
+
+        $id = $request->input('id');
+        $luckyDraw = LuckyDraw::find($id);
+
+        if($luckyDraw->delete()){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Lucky Draw deleted successfully'
+            ], 200);
+        }
+        
+        return response()->json([
+            'status' => 'Failed',
+            'message' => 'Something Went Wrong'
+        ], 500);
+    }
+
     public function lazadaAdd(){
         return view('admin.lazadaAdd')->with(['active' => 'lazadaAdd']);
     }
