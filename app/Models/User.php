@@ -59,4 +59,5 @@ class User extends Authenticatable
     public function loginHistory(){
         return $this->hasMany(LoginHistory::class, 'user_id')->latest('created_at')->take(10);
     }
+
 }

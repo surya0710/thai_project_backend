@@ -19,7 +19,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header card-no-border pb-0">
-                            <h5>User Task History</h5>
+                            <h5><strong>{{ $user->username }} ({{  $user->badge }}) </strong> Task History</h5>
                         </div>
                         <div class="card-body">
                             <div class="tab-content" id="topline-tabContent">
@@ -41,16 +41,18 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @php  $count = count($tasks); @endphp
                                                         @foreach($tasks as $task)
                                                         <tr>
                                                             <td>{{ $loop->index + 1 }}</td>
                                                             <td>{{ $task->user['username'] }}</td>
                                                             <td>{{ $task->badge }}</td>
-                                                            <td>{{ $loop->index + 1 }}</td>
+                                                            <td>{{ $count }}</td>
                                                             <td>{{ $task->product_amount }}</td>
                                                             <td>{{ $task->earned_amount }}</td>
                                                             <td>{{ checkTaskType($loop->index + 1, $task->user_id) }}</td>
                                                         </tr>
+                                                        @php  $count--; @endphp
                                                         @endforeach
                                                     </tbody>
                                                     <tfoot>

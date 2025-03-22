@@ -48,6 +48,7 @@ Route::middleware(['admin'])->group(function () {
         Route::post('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@updateBankDetails')->name('user.updateBankDetails');
         Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
+        Route::get('/user/reset-tasks/{user_id}', 'App\Http\Controllers\UserController@resetUserTasks')->name('reset.userTasks');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
         Route::get('/lazada/list', 'App\Http\Controllers\UserController@lazadaList')->name('lazada.list');
         Route::get('/luckydraw/list/{user_id}', 'App\Http\Controllers\UserController@luckydrawList')->name('luckydraw.list');

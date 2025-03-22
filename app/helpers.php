@@ -165,7 +165,10 @@ use App\Models\LuckyDraw;
 
     if(!function_exists('taskCountForUser')) {
         function taskCountForUser($userID, $badge){
-            $count = TasksHistory::where('user_id', $userID)->where('badge', $badge)->count();
+            $count = TasksHistory::where('user_id', $userID)
+            ->where('badge', $badge)
+            ->where('is_deleted', 0)
+            ->count();
             return $count;
         }
     }
