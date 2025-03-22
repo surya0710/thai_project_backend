@@ -184,5 +184,68 @@ use App\Models\LuckyDraw;
             }
         }
     }
+
+    if(!function_exists('calculateLevel')) {
+        function calculateLevel($totalAmount) {
+            if ($totalAmount >= 2000) {
+                return 'VIP5';
+            } elseif ($totalAmount >= 2000) {
+                return 'VIP4';
+            } elseif ($totalAmount >= 1000) {
+                return 'VIP3';
+            } elseif ($totalAmount >= 501) {
+                return 'VIP2';
+            } elseif ($totalAmount >= 201) {
+                return 'VIP1';
+            } elseif ($totalAmount >= 30) {
+                return 'VIP0';
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    if(!function_exists('checkUserAmountByLevel')) {
+        function checkUserAmountByLevel($badge){
+            if($badge == 'VIP0'){
+                return 30;
+            }
+            elseif($badge == 'VIP1'){
+                return 201;
+            }
+            elseif($badge == 'VIP2'){
+                return 501;
+            }
+            elseif($badge == 'VIP3'){
+                return 1000;
+            }
+            elseif($badge == 'VIP4'){
+                return 2000;
+            }
+            elseif($badge == 'VIP5'){
+                return 5000;
+            }
+        }
+    }
+
+    if(!function_exists('checkNextLevelAmount')) {
+        function checkNextLevelAmount($badge){
+            if($badge == 'VIP0'){
+                return 201;
+            }
+            elseif($badge == 'VIP1'){
+                return 501;
+            }
+            elseif($badge == 'VIP2'){
+                return 1000;
+            }
+            elseif($badge == 'VIP3'){
+                return 2000;
+            }
+            elseif($badge == 'VIP4'){
+                return 5000;
+            }
+        }
+    }
     
     

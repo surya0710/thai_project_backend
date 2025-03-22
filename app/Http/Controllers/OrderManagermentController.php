@@ -70,42 +70,41 @@ class OrderManagermentController extends Controller
     }
 
     public function automaticOrderSubmit($TaskID, $task_type){
-        $taskPrice = 0;
         $task = Products::find($TaskID);
         $user = User::find(Auth::guard('customer')->user()->id);
-        $userTasks = TasksHistory::where('user_id', $user->id)->get();
+        $userTasks = TasksHistory::where('user_id', $user->id)->where('badge', $user->badge)->where('is_deleted', 0)->orderBy('created_at', 'DESC')->get();
         $tasksCompleted = $userTasks->count();
-        if($task_type == 'luckyDraw'){
+        if($task_type === 'luckyDraw'){
             $luckyDrawTask = LuckyDraw::where('user_id', $user->id)
             ->where('status', 0)
             ->where('show_at', $tasksCompleted + 1)
             ->where('for_badge', $user->badge)
             ->first();
-            if(!isset($luckyDrawTask)){
+            if($luckyDrawTask === null){
                 return redirect()->route('customer.automaticOrder');
             }
-            $taskPrice = $luckyDrawTask->exceeding_amount;
+
         }
         else{
-            $taskPrice = $task->price;
+            $taskHistory = new TasksHistory();
+            $taskHistory->user_id = $user->id;
+            $taskHistory->product_id = $task->id;
+            $taskHistory->earned_amount = getCPSCalculation($task->price, $user->badge, $task_type);
+            $taskHistory->product_amount = $task->price;
+            $taskHistory->created_at = now();
+            $taskHistory->badge = $user->badge;
+            $taskHistory->save();
         }
-        $taskHistory = new TasksHistory();
-        $taskHistory->user_id = $user->id;
-        $taskHistory->product_id = $task->id;
-        $taskHistory->earned_amount = getCPSCalculation($taskPrice, $user->badge, $task_type);
-        $taskHistory->product_amount = $taskPrice;
-        $taskHistory->created_at = now();
-        $taskHistory->badge = $user->badge;
-        if($taskHistory->save()){
-            $user->revenue_generated += $taskHistory->earned_amount;
-            $user->total_amount += $taskHistory->earned_amount;
-            $user->update();
-            if(isset($luckyDrawTask)){
-                DB::table('set_lucky_draw')
-                ->where('id', $luckyDrawTask->id)
-                ->update(['status' => 1]);
-            }
-        };
+        
+        $user->revenue_generated += getCPSCalculation($task->price, $user->badge, $task_type);
+        $user->total_amount += getCPSCalculation($task->price, $user->badge, $task_type);
+        $user->update();
+        if($task_type == 'luckyDraw'){
+            DB::table('set_lucky_draw')
+            ->where('id', $luckyDrawTask->id)
+            ->update(['status' => 1]);
+        }
+
         return redirect()->route('customer.automaticOrder');
     }
 }

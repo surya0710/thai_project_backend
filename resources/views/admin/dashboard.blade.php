@@ -119,7 +119,7 @@
                       <span>
                         <i class="fa-solid fa-money-bill-1"></i>
                       </span>
-                      <a href="{{ route('withdrawal.list') }}"><b>Products: </b>{{ $productsCount }}</a>
+                      <a href="{{ route('lazada.list') }}"><b>Products: </b>{{ $productsCount }}</a>
                     </div>
                   </div>
                 </li>
