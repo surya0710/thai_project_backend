@@ -213,18 +213,14 @@
                     <li class="mt-20 ">
                         <a href="" class="wd-file-message line-bt">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Total order amount</div>
-                            @if(isset($luckyDrawTask))
-                            <span class="body-4 text-black-5 fw-5">USD  {{ $luckyDrawTask->exceeding_amount }}</span>
-                            @else
                             <span class="body-4 text-black-5 fw-5">USD  {{ $task->price }}</span>
-                            @endif
                         </a>
                     </li>
                     <li class="mt-20 line-bt">
                         <a href="" class="wd-file-message">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">CPS</div>
                             @if(isset($luckyDrawTask))
-                            <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($luckyDrawTask->exceeding_amount, $userData->badge, 'luckyDraw')}}</span>
+                            <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($task->price, $userData->badge, 'luckyDraw')}}</span>
                             @else
                             <span class="body-4 text-black-5 fw-5">USD {{  getCPSCalculation($task->price, $userData->badge)}}</span>
                             @endif

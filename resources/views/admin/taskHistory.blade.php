@@ -35,7 +35,7 @@
                                                             <th>Username</th>
                                                             <th>Level</th>
                                                             <th>Task</th>
-                                                            <th>Amount</th>
+                                                            <th>Product Amount</th>
                                                             <th>Earned Amount</th>
                                                             <th>Type</th>
                                                         </tr>
@@ -59,7 +59,7 @@
                                                             <th>Username</th>
                                                             <th>Level</th>
                                                             <th>Task</th>
-                                                            <th>Amount</th>
+                                                            <th>Product Amount</th>
                                                             <th>Earned Amount</th>
                                                             <th>Type</th>
                                                         </tr>

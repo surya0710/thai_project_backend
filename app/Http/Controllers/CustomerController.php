@@ -60,7 +60,6 @@ class CustomerController extends Controller
             foreach ($luckyDrawTaskHistory as $luckyTask) {
                 $product = Products::where('id', $luckyTask->product_id)->with('taskStatus')->first();
                 if ($product) {
-                    $product->price = $luckyTask->exceeding_amount; // Override price with exceeding_amount
                     $luckyDrawTasks->push([
                         'product' => $product,
                         'show_at' => $luckyTask->show_at

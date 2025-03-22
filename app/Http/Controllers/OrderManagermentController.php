@@ -28,7 +28,6 @@ class OrderManagermentController extends Controller
 
         if($luckyDrawTask !== null){
             $task= Products::find($luckyDrawTask->product_id);
-            $task->price = $luckyDrawTask->exceeding_amount;
         }
         else{
             // Get IDs of already assigned tasks to avoid repetition

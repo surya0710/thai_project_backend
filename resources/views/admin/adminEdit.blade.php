@@ -9,15 +9,14 @@
             <div class="page-title">
                 <div class="row">
                     <div class="col-6 box-col-3">
-                        <h3> Admin Add</h3>
+                        <h3> Admin Edit</h3>
                     </div>
                     <div class="col-6 box-col-4">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">
                                     <i class="fa-solid fa-home"></i>
                                 </a></li>
-                            <li class="breadcrumb-item">Apps</li>
-                            <li class="breadcrumb-item active">Admin Add </li>
+                            <li class="breadcrumb-item active">Admin Edit </li>
                         </ol>
                     </div>
                 </div>

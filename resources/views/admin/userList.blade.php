@@ -149,7 +149,7 @@
                       <td>
                         <ul class="action">
                           <li class="edit">
-                            <a href="{{ route('luckydraw.list') }}"><i class="fa-solid fa-eye"></i></a>
+                            <a href="{{ route('luckydraw.list', ['user_id' => $user->id]) }}"><i class="fa-solid fa-eye"></i></a>
                           </li>
                         </ul>
                       </td>
@@ -297,7 +297,7 @@
           <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
           <label for="select_product" class="form-label mt-3">Select Product</label>
           <div class="search-container">
-              <input type="text" class="form-control" data-id="" id="searchBox" placeholder="Search..." onkeyup="showSuggestions()">
+              <input type="text" class="form-control" required data-id="" autocomplete="off" id="searchBox" placeholder="Search...">
               <div class="suggestions" id="suggestionBox"></div>
           </div>
           <input type="hidden" name="product_id" id="product_id">
@@ -347,40 +347,38 @@
       });
     }
 
-    function showSuggestions() {
-      let name = $('#searchBox').val();
-      if (name.length >= 3) {
-          $.ajax({
-              url: `{{ route('fetchproducts') }}`,
-              type: "POST",
-              data: {
-                  _token: "{{ csrf_token() }}",
-                  name: name,
-              },
-              success: function(response) {
-                  let suggestionBox = $('#suggestionBox');
-                  suggestionBox.html(''); // Clear previous suggestions
+    $('#searchBox').on('focus', function() {
+      let price = $('#exceeding_amount').val();
+      $.ajax({
+          url: `{{ route('fetchproducts') }}`,
+          type: "POST",
+          data: {
+              _token: "{{ csrf_token() }}",
+              price: price,
+          },
+          success: function(response) {
+              let suggestionBox = $('#suggestionBox');
+              suggestionBox.html(''); // Clear previous suggestions
 
-                  if (response.count > 0) {
-                      response.products.forEach(product => {
-                          suggestionBox.append(`
-                            <div class="suggestion-item" data-id="${product.id}">
-                              <img style="border-radius: 50%; width:50px" src="{{ asset('${product.image_path}') }}" alt="Product Image">
-                              <span class="text">${product.name}</span> (${product.price})
-                            </div>
-                          `);
-                      });
-                      suggestionBox.show();
-                  } else {
-                      suggestionBox.hide();
-                  }
-              },
-              error: function(xhr, status, error) {
-                  console.error('Error:', error);
+              if (response.count > 0) {
+                  response.products.forEach(product => {
+                      suggestionBox.append(`
+                        <div class="suggestion-item" data-id="${product.id}">
+                          <img style="border-radius: 50%; width:50px" src="{{ asset('${product.image_path}') }}" alt="Product Image">
+                          <span class="text">${product.name}</span> (${product.price})
+                        </div>
+                      `);
+                  });
+                  suggestionBox.show();
+              } else {
+                  suggestionBox.hide();
               }
-          });
-      }
-    }
+          },
+          error: function(xhr, status, error) {
+              console.error('Error:', error);
+          }
+      });
+    });
 
     $(document).on('click', '.suggestion-item', function() {
         let selectedProduct = $(this).find('.text').text();
@@ -388,6 +386,7 @@
         $('#searchBox').val(selectedProduct); // Set value in search box
         $('#product_id').val(id);  // Store ID in searchBox
         $('#suggestionBox').hide(); // Hide suggestions after selection
+        $('#searchBox').blur();
     });
 
     function setLuckyDraw(userID, badge){
