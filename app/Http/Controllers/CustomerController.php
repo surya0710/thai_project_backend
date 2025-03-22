@@ -151,7 +151,7 @@ class CustomerController extends Controller
             'created_at' => now(),
         ]);
         if($recharge){
-            return redirect('/recharge')->with('success', 'Recharge request submitted successfully!');   
+            return redirect('/recharge-&-withdraw-history')->with('success', 'Recharge request submitted successfully!');   
         }
     }
 

@@ -61,6 +61,16 @@
                     </ul>
                 </div>
                 <div class="tab-content">
+                <span class="text-danger error">
+                            @if (session()->has('error'))
+                                {{ session()->get('error') }}
+                            @endif
+                        </span>
+                        <span class="text-success error">
+                            @if (session()->has('success'))
+                                {{ session()->get('success') }}
+                            @endif
+                        </span>
                     <div class="tab-pane fade active show" id="allTask" role="tabpanel">
                         @foreach($rechargeRequests as $recharge)
                         <ul class="mt-20">
