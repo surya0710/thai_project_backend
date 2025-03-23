@@ -52,7 +52,7 @@
             <div class="card-header pb-0 card-no-border">
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
-                
+
                   <table id="example" class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
@@ -78,7 +78,25 @@
                         <td>{{ $recharge->user['username'] ?? 'N/A' }}</td>
                         <td>{{ $recharge->user['phone'] ?? 'N/A' }}</td>
                         <td>{{ $recharge->user['name'] ?? 'N/A' }}</td>
-                        <td><a href="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></a></td>
+                        <!-- <td><a href="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" target="_blank" rel="noopener noreferrer"><img src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}" style="width:100px" /></a></td> -->
+                        <td>
+                          <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ $loop->index }}">
+                            <img style="height: 40px;" class="img-sm img-center" src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}">
+                          </a>
+
+                          <div class="modal fade" id="exampleModal_{{ $loop->index }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <img style="width: 100%; height: 100%;" src="{{ asset('uploads/recharge/' . $recharge->recharge_proof) }}">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td>{{ $recharge->created_at }}</td>
                         <td>
                           @if($recharge->status == 0)

@@ -113,9 +113,22 @@
                                             <td>{{ $product->name }}</td>
                                             <td>{{ $product->price }}</td>
                                             <td>
-                                                <a href="javascript:">
+                                                <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#exampleModal_{{ $loop->index }}">
                                                     <img style="height: 40px;" class="img-sm img-center" src="{{ asset( $product->image_path) }}">
                                                 </a>
+
+                                                <div class="modal fade" id="exampleModal_{{ $loop->index }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img style="width: 100%; height: 100%;" src="{{ asset( $product->image_path) }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>{{ $product->created_at }}</td>
                                             <!-- <td>

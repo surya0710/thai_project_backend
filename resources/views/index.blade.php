@@ -137,6 +137,11 @@
             <form class="mt-24" action="{{ route('userLogin') }}" method="post">
                 {{ csrf_field() }}
                 <p class="body-6 text-black-5 text-center">Give creadential to sign in your account</p>
+                @if(Session::has('success'))
+                <div class="alert alert-success">
+                    {{ Session::get('success') }}
+                </div>
+                @endif
                 <p class="text-danger text-center">
                     @if (session()->has('error'))
                     {{ session()->get('error') }}

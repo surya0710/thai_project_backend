@@ -94,7 +94,7 @@ class UserController extends Controller
             $inviteCode = InviteCode::where('code', $request->invitation)->first();
             $inviteCode->used_by = $user->id;
             $inviteCode->save();
-            return redirect()->back()->with('success', 'Registration successful');
+            return redirect()->route('index')->with('success', 'Registration successful');
         }
         else{
             return redirect()->back()->with('error', 'Something went wrong');
