@@ -266,9 +266,16 @@
                     </div>
                 </li>
             </ul>
+            @if($taskCount == 30)
+            <a style="color: white;">
+                <button data-bs-toggle="modal" data-bs-target="#taskCompleted">Automatic Order</button>
+            </a>
+            @else
             <a style="color: white;" href="#createProject" data-bs-toggle="offcanvas" aria-controls="offcanvasBottom">
                 <button>Automatic Order</button>
             </a>
+            @endif
+            
         </div>
     </div>
 @include('customer.partials.footer')
