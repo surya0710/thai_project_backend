@@ -20,6 +20,9 @@
                                 {{ session()->get('error') }}
                             </span>
                         @endif
+                        @if($withdrawalsToday == 1)
+                            <span class="text-danger error">You have already made a withdrawal today. Please try again tomorrow.</span>
+                        @endif
                         <fieldset class="mt-20 input-line">
                             <label>Withdraw Amount</label>
                             <input type="number" name="amount" required min="1" max="{{ number_format($userData->total_amount - $userData->frozen_amount, 2) }}" 
@@ -63,8 +66,11 @@
                             </div>
                         </div>
                         @if(isset($bankDetails->account_number))
-                        <button type="button" class="mt-20 tf-btn primary" disabled data-bs-target="#modalLong"
-                        data-bs-toggle="modal">Withdraw Immediately</button>
+                            @if($withdrawalsToday == 0)
+                                <button type="button" class="mt-60 tf-btn primary" data-toggle="modal" data-target="#modalLong">Withdraw Immediately</button>
+                            @else
+                                <button type="button" class="mt-60 tf-btn primary" disabled>Withdraw Immediately</button>
+                            @endif
                         @else
                         <a class="mt-20 tf-btn primary" href="{{ route('customer.bankDetails') }}">Add Bank Account</a>
                         @endif
@@ -96,7 +102,11 @@
                                 <input class="form-control" required type="password" id="digit-5" name="digit-5"
                                     data-next="digit-6" data-previous="digit-4">
                             </div>
+                            @if($withdrawalsToday == 0)
                             <button type="submit" class="mt-60 tf-btn primary">Continue</button>
+                            @else
+                            <button class="mt-60 tf-btn primary" disabled>Continue</button>
+                            @endif
                         </form>
                     </div>
                 </div>

@@ -232,7 +232,7 @@
                     <li class="mt-20 ">
                         <a class="wd-file-message line-bt">
                             <div class="body-4 text-black-2 fw-5 flex-grow-1">Available Balance</div>
-                            <span class="body-4 text-black-5 fw-5">{{ $userData->total_amount }} USD</span>
+                            <span class="body-4 text-black-5 fw-5">{{ $userData->total_amount - $userData->frozen_amount }} USD</span>
                         </a>
                     </li>
                     <li class="mt-20 line-bt">

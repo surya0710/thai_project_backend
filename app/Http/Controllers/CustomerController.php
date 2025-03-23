@@ -15,6 +15,7 @@ use App\Models\TasksHistory;
 use App\Models\LuckyDraw;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class CustomerController extends Controller
 {
@@ -201,7 +202,11 @@ class CustomerController extends Controller
     public function withdrawal(){
         $userData = User::find(Auth::guard('customer')->user()->id);
         $bankDetails = UserBankDetails::where('user_id', Auth::guard('customer')->user()->id)->first();
-        return view('customer.withdrawal', compact('userData'))->with('bankDetails', $bankDetails);
+        $withdrawalsToday = Withdraw::where('user_id', Auth::guard('customer')->user()->id)
+            ->whereDate('created_at', Carbon::today())
+            ->count();
+
+        return view('customer.withdrawal', compact('userData', 'bankDetails', 'withdrawalsToday'));
     }
 
     public function withdrawalSubmit(Request $request){
