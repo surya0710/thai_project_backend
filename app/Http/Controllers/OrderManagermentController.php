@@ -30,7 +30,7 @@ class OrderManagermentController extends Controller
             $task= Products::find($luckyDrawTask->product_id);
         }
         else{
-            if($userData->badge == 'VIP0' && $userData->total_amount >= 30){
+            if($userData->badge == 0 ){
                 // Get IDs of already assigned tasks to avoid repetition
                 $completedTaskIds = $userTasks->pluck('product_id')->toArray();
 
