@@ -37,7 +37,9 @@
                                                             <th>Product Name</th>
                                                             <th>Amount</th>
                                                             <th>Status</th>
+                                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                                             <th>Action</th>
+                                                            @endif
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -50,6 +52,7 @@
                                                             <td>{{ $list->product['name'] }}</td>
                                                             <td>{{ $list->product['price'] }}</td>
                                                             <td>{{ $list->status == 1 ? 'Completed' : 'Pending' }}</td>
+                                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                                             <td>
                                                                 @if($list->status == 0)
                                                                 <ul class="action">
@@ -61,6 +64,8 @@
                                                                     </li>
                                                                 </ul>
                                                                 @endif
+                                                            </td>
+                                                            @endif
                                                         </tr>
                                                         @endforeach
                                                     </tbody>
@@ -73,7 +78,9 @@
                                                             <th>Product Name</th>
                                                             <th>Amount</th>
                                                             <th>Status</th>
+                                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                                             <th>Action</th>
+                                                            @endif
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -89,34 +96,34 @@
         </div>
         <!-- Container-fluid Ends-->
     </div>
-@include('admin.partials.footer')
-<script>
-    $('.deleteProduct').click(function() {
-        let id = $(this).data('id');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('luckydraw.delete') }}",
-                    method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        id: id
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            location.reload();
-                        }   
-                    }
-                });
-            }
-        })
-    });
-</script>
+    @include('admin.partials.footer')
+    <script>
+        $('.deleteProduct').click(function() {
+            let id = $(this).data('id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ route('luckydraw.delete') }}",
+                        method: "POST",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            id: id
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            })
+        });
+    </script>

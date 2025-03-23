@@ -1,24 +1,24 @@
 @include('admin.partials.header')
 <style>
   .suggestions {
-      position: absolute;
-      width: 100%;
-      background: white;
-      border: 1px solid #ccc;
-      border-top: none;
-      max-height: 150px;
-      overflow-y: auto;
-      z-index: 10;
-      display: none;
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
   }
 
   .suggestions div {
-      padding: 10px;
-      cursor: pointer;
+    padding: 10px;
+    cursor: pointer;
   }
 
   .suggestions div:hover {
-      background: #ddd;
+    background: #ddd;
   }
 </style>
 <div class="page-body-wrapper">
@@ -166,6 +166,7 @@
                         </div>
                       </td>
                       @endif
+                      @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                       <td>
                         @if(Auth::guard('admin')->user()->user_type == 'Boss')
 
@@ -191,6 +192,7 @@
                         </button>
                         @endif
                       </td>
+                      @endif
                       <td>
                         <ul class="action">
                           <li class="edit">
@@ -266,15 +268,15 @@
           <label for="show_at" class="form-label">Show task at which level</label>
           <select name="show_at" id="show_at" class="form-control" required>
             @php for($i = 1; $i <= 30; $i++) { @endphp
-            <option value="{{ $i }}">{{ $i }}</option>
-            @php } @endphp
+              <option value="{{ $i }}">{{ $i }}</option>
+              @php } @endphp
           </select>
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
           <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>
           <label for="select_product" class="form-label mt-3">Select Product</label>
           <div class="search-container">
-              <input type="text" class="form-control" required data-id="" autocomplete="off" id="searchBox" placeholder="Search...">
-              <div class="suggestions" id="suggestionBox"></div>
+            <input type="text" class="form-control" required data-id="" autocomplete="off" id="searchBox" placeholder="Search...">
+            <div class="suggestions" id="suggestionBox"></div>
           </div>
           <input type="hidden" name="product_id" id="product_id">
           <button class="mt-3 btn btn-success" type="submit">Save</button>
@@ -326,48 +328,48 @@
     $('#searchBox').on('focus', function() {
       let price = $('#exceeding_amount').val();
       $.ajax({
-          url: `{{ route('fetchproducts') }}`,
-          type: "POST",
-          data: {
-              _token: "{{ csrf_token() }}",
-              price: price,
-          },
-          success: function(response) {
-              let suggestionBox = $('#suggestionBox');
-              suggestionBox.html(''); // Clear previous suggestions
+        url: `{{ route('fetchproducts') }}`,
+        type: "POST",
+        data: {
+          _token: "{{ csrf_token() }}",
+          price: price,
+        },
+        success: function(response) {
+          let suggestionBox = $('#suggestionBox');
+          suggestionBox.html(''); // Clear previous suggestions
 
-              if (response.count > 0) {
-                  response.products.forEach(product => {
-                      suggestionBox.append(`
+          if (response.count > 0) {
+            response.products.forEach(product => {
+              suggestionBox.append(`
                         <div class="suggestion-item" data-id="${product.id}">
                           <img style="border-radius: 50%; width:50px" src="{{ asset('${product.image_path}') }}" alt="Product Image">
                           <span class="text">${product.name}</span> (${product.price})
                         </div>
                       `);
-                  });
-                  suggestionBox.show();
-              } else {
-                  suggestionBox.hide();
-              }
-          },
-          error: function(xhr, status, error) {
-              console.error('Error:', error);
+            });
+            suggestionBox.show();
+          } else {
+            suggestionBox.hide();
           }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+        }
       });
     });
 
     $(document).on('click', '.suggestion-item', function() {
-        let selectedProduct = $(this).find('.text').text();
-        let id = $(this).data('id');
-        $('#searchBox').val(selectedProduct); // Set value in search box
-        $('#product_id').val(id);  // Store ID in searchBox
-        $('#suggestionBox').hide(); // Hide suggestions after selection
-        $('#searchBox').blur();
+      let selectedProduct = $(this).find('.text').text();
+      let id = $(this).data('id');
+      $('#searchBox').val(selectedProduct); // Set value in search box
+      $('#product_id').val(id); // Store ID in searchBox
+      $('#suggestionBox').hide(); // Hide suggestions after selection
+      $('#searchBox').blur();
     });
 
-    function setLuckyDraw(userID, badge, taskCount){
-      $('#show_at').find('option').each(function(){
-        if($(this).val() <= taskCount){
+    function setLuckyDraw(userID, badge, taskCount) {
+      $('#show_at').find('option').each(function() {
+        if ($(this).val() <= taskCount) {
           $(this).attr('disabled', true);
         }
       });
@@ -383,7 +385,7 @@
       $('#userLevel').val(badge);
       $('#setLuckyDraw').modal('show');
     }
-    
+
 
     $(document).ready(function() {
 

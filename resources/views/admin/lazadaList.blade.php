@@ -75,6 +75,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
+                        @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                         <div class="card-header pb-0 card-no-border">
                             <div class="row">
                                 <span class="text-success error"> {{ session()->get('success') }} </span>
@@ -88,6 +89,7 @@
                                 <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i>Add Products</a>
                             </div>
                         </div>
+                        @endif
                         <div class="card-body">
                             <div class="table-responsive custom-scrollbar">
                                 <table id="example" class="table table-striped" style="width:100%">
@@ -98,8 +100,10 @@
                                             <th>Price</th>
                                             <th>Image</th>
                                             <th>Create Time</th>
-                                            <th>Operate</th>
+                                            <!-- <th>Operate</th> -->
+                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                             <th>Actions</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -114,14 +118,15 @@
                                                 </a>
                                             </td>
                                             <td>{{ $product->created_at }}</td>
-                                            <td>
+                                            <!-- <td>
                                                 <a href="javascript:;" class="btn btn-danger btn-chooseone btn-xs">
                                                     <i class="fa fa-check"></i>
                                                     <font style="vertical-align: inherit;">
                                                         <font style="vertical-align: inherit;">Choose</font>
                                                     </font>
                                                 </a>
-                                            </td>
+                                            </td> -->
+                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                             <td>
                                                 <ul class="action">
                                                     <li class="edit"><a href="{{ route('lazada.edit', ['product_id' => $product->id]) }}"><i class="fa-solid fa-pen-to-square"></i></a></li>
@@ -130,6 +135,7 @@
                                                     </li>
                                                 </ul>
                                             </td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -140,8 +146,10 @@
                                             <th>Price</th>
                                             <th>Image</th>
                                             <th>Create Time</th>
-                                            <th>Operate</th>
+                                            <!-- <th>Operate</th> -->
+                                            @if(Auth::guard('admin')->user()->user_type !== 'Worker')
                                             <th>Actions</th>
+                                            @endif
                                         </tr>
                                     </tfoot>
                                 </table>
