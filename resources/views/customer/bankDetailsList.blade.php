@@ -15,11 +15,11 @@
                 @endif
                 @foreach($bankDetails as $bankDetail)
                 <li class="list-task-item mt-12">
-                    <input type="checkbox" id="task2" class="radio-check success">
-                    <label for="task2" class="content-task">
+                    <!-- <input type="checkbox" id="task2" class="radio-check success"> -->
+                    <div for="task2" class="content-task">
                         <div class="body-4 fw-bold">{{ $bankDetail->bank_name ?? '' }}</div>
                         <p class="body-2 text-black-5">{{ $bankDetail->account_number ?? '' }} </p>
-                    </label>
+                    </div>
                 </li>
                 @endforeach
             </ul>
