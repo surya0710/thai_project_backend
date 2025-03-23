@@ -20,8 +20,10 @@
                                 {{ session()->get('error') }}
                             </span>
                         @endif
+                        @if(!session()->has('success') && !session()->has('error'))
                         @if($withdrawalsToday == 1)
                             <span class="text-danger error">You have already made a withdrawal today. Please try again tomorrow.</span>
+                        @endif
                         @endif
                         <fieldset class="mt-20 input-line">
                             <label>Withdraw Amount</label>
