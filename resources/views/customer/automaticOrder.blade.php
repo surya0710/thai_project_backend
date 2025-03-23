@@ -386,7 +386,11 @@
                         d="M31.3 64.3c-1.2-1.5-3.4-1.9-4.9-.7-1.5 1.2-1.9 3.4-.7 4.9l7.8 10.4c1.3 1.7 3.8 1.9 5.3.4L71.1 47c1.4-1.4 1.4-3.6 0-5s-3.6-1.4-5 0L36.7 71.5l-5.4-7.2z" />
                 </svg>
             </div>
+            @if($userData->badge === 'VIP5' && $taskCount == 30)
+            <a class="tf-btn primary dismiss-modal">No More Levels</a>
+            @else
             <a class="tf-btn primary dismiss-modal" data-bs-toggle="modal" data-bs-target="#taskCompleted">Level UP</a>
+            @endif
         </div>
     </div>
 </div>

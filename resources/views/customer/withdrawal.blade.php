@@ -66,10 +66,10 @@
                             </div>
                         </div>
                         @if(isset($bankDetails->account_number))
-                            @if($withdrawalsToday == 0)
-                                <button type="button" class="mt-60 tf-btn primary" data-toggle="modal" data-target="#modalLong">Withdraw Immediately</button>
+                            @if($withdrawalsToday == 1)
+                            <button type="button" class="mt-20 tf-btn primary" disabled>Withdraw Immediately</button>
                             @else
-                                <button type="button" class="mt-60 tf-btn primary" disabled>Withdraw Immediately</button>
+                            <button type="button" class="mt-20 tf-btn primary" disabled id="withDraw" data-bs-target="#modalLong" data-bs-toggle="modal">Withdraw Immediately</button>
                             @endif
                         @else
                         <a class="mt-20 tf-btn primary" href="{{ route('customer.bankDetails') }}">Add Bank Account</a>
@@ -102,11 +102,7 @@
                                 <input class="form-control" required type="password" id="digit-5" name="digit-5"
                                     data-next="digit-6" data-previous="digit-4">
                             </div>
-                            @if($withdrawalsToday == 0)
                             <button type="submit" class="mt-60 tf-btn primary">Continue</button>
-                            @else
-                            <button class="mt-60 tf-btn primary" disabled>Continue</button>
-                            @endif
                         </form>
                     </div>
                 </div>
@@ -122,9 +118,9 @@
                 let amount = parseFloat($("input[name='amount']").val());
                 let maxAmount = parseFloat($("input[name='amount']").attr("max"));
                 let password = $("input[name='password']").val().trim();
-                let withdrawButton = $("button[type='button']");
+                let withdrawButton = $("#withDraw");
 
-                if (!isNaN(amount) && amount > 0 && amount <= maxAmount && password.length > 0) {
+                if (!isNaN(amount) || amount > 0 || amount <= maxAmount || password.length > 0) {
                     withdrawButton.prop("disabled", false);
                 } else {
                     withdrawButton.prop("disabled", true);

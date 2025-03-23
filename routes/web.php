@@ -74,6 +74,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
         Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.status');
         Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('admin.logout');
+        Route::get('admin/filter', 'App\Http\Controllers\FilterController@adminFilter')->name('admin.filter');
     });
 });
 

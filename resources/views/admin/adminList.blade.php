@@ -19,7 +19,7 @@
                <div class="card">
                   <div class="card-body">
                      <h2 class="mb-3">Filters</h2>
-                     <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
+                     <form class="row g-3 custom-input" action="{{ route('admin.filter') }}" method="post" id="adminForm">
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip09">Admin User Type</label>
                            <select class="form-select" id="validationTooltip09" name="user_type">
