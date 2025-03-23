@@ -151,7 +151,7 @@ class UserController extends Controller
     public function adminUpdate(Request $request, $userID){
         $validator = Validator::make($request->all(), [
             'user_type' => 'required|in:Boss,Manager,Worker',
-            'username' => 'required',
+            'username' => $request->username != User::find($userID)->username ? 'required|unique:users,username,'.$userID : 'required',
             'name' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required',
