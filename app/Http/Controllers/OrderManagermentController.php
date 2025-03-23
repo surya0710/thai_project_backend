@@ -30,24 +30,29 @@ class OrderManagermentController extends Controller
             $task= Products::find($luckyDrawTask->product_id);
         }
         else{
-            // Get IDs of already assigned tasks to avoid repetition
-            $completedTaskIds = $userTasks->pluck('product_id')->toArray();
+            if($userData->badge == 'VIP0' && $tasksCompleted >= 30){
+                // Get IDs of already assigned tasks to avoid repetition
+                $completedTaskIds = $userTasks->pluck('product_id')->toArray();
 
-            // Get the next task price dynamically
-            $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted, $userData->badge);
+                // Get the next task price dynamically
+                $taskPrice = getNextTaskPrice($revenueEarned, $tasksCompleted, $userData->badge);
 
-            // Fetch a task that hasn't been assigned yet
-            $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])
-                ->whereNotIn('id', $completedTaskIds) // Exclude already assigned tasks
-                ->whereNotNull('id')
-                ->orderByRaw('RAND()')
-                ->first();
-
-            // Fallback: If no task found in the price range, fetch any unused product
-            if (!$task) {
-                $task = Products::whereNotIn('id', $completedTaskIds)
+                // Fetch a task that hasn't been assigned yet
+                $task = Products::whereBetween('price', [$taskPrice - 2, $taskPrice])
+                    ->whereNotIn('id', $completedTaskIds) // Exclude already assigned tasks
+                    ->whereNotNull('id')
                     ->orderByRaw('RAND()')
                     ->first();
+
+                // Fallback: If no task found in the price range, fetch any unused product
+                if (!$task) {
+                    $task = Products::whereNotIn('id', $completedTaskIds)
+                        ->orderByRaw('RAND()')
+                        ->first();
+                }
+            }
+            else{
+                $task = [];
             }
         }
 
@@ -61,10 +66,6 @@ class OrderManagermentController extends Controller
             ->where('created_at', '>=', now()->startOfDay())
             ->where('is_deleted', 0)
             ->sum('earned_amount');
-
-        if($tasksCompleted == 30 ){
-            $task = null;
-        }
 
         return view('customer.automaticOrder', compact('userData', 'task', 'taskCount', 'todayEarned', 'luckyDrawTask'));
     }

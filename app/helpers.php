@@ -207,7 +207,7 @@ use App\Models\LuckyDraw;
 
     if(!function_exists('checkUserAmountByLevel')) {
         function checkUserAmountByLevel($badge){
-            if($badge == 'VIP0'){
+            if($badge == 0){
                 return 30;
             }
             elseif($badge == 'VIP1'){
