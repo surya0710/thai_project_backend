@@ -87,7 +87,7 @@
            
 
 
-            <table id="example" class="table table-striped" style="width:100%">
+            <table id="myTable" class="table table-striped" style="width:100%">
               <thead>
                 <tr>
                   <th>ID</th>

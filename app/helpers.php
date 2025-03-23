@@ -159,7 +159,7 @@ use App\Models\LuckyDraw;
             $priceVariation = rand(-50, 50) / 100;
             $nextTaskPrice = max(10, $price + $priceVariation);
 
-            return number_format($nextTaskPrice, 2);
+            return number_format($nextTaskPrice, 2, '.', '');
         }
     }
 
@@ -187,7 +187,7 @@ use App\Models\LuckyDraw;
 
     if(!function_exists('calculateLevel')) {
         function calculateLevel($totalAmount) {
-            if ($totalAmount >= 2000) {
+            if ($totalAmount >= 5000) {
                 return 'VIP5';
             } elseif ($totalAmount >= 2000) {
                 return 'VIP4';

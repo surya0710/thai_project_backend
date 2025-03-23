@@ -39,33 +39,25 @@
     <script src="{{ asset('assets/admin/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    
-    <!-- DataTables Buttons JS -->
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <!-- Export Plugins -->
+    <!-- DataTables Buttons JS -->
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
-    <script>new DataTable('#example');</script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
     <script>
-      $(document).ready(function() {
-        let table = $('#example1').DataTable({
-            dom: 'lBfrtip', // Removed 'l' from the dom string to hide the length menu
-            lengthMenu: [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, "All"]],
-            pageLength: 10,
+      $(document).ready(function () {
+        $('#myTable').DataTable({
+            dom: 'Bflrtip', // B = Buttons, f = Search, l = Length, t = Table, i = Info, p = Pagination
             buttons: [
-                { extend: 'copy', className: 'btn btn-outline-secondary buttons-copy' },
-                { extend: 'csv', className: 'btn btn-outline-secondary buttons-csv' },
-                { extend: 'excel', className: 'btn btn-outline-secondary buttons-excel' },
-                { extend: 'print', className: 'btn btn-outline-secondary buttons-print' }
-            ]
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            paging: true,        // Enable Pagination
+            searching: true,     // Enable Search 
+            lengthMenu: [5, 10, 25, 50, 100, 500], // Entries dropdown
         });
       });
     </script>
