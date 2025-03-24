@@ -1,9 +1,6 @@
 @include('customer.partials.header')
-    <div class="header fixed-top2 line-bt ">
-        <div class="left">
-            <a href="javascript:void(0);" class="icon back-btn"><i class="icon-back"></i></a>
-            <h5 class="account">My Account</h5>
-        </div>
+    <div class="header fixed-top2 line-bt justify-content-between">
+        <h5 class="account">My Account</h5>
         <div class="right">
             <div id='google_translate_element' class="skiptranslate goog-te-gadget" dir="ltr" style="">
               <div class="language-wrapper">

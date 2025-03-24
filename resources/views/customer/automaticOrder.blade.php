@@ -215,7 +215,10 @@
     .confetti-container span:nth-child(4) { left: 70%; animation-duration: 3.5s; z-index: 999990;}
     .confetti-container span:nth-child(5) { left: 90%; animation-duration: 4.5s; z-index: 999990;}
 </style>
-<div class="app-content">
+    <div class="header fixed-top line-bt">
+        <h5>Tasks</h5>
+    </div>
+    <div class="app-content">
         <div class="tf-container">
 
             <div class="mt-14 content-message">

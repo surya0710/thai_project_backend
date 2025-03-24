@@ -9287,7 +9287,7 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   top: 0;
   z-index: 1020;
   max-width: 1024px;
-  margin: 25px auto;
+  margin: 0 auto -30px;
   left: 0;
   right: 0;
   background-color: #fff;

@@ -183,16 +183,6 @@
     });
   };
 
-  /* back Page
-  ------------------------------------------------------------------------------------- */
-  var backPage = function () {
-    $(".back-btn").on("click", function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      window.history.go(-1);
-    });
-  };
-
   /* clear Text
   ------------------------------------------------------------------------------------- */
   var clearText = function () {
@@ -416,7 +406,6 @@
     showPass();
     otpInput();
     delItem();
-    backPage();
     clearText();
     handleMessage();
     lightGalleryBox();
