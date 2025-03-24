@@ -43,49 +43,43 @@
 
             <div class="card-body">
               <h2 class="mb-3">Filters</h2>
-              <form class="row g-3 needs-validation custom-input" novalidate="" method="post" id="userForm">
-
+              <form class="row g-3 needs-validation custom-input" action="{{ route('user.filter') }}" method="post" id="userForm">
+                @csrf
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip03">Invitation Code</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="invitation_code" placeholder="Invitation Code"
-                    required="">
-                </div>
-                <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip03">User Id</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="user_id" placeholder="User Id"
-                    required="">
+                  <input class="form-control" id="validationTooltip03" type="text" name="invitation_code" placeholder="Invitation Code" 
+                  value=" @if(isset($filters['invitation_code'])) {{ $filters['invitation_code'] }} @endif">
                 </div>
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip03">Username</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="username" placeholder="Username"
-                    required="">
+                  <input class="form-control" id="validationTooltip03" type="text" name="username" placeholder="Username" 
+                  value=" @if(isset($filters['username'])) {{ $filters['username'] }} @endif">
+                </div>
+                <div class="col-md-3 position-relative">
+                  <label class="form-label" for="validationTooltip03">Name</label>
+                  <input class="form-control" id="validationTooltip03" type="text" name="name" placeholder="Name"
+                  value=" @if(isset($filters['name'])) {{ $filters['name'] }} @endif">
                 </div>
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip03">Email</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="email" placeholder="Email"
-                    required="">
+                  <input class="form-control" id="validationTooltip03" type="email" name="email" placeholder="Email"
+                  value=" @if(isset($filters['email'])) {{ $filters['email'] }} @endif">
                 </div>
                 <div class="col-md-3 position-relative">
                   <label class="form-label" for="validationTooltip03">Phone</label>
                   <input class="form-control" id="validationTooltip03" type="text" name="phone" placeholder="Phone"
-                    required="">
+                  value=" @if(isset($filters['phone'])) {{ $filters['phone'] }} @endif">
                 </div>
                 <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip03">Login Date</label>
-                  <input class="form-control" id="validationTooltip03" type="text" name="login_date" placeholder="Login Date"
-                    required="">
+                  <label class="form-label" for="validationTooltip03">Total Amount</label>
+                  <input class="form-control" step="0.01" id="validationTooltip03" type="number" name="total_amount" placeholder="Amount"
+                  value=" @if(isset($filters['total_amount'])) {{ $filters['total_amount'] }} @endif">
                 </div>
                 <div class="col-6 mt-5">
                   <button class="btn btn-primary" name="user_create" type="submit">Submit</button>
-                  <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
+                  <a class="btn btn-secondary" href="{{ route('user.list') }}">Reset</a>
                 </div>
-
               </form>
-              <script>
-                function resetForm() {
-                  document.getElementById("userForm").reset();
-                }
-              </script>
             </div>
           </div>
         </div>
@@ -210,11 +204,6 @@
                       </td>
                     </tr>
                     @endforeach
-                    @if($users->count() == 0)
-                    <tr>
-                      <td colspan="15" class="text-center">No data found</td>
-                    </tr>
-                    @endif
                   </tbody>
                   <tfoot>
                     <tr>
@@ -268,7 +257,7 @@
           <label for="show_at" class="form-label">Show task at which level</label>
           <select name="show_at" id="show_at" class="form-control" required>
             @php for($i = 1; $i <= 30; $i++) { @endphp
-              <option value="{{ $i }}">{{ $i }}</option>
+              <option value=" $i }}">{{ $i }}</option>
               @php } @endphp
           </select>
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>

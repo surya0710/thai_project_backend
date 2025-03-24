@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\InviteCode;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,7 +34,8 @@ class InvitationController extends Controller
 
     public function invitationList(){
         $invitationList = InviteCode::where('status', '1')->orderBy('created_at', 'desc')->with(['user', 'usedBy'])->get();
-        return view('admin.invitationList')->with(['invitationList' => $invitationList, 'active' => 'invitationList']);
+        $users = User::whereIn('user_type', ['Boss', 'Manager'])->where('role', 'admin')->get();
+        return view('admin.invitationList', compact('invitationList','users'));
     }
 
     public function checkInviteCode(Request $request){

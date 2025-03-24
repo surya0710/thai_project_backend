@@ -33,12 +33,12 @@
                 </div>
                 @endif
               </div>
-              <form class="row g-3 custom-input" method="post" action="{{ route('invitation.store') }}">
+              <form class="row g-3 custom-input" method="post" action="{{ route('invitation.filter') }}">
                 <h3 class="mb-2">Admin Filters</h3>
                 @csrf
                 <div class="col-md-3 position-relative">
                   <label class="form-label">Invitation Code</label>
-                  <input class="form-control" id="invite_code" type="text" name="invite_code" placeholder="Invitation Code">
+                  <input class="form-control" id="invite_code" type="text" name="code" placeholder="Invitation Code">
                   <span class="error">
                     @if ($errors->has('invite_code'))
                     {{ $errors->first('invite_code') }}
@@ -47,9 +47,11 @@
                 </div>
                 <div class="col-md-3 position-relative">
                   <label class="form-label">Create By</label>
-                  <select name="create_by" id="" class="form-control">
-                    <option value="admin1">admin1</option>
-                    <option value="admin2">admin2</option>
+                  <select name="created_by" class="form-control">
+                    <option value="">Select</option>
+                    @foreach($users as $user)
+                    <option value="{{ $user->id }}" {{ isset($filter['created_by']) && $filter['created_by'] == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                    @endforeach
                   </select>
                   <span class="error">
 
@@ -78,9 +80,6 @@
             </div>
             <div class="card-body">
               <div class="table-responsive custom-scrollbar ">
-              
-
-
                 <table id="myTable" class="table table-striped" style="width:100%">
                   <thead>
                     <tr>

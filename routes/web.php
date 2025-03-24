@@ -46,7 +46,7 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/user/task-history/{user_id}', 'App\Http\Controllers\UserController@userTaskHistory')->name('user.taskHistory');
         Route::get('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@bankDetails')->name('user.bankDetails');
         Route::post('/user/bank-details/{user_id}', 'App\Http\Controllers\UserController@updateBankDetails')->name('user.updateBankDetails');
-        Route::get('/invitation/list', 'App\Http\Controllers\UserController@invitationList')->name('invitation.list');
+        Route::get('/invitation/list', 'App\Http\Controllers\InvitationController@invitationList')->name('invitation.list');
         Route::post('/user/list/{user_id}', 'App\Http\Controllers\UserController@userUpdateCreditPermission')->name('user.creditPermissionUpdate');
         Route::get('/user/reset-tasks/{user_id}', 'App\Http\Controllers\UserController@resetUserTasks')->name('reset.userTasks');
         Route::post('/user/delete', 'App\Http\Controllers\UserController@userDelete')->name('user.delete');
@@ -74,7 +74,12 @@ Route::middleware(['admin'])->group(function () {
         Route::get('/withdrawal/edit', 'App\Http\Controllers\UserController@withdrawalEdit')->name('withdrawal.edit');
         Route::post('/block-user', 'App\Http\Controllers\UserController@blockUser')->name('user.status');
         Route::get('/logout', 'App\Http\Controllers\AdminController@logout')->name('admin.logout');
-        Route::get('admin/filter', 'App\Http\Controllers\FilterController@adminFilter')->name('admin.filter');
+        Route::post('admin/filter', 'App\Http\Controllers\FilterController@adminFilter')->name('admin.filter');
+        Route::post('user/filter', 'App\Http\Controllers\FilterController@userFilter')->name('user.filter');
+        Route::post('invitation/filter', 'App\Http\Controllers\FilterController@invitationFilter')->name('invitation.filter');
+        Route::post('/lazada/filter', 'App\Http\Controllers\FilterController@lazadaFilter')->name('lazada.filter');
+        Route::post('/withdrawal/filter', 'App\Http\Controllers\FilterController@withdrawalFilter')->name('withdrawal.filter');
+        Route::post('/recharge/filter', 'App\Http\Controllers\FilterController@rechargeFilter')->name('recharge.filter');
     });
 });
 

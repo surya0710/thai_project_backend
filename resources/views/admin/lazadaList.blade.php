@@ -25,41 +25,32 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-
                         <div class="card-body">
                             <h2 class="mb-3">Filters</h2>
-                            <form class="row g-3 needs-validation custom-input" novalidate="">
-
-                                <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="validationTooltip02"> ID</label>
-                                    <input class="form-control" id="validationTooltip02" type="text" placeholder="ID" required="">
-                                </div>
-
+                            <form class="row g-3 needs-validation custom-input" method="post" action="{{ route('lazada.filter') }}">
+                                @csrf
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip05">Name</label>
-                                    <input class="form-control" id="validationTooltip05" type="text" placeholder="Name" required="">
-                                </div>
-
-                                <div class="col-md-4 position-relative">
-                                    <label class="form-label" for="validationTooltip07">Price</label>
-                                    <div class="row">
-                                        <div class="col-5"> <input class="form-control" id="validationTooltip07" type="text"
-                                                placeholder="Price" required=""></div>
-                                        <div class="col-1 mt-2">-</div>
-                                        <div class="col-5"> <input class="form-control" id="validationTooltip07" type="text"
-                                                placeholder="Price" required=""></div>
-                                    </div>
-
+                                    <input class="form-control" id="validationTooltip05" type="text" name="name" placeholder="Name"
+                                    value="{{ isset($filters['name']) ? $filters['name'] : '' }}">
                                 </div>
                                 <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="validationTooltip08">Create Time</label>
-                                    <input class="form-control" id="validationTooltip08" type="text" placeholder="Create Time"
-                                        required="">
+                                    <label class="form-label" for="validationTooltip07">Price</label>
+                                    <div class="row">
+                                        <div class="col-5"> 
+                                            <input class="form-control" id="validationTooltip07" type="number" step="0.01" name="price_start" 
+                                            placeholder="Price Start" value="{{ isset($filters['price_start']) ? $filters['price_start'] : '' }}">
+                                        </div>
+                                        <div class="col-1 mt-2">-</div>
+                                        <div class="col-5">
+                                            <input class="form-control" id="validationTooltip07" type="number" step="0.01" name="price_end" 
+                                            placeholder="Price End" value="{{ isset($filters['price_end']) ? $filters['price_end'] : '' }}">
+                                        </div>
+                                    </div>
                                 </div>
-
                                 <div class="col-6 mt-5">
                                     <button class="btn btn-primary" type="submit">Filter</button>
-                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <a class="btn btn-primary" href="{{ route('lazada.list') }}">Reset</a>
                                 </div>
 
                             </form>
@@ -86,7 +77,7 @@
                                     <input type="file" class="form-control me-2" accept=".csv" name="csv_file" required>
                                     <button type="submit" class="btn btn-primary">Upload</button>
                                 </form>
-                                <a class="btn btn-primary mx-auto ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i>Add Products</a>
+                                <a class="btn btn-primary ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i>Add Products</a>
                             </div>
                         </div>
                         @endif

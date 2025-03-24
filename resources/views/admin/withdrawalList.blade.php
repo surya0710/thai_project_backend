@@ -22,41 +22,45 @@
 
                         <div class="card-body">
                             <h2 class="mb-3">Filters</h2>
-                            <form class="row g-3 needs-validation custom-input" novalidate="">
-
+                            <form class="row g-3 needs-validation custom-input" method="post" action="{{ route('withdrawal.filter') }}">
+                                @csrf
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip02">Username</label>
-                                    <input class="form-control" id="validationTooltip02" type="text" placeholder="Username">
+                                    <input class="form-control" id="validationTooltip02" type="text" placeholder="Username" name="username"
+                                    value="{{ isset($filters['username']) ? $filters['username'] : '' }}">
                                 </div>
 
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip04">Amount</label>
-                                    <input class="form-control" id="validationTooltip04" type="text" placeholder="Amount">
-                                </div>
-                                <div class="col-md-3 position-relative">
-                                    <label class="form-label" for="validationTooltip05">Bank Name</label>
-                                    <input class="form-control" id="validationTooltip05" type="text" placeholder="Bank Name">
+                                    <input class="form-control" id="validationTooltip04" type="number" step="0.01" name="amount" 
+                                    placeholder="Amount" value="{{ isset($filters['amount']) ? $filters['amount'] : '' }}">
                                 </div>
                                 <div class="col-md-3 position-relative">
                                     <label class="form-label" for="validationTooltip09">Status</label>
-                                    <select class="form-select" id="validationTooltip09">
-                                        <option selected="" disabled="" value="">Choose...</option>
-                                        <option value="Complete">Complete </option>
-                                        <option value="Pending">Pending </option>
-                                        <option value="Frozon">Frozon</option>
+                                    <select class="form-select" id="validationTooltip09" name="status">
+                                        <option selected="" value="">Choose...</option>
+                                        <option value="0" {{ isset($filters['status']) && $filters['status'] == 0 ? 'selected' : ''}}>Pending </option>
+                                        <option value="1" {{ isset($filters['status']) && $filters['status'] == 1 ? 'selected' : ''}}>Complete</option>
+                                        <option value="2" {{ isset($filters['status']) && $filters['status'] == 2 ? 'selected' : ''}}>Rejected</option>
                                     </select>
-
                                 </div>
-                                <div class="col-6 mt-5">
+                                <div class="col-md-3 position-relative">
+                                    <label class="form-label" for="validationTooltip09">Managed By</label>
+                                    <select class="form-select" id="validationTooltip09" name="handled_by">
+                                        <option selected="" value="">Choose...</option>
+                                        @foreach($users as $user)
+                                        <option value="{{ $user->id }}" {{ isset($filters['handled_by']) && $filters['handled_by'] == $user->id ? 'selected' : ''}}>{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6 mt-3">
                                     <button class="btn btn-primary" name="filter" type="submit">Filter</button>
-                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <a class="btn btn-primary" href="{{ route('withdrawal.list') }}">Reset</a>
                                 </div>
-
                             </form>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -64,9 +68,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header card-no-border pb-0">
-
-                        </div>
+                        <div class="card-header card-no-border pb-0"></div>
                         <div class="card-body">
                             <div class="tab-content" id="topline-tabContent">
                                 <div class="tab-pane fade show active" id="topline-top-user" role="tabpanel" aria-labelledby="topline-top-user-tab">
@@ -74,7 +76,6 @@
                                         <!-- <div class="card-header pb-0 card-no-border" style="height: 50px;"></div> -->
                                         <div class="card-body">
                                             <div class="table-responsive custom-scrollbar">
-                                              
                                                 <table id="myTable" class="table table-striped" style="width:100%">
                                                     <thead>
                                                         <tr>

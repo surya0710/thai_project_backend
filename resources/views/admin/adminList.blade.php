@@ -20,34 +20,39 @@
                   <div class="card-body">
                      <h2 class="mb-3">Filters</h2>
                      <form class="row g-3 custom-input" action="{{ route('admin.filter') }}" method="post" id="adminForm">
+                        @csrf
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip09">Admin User Type</label>
                            <select class="form-select" id="validationTooltip09" name="user_type">
                               <option selected="" disabled="" value="">Choose...</option>
-                              <option value="Boss">Boss</option>
-                              <option value="Manager">Manager</option>
-                              <option value="Worker">Worker </option>
+                              <option value="Boss" @if(isset($filters['user_type']) && $filters['user_type'] == 'Boss') selected @endif >Boss</option>
+                              <option value="Manager" @if(isset($filters['user_type']) && $filters['user_type'] == 'Manager') selected @endif>Manager</option>
+                              <option value="Worker" @if(isset($filters['user_type']) && $filters['user_type'] == 'Worker') selected @endif>Worker </option>
                            </select>
                         </div>
                         <div class="col-md-3 position-relative">
-                           <label class="form-label" for="validationTooltip02">Admin User ID</label>
-                           <input class="form-control" id="validationTooltip02" name="admin_user_id" type="text" placeholder="Admin User ID">
+                           <label class="form-label" for="validationTooltip02">Admin User Name</label>
+                           <input class="form-control" id="validationTooltip02" name="username" type="text" placeholder="Admin User ID"
+                              value="@if(isset($filters['username'])) {{ $filters['username'] }} @endif">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip03">Name</label>
-                           <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name">
+                           <input class="form-control" id="validationTooltip03" name="name" type="text" placeholder="Name"
+                              value="@if(isset($filters['name'])) {{ $filters['name'] }} @endif">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip04">Phone</label>
-                           <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone">
+                           <input class="form-control" id="validationTooltip04" name="phone" type="tel" placeholder="Phone"
+                              value="@if(isset($filters['phone'])) {{ $filters['phone'] }} @endif">
                         </div>
                         <div class="col-md-3 position-relative">
                            <label class="form-label" for="validationTooltip05">Email</label>
-                           <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email">
+                           <input class="form-control" id="validationTooltip05" name="email" type="email" placeholder="Email"
+                              value="@if(isset($filters['email'])) {{ $filters['email'] }} @endif">
                         </div>
                         <div class="col-6 mt-5">
                            <button class="btn btn-primary" type="submit" name="admin_create">Filter</button>
-                           <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
+                           <a class="btn btn-secondary" href="{{ route('admin.list') }}" >Reset</a>
                         </div>
                      </form>
                   </div>

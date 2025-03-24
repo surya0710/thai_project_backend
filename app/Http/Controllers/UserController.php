@@ -103,7 +103,7 @@ class UserController extends Controller
 
     public function adminList(){
         $users = User::where('role', '!=','Customer')->where('is_deleted', '0')->orderBy('is_blocked', 'desc')->orderBy('created_at', 'desc')->get();
-        return view('admin.adminList')->with(['users' => $users, 'active' => 'User Management']);
+        return view('admin.adminList', compact('users'));
     }
     public function adminAdd(){
         return view('admin.adminAdd')->with(['active' => 'User Management']);
@@ -522,7 +522,8 @@ class UserController extends Controller
         ->orderBy('status', 'ASC')
         ->orderBy('created_at', 'desc')
         ->get();
-        return view('admin.rechargeList')->with(['rechargeList' => $rechargeList, 'active' => 'rechargeList']);
+        $users = User::whereIn('user_type', ['Boss', 'Manager'])->where('role', 'admin')->get();
+        return view('admin.rechargeList', compact('rechargeList', 'users'));
     }
     public function rechargeEdit(){
         $users = User::where('user_type', 'Customer')->get();
@@ -575,7 +576,8 @@ class UserController extends Controller
 
     public function withdrawalList(){
         $withdrawalList = Withdraw::with('user', 'handledBy', 'bankDetails')->orderBy('id', 'DESC')->get();
-        return view('admin.withdrawalList')->with(['withdrawalList' => $withdrawalList, 'active' => 'withdrawalList']);
+        $users = User::whereIn('user_type', ['Boss', 'Manager'])->where('role', 'admin')->get();
+        return view('admin.withdrawalList', compact('withdrawalList', 'users'));
     }
 
     public function withdrawalStatusUpdate(Request $request){

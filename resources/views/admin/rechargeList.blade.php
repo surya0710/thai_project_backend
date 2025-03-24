@@ -20,24 +20,39 @@
 
             <div class="card-body">
               <h2 class="mb-3">Filters</h2>
-              <form class="row g-3 custom-input" novalidate="" method="post" id="adminForm">
+              <form class="row g-3 custom-input" method="post" action="{{ route('recharge.filter') }}">
+                @csrf
                 <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip09">Status</label>
-                  <select class="form-select" id="validationTooltip09" name="user_type" required="">
-                    <option selected="" disabled="" value="">Choose...</option>
-                    <option value="Approve">Approve</option>
-                    <option value="Reject">Reject </option>
-                  </select>
+                    <label class="form-label" for="validationTooltip02">Username</label>
+                    <input class="form-control" id="validationTooltip02" type="text" placeholder="Username" name="username"
+                    value="{{ isset($filters['username']) ? $filters['username'] : '' }}">
                 </div>
                 <div class="col-md-3 position-relative">
-                  <label class="form-label" for="validationTooltip02">User ID</label>
-                  <input class="form-control" id="validationTooltip02" name="ser_id" type="text" placeholder="User ID"
-                    required="">
+                    <label class="form-label" for="validationTooltip04">Amount</label>
+                    <input class="form-control" id="validationTooltip04" type="number" step="0.01" name="amount" 
+                    placeholder="Amount" value="{{ isset($filters['amount']) ? $filters['amount'] : '' }}">
                 </div>
-
-                <div class="col-6 mt-5">
-                  <button class="btn btn-primary" type="submit" name="admin_create">Filter</button>
-                  <button class="btn btn-secondary" type="button" onclick="resetForm()">Reset</button>
+                <div class="col-md-3 position-relative">
+                    <label class="form-label" for="validationTooltip09">Status</label>
+                    <select class="form-select" id="validationTooltip09" name="status">
+                        <option selected="" value="">Choose...</option>
+                        <option value="0" {{ isset($filters['status']) && $filters['status'] == 0 ? 'selected' : ''}}>Pending </option>
+                        <option value="1" {{ isset($filters['status']) && $filters['status'] == 1 ? 'selected' : ''}}>Approved</option>
+                        <option value="2" {{ isset($filters['status']) && $filters['status'] == 2 ? 'selected' : ''}}>Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-3 position-relative">
+                    <label class="form-label" for="validationTooltip09">Managed By</label>
+                    <select class="form-select" id="validationTooltip09" name="handled_by">
+                        <option selected="" value="">Choose...</option>
+                        @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ isset($filters['handled_by']) && $filters['handled_by'] == $user->id ? 'selected' : ''}}>{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6 mt-3">
+                  <button class="btn btn-primary" type="submit">Filter</button>
+                  <a class="btn btn-secondary" herf="{{ route('recharge.list') }}">Reset</a>
                 </div>
               </form>
             </div>
@@ -52,7 +67,6 @@
             <div class="card-header pb-0 card-no-border">
               <div class="card-body">
                 <div class="table-responsive custom-scrollbar">
-
                   <table id="myTable" class="table table-striped" style="width:100%">
                     <thead>
                       <tr>
@@ -149,6 +163,7 @@
         </div>
       </div>
     </div>
+  </div>
     @include('admin.partials.footer')
     <script>
       jQuery(document).ready(function() {
