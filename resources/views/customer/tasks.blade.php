@@ -23,6 +23,7 @@
                         </li>
                     </ul>
                 </div>
+                @if(!empty($tasks) && count($tasks) > 0)
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="allTask" role="tabpanel">
                         @foreach($tasks as $task)
@@ -146,6 +147,7 @@
                         @endforeach
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

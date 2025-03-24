@@ -32,7 +32,7 @@ class ViewServiceProvider extends ServiceProvider
                 $userData = User::find(Auth::guard('customer')->user()->id);
                 $todaysRevenue = TasksHistory::whereDate('created_at', date('Y-m-d'))->where('user_id', Auth::guard('customer')->user()->id)->sum('earned_amount');
                 $yesterdayrevenue = TasksHistory::whereDate('created_at', date('Y-m-d', strtotime('-1 day')))->where('user_id', Auth::guard('customer')->user()->id)->sum('earned_amount');
-                $getCurrentLevelTasks = TasksHistory::where('user_id', $userData->id)->where('badge', $userData->badge)->count();
+                $getCurrentLevelTasks = TasksHistory::where('user_id', $userData->id)->where('is_deleted', 0)->where('badge', $userData->badge)->count();
                 $view->with('todaysRevenue', $todaysRevenue);
                 $view->with('yesterdayrevenue', $yesterdayrevenue);
                 $view->with('getCurrentLevelTasks', $getCurrentLevelTasks);
