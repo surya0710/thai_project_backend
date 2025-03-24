@@ -256,9 +256,9 @@
           <input type="text" class="form-control mb-3" name="for_badge" required id="userLevel" readonly>
           <label for="show_at" class="form-label">Show task at which level</label>
           <select name="show_at" id="show_at" class="form-control" required>
-            @php for($i = 1; $i <= 30; $i++) { @endphp
-              <option value=" $i }}">{{ $i }}</option>
-              @php } @endphp
+            @for($i = 1; $i <= 30; $i++)
+              <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
           </select>
           <label for="exceeding_amount" class="form-label mt-3">Task Price</label>
           <input type="number" step="0.01" placeholder="0.00" class="form-control" name="exceeding_amount" id="exceeding_amount" required>

@@ -172,15 +172,6 @@
                         @endif
                     </span>
                 </fieldset>
-                <fieldset class="input-icon mt-16">
-                    <span class="icon icon-phone"></span>
-                    <input type="text" placeholder="Enter Phone Number" required name="phone" value="{{ old('phone') }}" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    <span class="error text-danger">
-                        @if($errors->has('phone'))
-                        {{ $errors->first('phone')}}
-                        @endif
-                    </span>
-                </fieldset>
                 <fieldset class="mt-16 input-icon">
                     <div class="box-view-hide">
                         <span class="icon icon-lock"></span>

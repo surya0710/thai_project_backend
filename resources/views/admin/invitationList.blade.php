@@ -34,7 +34,6 @@
                 @endif
               </div>
               <form class="row g-3 custom-input" method="post" action="{{ route('invitation.filter') }}">
-                <h3 class="mb-2">Admin Filters</h3>
                 @csrf
                 <div class="col-md-3 position-relative">
                   <label class="form-label">Invitation Code</label>

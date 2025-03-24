@@ -94,7 +94,7 @@
                 <i class="fa-solid fa-volume-high"></i>
               </button>
 
-              <audio id="myAudio" src="{{ asset('assets/admin/images/audio.mp3') }}" loop></audio>
+              <audio id="myAudio" src="{{ asset('assets/admin/images/audio.mp3') }}"></audio>
 
               <script>
                 document.addEventListener("DOMContentLoaded", function() {

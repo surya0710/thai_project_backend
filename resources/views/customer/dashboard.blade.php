@@ -72,9 +72,9 @@
                      <img src="{{ asset('assets/images/logo/lv0.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP0&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP0 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
-                        <span class="meta-item"> 3% Commission on tasks</span>
+                        <span class="meta-item"> 5% Commission on tasks</span>
                         <span class="meta-item"> 30.00 USD Activation level</span>
                      </div>
                   </div>
@@ -84,9 +84,9 @@
                      <img src="{{ asset('assets/images/logo/lv1.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP1&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP1 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
-                        <span class="meta-item"> 3% Commission on tasks</span>
+                        <span class="meta-item"> 5% Commission on tasks</span>
                         <span class="meta-item"> 201.00 USD Activation level</span>
                      </div>
                   </div>
@@ -96,9 +96,9 @@
                      <img src="{{ asset('assets/images/logo/lv2.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP2&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP2 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
-                        <span class="meta-item"> 4% Commission on tasks</span>
+                        <span class="meta-item"> 7% Commission on tasks</span>
                         <span class="meta-item"> 501.00 USD Activation level</span>
                      </div>
                   </div>
@@ -108,9 +108,9 @@
                      <img src="{{ asset('assets/images/logo/lv3.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP3&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP3 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
-                        <span class="meta-item"> 5% Commission on tasks</span>
+                        <span class="meta-item"> 7% Commission on tasks</span>
                         <span class="meta-item"> 1000.00 USD Activation level</span>
                      </div>
                   </div>
@@ -120,9 +120,9 @@
                      <img src="{{ asset('assets/images/logo/lv4.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP4&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP4 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
-                        <span class="meta-item"> 7% Commission on tasks</span>
+                        <span class="meta-item"> 8% Commission on tasks</span>
                         <span class="meta-item"> 2000.00 USD Activation level</span>
                      </div>
                   </div>
@@ -132,7 +132,7 @@
                      <img src="{{ asset('assets/images/logo/lv5.png') }}" alt="">
                   </div>
                   <div class="content">
-                     <div class="font-title-btn text-black-2">VIP5&Mall Level</div>
+                     <div class="font-title-btn text-black-2">VIP5 & Mall Level</div>
                      <div class="mt-10 d-flex align-items-center gap-16">
                         <span class="meta-item"> 10% Commission on tasks</span>
                         <span class="meta-item"> 5000.00 USD Activation level</span>

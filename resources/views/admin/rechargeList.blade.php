@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-6 mt-3">
                   <button class="btn btn-primary" type="submit">Filter</button>
-                  <a class="btn btn-secondary" herf="{{ route('recharge.list') }}">Reset</a>
+                  <a class="btn btn-secondary" href="{{ route('recharge.list') }}">Reset</a>
                 </div>
               </form>
             </div>

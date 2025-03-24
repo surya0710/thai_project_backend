@@ -65,7 +65,6 @@ class UserController extends Controller
             'username' => 'required|unique:users',
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'phone' => 'required|unique:users',
             'password' => 'required',
             'transaction_password' => 'required|digits:4',
             'invitation' => 'required|exists:invite_code,code',
@@ -80,7 +79,6 @@ class UserController extends Controller
         $user->username = $request->username;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone;
         $user->password = bcrypt($request->password);
         $user->transaction_password = bcrypt($request->transaction_password);
         $user->user_type = 'Customer';

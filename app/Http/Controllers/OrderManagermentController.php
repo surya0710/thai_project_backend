@@ -75,6 +75,9 @@ class OrderManagermentController extends Controller
         $user = User::find(Auth::guard('customer')->user()->id);
         $userTasks = TasksHistory::where('user_id', $user->id)->where('badge', $user->badge)->where('is_deleted', 0)->orderBy('created_at', 'DESC')->get();
         $tasksCompleted = $userTasks->count();
+        if($tasksCompleted == 30){
+            return redirect()->route('customer.automaticOrder');
+        }
         if($task_type === 'luckyDraw'){
             $luckyDrawTask = LuckyDraw::where('user_id', $user->id)
             ->where('status', 0)
