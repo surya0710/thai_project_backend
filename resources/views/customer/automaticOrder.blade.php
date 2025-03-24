@@ -295,7 +295,7 @@
                 </li>
             </ul>
         </div> -->
-        @elseif(checkUserAmountByLevel($userData->badge) > $userData->total_amount)
+        @if(checkUserAmountByLevel($userData->badge) > $userData->total_amount)
         <div class="mt-14 content-message">
             <ul class="mt-24">
                 <li class="mt-16 line-bt2" style="padding: 15px 0;">
