@@ -64,6 +64,13 @@
         }
     }
 </style>
+<div class="header fixed-top line-bt">
+    <div class="left">
+        <a href="javascript:void(0);" class="icon back-btn"><i class="icon-back"></i></a>
+    </div>
+    <h5>Plateform Introduction</h5>
+
+</div>
 <div class="app-content">
     <div class="tf-container">
         <div class="faq-drawer">
