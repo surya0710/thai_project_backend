@@ -287,14 +287,15 @@
         <span class="icon-close2 icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
     </div>
     <div class="offcanvas-body pb-32">
-        <!-- @if(date('H') >= 0 && date('H') < 9)
-        <div class="mt-14 content-message">
-            <ul class="mt-24">
-                <li class="mt-16 line-bt2" style="padding: 15px 0;">
-                    <p class="font-bold text-center">You can play only between 9:00 AM to 11:00 PM</p>
-                </li>
-            </ul>
-        </div> -->
+        <!--@if(date('H') >= 0 && date('H') < 9)-->
+        <!--<div class="mt-14 content-message">-->
+        <!--    <ul class="mt-24">-->
+        <!--        <li class="mt-16 line-bt2" style="padding: 15px 0;">-->
+        <!--            <p class="font-bold text-center">You can play only between 9:00 AM to 11:00 PM</p>-->
+        <!--        </li>-->
+        <!--    </ul>-->
+        <!--</div>-->
+        <!--@endif-->
         @if(checkUserAmountByLevel($userData->badge) > $userData->total_amount)
         <div class="mt-14 content-message">
             <ul class="mt-24">
