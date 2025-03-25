@@ -26,11 +26,7 @@
                     </fieldset>
                   
                     <fieldset class="mt-20 input-line">
-                        <label>Telegarm</label>
-                        <input type="text" placeholder="Enter your Telegarm" name="telegram_id" value="{{ $user->telegram_id ?? old('telegram_id') }}" class="form-control">
-                    </fieldset>
-                    <fieldset class="mt-20 input-line">
-                        <label>Mailbox</label>
+                        <label>Phone Number | Email Address</label>
                         <input type="email" placeholder="Enter your email" name="email" value="{{ $user->email ?? old('email') }}" class="form-control password-field4">
                     </fieldset>
                    

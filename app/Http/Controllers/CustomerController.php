@@ -324,9 +324,6 @@ class CustomerController extends Controller
         if($FormData['username'] != $user->username){
             $user->username = $FormData['username'];
         }
-        if($FormData['telegram_id'] != $user->telegram_id){
-            $user->telegram_id = $FormData['telegram_id'];
-        }
         if($FormData['email'] != $user->email){
             $user->email = $FormData['email'];
         }

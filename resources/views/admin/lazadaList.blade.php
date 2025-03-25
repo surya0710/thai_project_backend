@@ -74,7 +74,7 @@
                             <div class="btn-group">
                                 <form action="{{ route('lazada.upload') }}" method="POST" class="d-flex ms-2" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" class="form-control me-2" accept=".csv" name="csv_file" required>
+                                    <input type="file" class="form-control me-2" name="csv_file" required>
                                     <button type="submit" class="btn btn-primary">Upload</button>
                                 </form>
                                 <a class="btn btn-primary ms-2" href="{{ route('lazada.add') }}"><i class="fa-solid fa-plus"></i>Add Products</a>

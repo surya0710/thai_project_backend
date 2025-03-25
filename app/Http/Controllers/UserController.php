@@ -64,7 +64,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|unique:users',
             'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'email' => 'required',
             'password' => 'required',
             'transaction_password' => 'required|digits:4',
             'invitation' => 'required|exists:invite_code,code',
@@ -339,7 +339,7 @@ class UserController extends Controller
     }
 
     public function lazadaList(){
-        $products = Products::where('is_deleted', 0)->limit(500)->orderBy('id', 'desc')->get();
+        $products = Products::where('is_deleted', 0)->orderBy('id', 'desc')->get();
         return view('admin.lazadaList', compact('products'));
     }
 
@@ -744,11 +744,12 @@ class UserController extends Controller
     public function uploadProducts(Request $request){
         set_time_limit(600);
         $request->validate([
-            'csv_file' => 'required|mimes:csv,txt|max:2048'
+            'csv_file' => 'required|mimes:csv,xlsx,xls',
         ]);
 
         $file = $request->file('csv_file');
         $data = array_map('str_getcsv', file($file->getPathname()));
+        $data = mb_convert_encoding($data, 'UTF-8', 'auto');
 
         if (count($data) < 2) {
             return back()->with('error', 'CSV file is empty or invalid.');
@@ -773,7 +774,6 @@ class UserController extends Controller
                 'url'   => preg_replace('/\s+/', '-', preg_replace('/\.{2,}/', '', $rowData['name'])),
                 'price' => (float) ($rowData['price'] ?? 0),
                 'image_path' => null, // Image will be updated asynchronously
-                'description' => '',
                 'product_type' => 'lazada',
             ]);
 

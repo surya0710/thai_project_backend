@@ -100,20 +100,6 @@
                         </div>
                     </a>
                 </li>
-                <!-- <li class="list-view-item style-1 line-bt" data-bs-toggle="offcanvas" data-bs-target="#helpCenter" aria-controls="offcanvasRight"> -->
-                <li class="list-view-item style-1 line-bt">
-                    <a href="https://tawk.to/chat/67d6d1cf4a42471910b3005f/1imfi74uc" target="_blank" class="gap-20">
-                        <div class="box-icon w-36 bg-grey-2 radius-12">
-                            <i class="icon-star fs-20"></i>
-                        </div>
-                        <div class="font-title-btn text-black-2 title">
-                            Service
-                        </div>
-                        <div class="box-icon w-20">
-                            <i class="icon-arr-r fs-12"></i>
-                        </div>
-                    </a>
-                </li>
                 <li class="list-view-item style-1 line-bt" data-bs-toggle="offcanvas" data-bs-target="#privacyPolicy"
                     aria-controls="offcanvasRight">
                     <a href="javascript:void(0);" class="gap-20">
@@ -163,6 +149,32 @@
                         </div>
                         <div class="font-title-btn text-black-2 title">
                             Recharge & Withdraw Record
+                        </div>
+                        <div class="box-icon w-20">
+                            <i class="icon-arr-r fs-12"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="list-view-item style-1 line-bt">
+                    <a href="{{ route('customer.introduction') }}" class="gap-20">
+                        <div class="box-icon w-36 bg-grey-2 radius-12">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 0L10 10L0 10L0 20L10 20L10 10L20 10L20 0L10 0Z" fill="#31394F"/>
+                            </svg>
+                        </div>
+                        <div class="font-title-btn text-black-2 title">Plateform Introduction</div>
+                        <div class="box-icon w-20">
+                            <i class="icon-arr-r fs-12"></i>
+                        </div>
+                    </a>
+                </li>
+                <li class="list-view-item style-1 line-bt">
+                    <a href="https://tawk.to/chat/67d6d1cf4a42471910b3005f/1imfi74uc" target="_blank" class="gap-20">
+                        <div class="box-icon w-36 bg-grey-2 radius-12">
+                            <i class="icon-star fs-20"></i>
+                        </div>
+                        <div class="font-title-btn text-black-2 title">
+                            Service
                         </div>
                         <div class="box-icon w-20">
                             <i class="icon-arr-r fs-12"></i>

@@ -165,10 +165,10 @@
                 </fieldset>
                 <fieldset class="input-icon mt-16">
                     <span class="icon icon-mail"></span>
-                    <input type="email" placeholder="Enter Email Id" required name="email" value="{{ old('email') }}" class="form-control">
+                    <input type="text" placeholder="Phone Number or Email Address" required name="email" value="{{ old('email') }}" class="form-control">
                     <span class="error text-danger">
                         @if($errors->has('email'))
-                        {{ $errors->first('email')}}
+                        Phone Number or Email Address is required
                         @endif
                     </span>
                 </fieldset>

@@ -57,7 +57,10 @@
             ],
             paging: true,        // Enable Pagination
             searching: true,     // Enable Search 
-            lengthMenu: [5, 10, 25, 50, 100, 500], // Entries dropdown
+            lengthMenu: [
+                [5, 10, 25, 50, 100, 500, -1],
+                [5, 10, 25, 50, 100, 500, "All"]
+            ], // Entries dropdown, -1 for "All"
         });
       });
     </script>
