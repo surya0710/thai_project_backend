@@ -8448,10 +8448,10 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   margin-top: 2px;
 }
 
-.box-select-role.active {
-  border-color: #7980ff;
-  position: relative;
-}
+/*.box-select-role.active {*/
+/*  border-color: #7980ff;*/
+/*  position: relative;*/
+/*}*/
 
 .box-select-role.active .box-icon {
   background-color: #7980ff;
@@ -8461,15 +8461,15 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
   stroke: #fff;
 }
 
-.box-select-role.active::after {
-  position: absolute;
-  content: "\00d7";
-  font-family: "icomoon";
-  top: 20px;
-  right: 20px;
-  color: #7980ff;
-  font-size: 35px;
-}
+/*.box-select-role.active::after {*/
+/*  position: absolute;*/
+/*  content: "\00d7";*/
+/*  font-family: "icomoon";*/
+/*  top: 20px;*/
+/*  right: 20px;*/
+/*  color: #7980ff;*/
+/*  font-size: 35px;*/
+/*}*/
 
 .box-noti-task {
   display: flex;

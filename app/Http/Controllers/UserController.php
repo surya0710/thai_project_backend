@@ -14,10 +14,11 @@ use App\Models\UserBankDetails;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
 use App\Jobs\DownloadImageJob;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use League\Csv\Reader;
 
 
 class UserController extends Controller
@@ -741,49 +742,80 @@ class UserController extends Controller
         }
     }
 
-    public function uploadProducts(Request $request){
+    public function uploadProducts(Request $request)
+    {
         set_time_limit(600);
+        
         $request->validate([
-            'csv_file' => 'required|mimes:csv,xlsx,xls',
+            'csv_file' => 'required|mimes:csv,xlsx,csv',
         ]);
 
         $file = $request->file('csv_file');
-        $data = array_map('str_getcsv', file($file->getPathname()));
-        $data = mb_convert_encoding($data, 'UTF-8', 'auto');
 
-        if (count($data) < 2) {
+        $csv = Reader::createFromPath($file->getPathname(), 'r');
+        $csv->setHeaderOffset(0);
+        $records = iterator_to_array($csv->getRecords());
+
+        if (empty($records)) {
             return back()->with('error', 'CSV file is empty or invalid.');
         }
 
-        // Process headers
-        $headers = array_map(fn($h) => trim(strtolower($h)), $data[0]);
-        $headers[0] = preg_replace('/^\x{FEFF}/u', '', $headers[0]); // Remove BOM
+        $productsToInsert = [];
 
-        unset($data[0]); // Remove header row
+        foreach ($records as $row) {
+            $rowData = array_map('trim', $row);
 
-        foreach ($data as $row) {
-            $rowData = @array_combine($headers, $row);
-
-            if (!$rowData || !isset($rowData['name'], $rowData['price'], $rowData['image'])) {
+            if (!isset($rowData['name'], $rowData['price'], $rowData['image']) || empty($rowData['name'])) {
                 continue; // Skip invalid rows
             }
 
-            // Save product to database
-            $product = Products::create([
-                'name'  => $rowData['name'],
-                'url'   => preg_replace('/\s+/', '-', preg_replace('/\.{2,}/', '', $rowData['name'])),
-                'price' => (float) ($rowData['price'] ?? 0),
-                'image_path' => null, // Image will be updated asynchronously
-                'product_type' => 'lazada',
-            ]);
+            // Generate slug-like URL
+            $slug = preg_replace('/\s+/', '-', preg_replace('/\.{2,}/', '', $rowData['name']));
 
-            // Dispatch image download job
-            if (!empty($rowData['image'])) {
-                DownloadImageJob::dispatch($rowData['image'], $product->id);
+            // Default image path to null
+            $imagePath = null;
+
+            if (!empty($rowData['image']) && filter_var($rowData['image'], FILTER_VALIDATE_URL)) {
+                try {
+                    // Get image contents
+                    $response = Http::get($rowData['image']);
+
+                    if ($response->successful()) {
+                        $extension = pathinfo(parse_url($rowData['image'], PHP_URL_PATH), PATHINFO_EXTENSION);
+                        if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                            $extension = 'jpg'; // Default to jpg if no valid extension
+                        }
+
+                        // Generate unique filename
+                        $filename = $slug . '-' . uniqid() . '.' . $extension;
+                        $imagePath = 'uploads/products/' . $filename;
+
+                        // Save the image to public/uploads/products
+                        file_put_contents(public_path($imagePath), $response->body());
+                    }
+                } catch (\Exception $e) {
+                    // Log any errors (optional)
+                    \Log::error('Image download failed: ' . $e->getMessage());
+                }
             }
-        }
-        return back()->with('success', 'CSV data saved to database successfully!');
 
+            $productsToInsert[] = [
+                'name' => $rowData['name'],
+                'url'  => $slug,
+                'price' => (float) ($rowData['price'] ?? 0),
+                'image_path' => $imagePath,
+                'product_type' => 'lazada',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        // Insert products in bulk
+        if (!empty($productsToInsert)) {
+            Products::insert($productsToInsert);
+        }
+
+        return back()->with('success', 'CSV data and images saved successfully!');
     }
 
     private function downloadImage($url)
