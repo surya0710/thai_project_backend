@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-require_once base_path('./vendor/autoload.php'); 
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Products;
