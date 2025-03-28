@@ -429,7 +429,6 @@
                     <h2 class="modal-title fw-6">🎉 Congratulations! 🎉</h2>
                 </div>
                 <div class="modal-body fw-5 text-center fs-18">
-                    <h4>It's a Lucky Draw</h4>
                     @if($task->price > $userData->total_amount)
                         <p style="font-size: 12px; margin-top: 10px">Recharge your wallet with minimum USD {{ $task->price - $userData->total_amount }} to avail this task</p>
                     @endif

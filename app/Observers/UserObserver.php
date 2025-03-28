@@ -10,6 +10,7 @@ class UserObserver
     public function saving(User $user)
     {
         $user->badge = calculateLevel($user->total_amount);
+        $user->leveled_up = 1;
     }
     /**
      * Handle the User "created" event.
