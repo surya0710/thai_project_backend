@@ -25,6 +25,9 @@
                             <span class="text-danger error">You have already made a withdrawal today. Please try again tomorrow.</span>
                         @endif
                         @endif
+                        @if($getCurrentLevelTasks < 30)
+                        <span class="text-danger error">Complete 30 Tasks first to avail withdrawal</span>
+                        @endif
                         <fieldset class="mt-20 input-line">
                             <label>Withdraw Amount</label>
                             <input type="number" name="amount" required min="1" max="{{ number_format($userData->total_amount - $userData->frozen_amount, 2) }}" 
@@ -68,7 +71,7 @@
                             </div>
                         </div>
                         @if(isset($bankDetails->account_number))
-                            @if($withdrawalsToday == 1)
+                            @if($withdrawalsToday == 1 || $getCurrentLevelTasks < 30)
                             <button type="button" class="mt-20 tf-btn primary" disabled>Withdraw Immediately</button>
                             @else
                             <button type="button" class="mt-20 tf-btn primary" disabled id="withDraw" data-bs-target="#modalLong" data-bs-toggle="modal">Withdraw Immediately</button>

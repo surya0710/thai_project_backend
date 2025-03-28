@@ -346,7 +346,9 @@ class UserController extends Controller
 
 
     public function luckydrawList($userID){
+        $userData = User::find($userID);
         $luckyDrawList = LuckyDraw::where('user_id', $userID)
+        ->where('for_badge', $userData->badge)
         ->orderBy('id', 'desc')
         ->get();
         return view('admin.luckydrawList', compact('luckyDrawList'))->with(['active' => 'luckydrawList']);
@@ -929,7 +931,7 @@ class UserController extends Controller
             $user = User::find($userID);
             if(TasksHistory::where('user_id', $userID)
                 ->where('badge', $user->badge)
-                ->update(['is_deleted' => 1])){
+                ->update(['is_deleted' => 2])){
                 return redirect()->back()->with('success', 'Tasks Reset Successfully');
             }
             else{

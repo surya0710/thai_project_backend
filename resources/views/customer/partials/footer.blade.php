@@ -56,6 +56,30 @@
           </li>
        </ul>
     </div>
+    @if($userData->leveled_up == 1)
+    <div class="modal fade show" id="levelUp" style="display: block">
+        <div class="confetti-container">
+            <span style="--hue: 0;"></span>
+            <span style="--hue: 0.2;"></span>
+            <span style="--hue: 0.4;"></span>
+            <span style="--hue: 0.6;"></span>
+            <span style="--hue: 0.8;"></span>
+        </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-16">
+                <div class="modal-header justify-content-center">
+                    <h4 class="modal-title fw-6">🎉 Congratulations! 🎉</h4>
+                </div>
+                <div class="modal-body fw-5 text-center fs-18">
+                    <p>You Unlocked this level</p>
+                </div>
+                <div class="d-flex gap-16 mt-20 justify-content-center">
+                    <a type="button" class="tf-btn primary btn btn-primary">Submit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
     <script>
        function changeLanguage() {
           var selectBox = document.getElementById("language-selector");
@@ -90,5 +114,4 @@
     <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/js/multiple-modal.js') }}"></script>
     </body>
-
-    </html>
+</html>
