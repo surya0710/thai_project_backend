@@ -71,10 +71,10 @@
                     <h4 class="modal-title fw-6">🎉 Congratulations! 🎉</h4>
                 </div>
                 <div class="modal-body fw-5 text-center fs-18">
-                    <p>You Unlocked this level</p>
+                    <p>You Unlocked level {{ $userData->badge }} </p>
                 </div>
                 <div class="d-flex gap-16 mt-20 justify-content-center">
-                    <a type="button" class="tf-btn primary btn btn-primary">Submit</a>
+                    <a href="{{  route('customer.leveledUp')}}" class="tf-btn primary btn btn-primary">Submit</a>
                 </div>
             </div>
         </div>

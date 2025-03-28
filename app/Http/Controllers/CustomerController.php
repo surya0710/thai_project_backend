@@ -265,8 +265,8 @@ class CustomerController extends Controller
     }    
 
     public function rechargeWithdrawalHistory(){
-        $rechargeRequests = RechargeRequest::where('user_id', Auth::guard('customer')->user()->id)->get();
-        $withdrawals = Withdraw::where('user_id', Auth::guard('customer')->user()->id)->get();
+        $rechargeRequests = RechargeRequest::where('user_id', Auth::guard('customer')->user()->id)->orderBy('created_at', 'desc')->get();
+        $withdrawals = Withdraw::where('user_id', Auth::guard('customer')->user()->id)->orderBy('created_at', 'desc')->get();
         return view('customer.rechargeWithdrawalHistory', compact('rechargeRequests', 'withdrawals'));
     }
 
@@ -409,6 +409,15 @@ class CustomerController extends Controller
             else{
                 return redirect()->back();
             }
+        }
+        else{
+            return redirect()->back();
+        }
+    }
+
+    public function leveledUp(){
+        if(User::where('id', Auth::guard('customer')->user()->id)->update(['leveled_up' => 0])){
+            return redirect()->route('customer.myAccount');
         }
         else{
             return redirect()->back();

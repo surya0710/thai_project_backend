@@ -110,6 +110,7 @@ Route::middleware(['customer'])->group(function () {
     Route::get('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPassword')->name('customer.transactionPassword');
     Route::post('/transaction-password', 'App\Http\Controllers\CustomerController@transactionPasswordUpdate')->name('customer.transactionPasswordUpdate');
     Route::get('/levelUp', 'App\Http\Controllers\CustomerController@levelUp')->name('customer.levelUp');
+    Route::get('/levelUp', 'App\Http\Controllers\CustomerController@leveledUp')->name('customer.leveledUp');
     Route::get('/introduction', function () {
         return view('customer.introduction');
     })->name('customer.introduction');
